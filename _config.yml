@@ -1,7 +1,7 @@
 title: Robotics
 author: "@ The George Washington University"
 description: "Robotics"
-url: http://positronicslab.github.io
+url: http://edrumwri.github.io/robotics-course-materials
 baseurl: ""
 paginate_path: "blog/page:num/"
 permalink: blog/:title/
@@ -12,9 +12,9 @@ redcarpet:
 highlighter: pygments
 paginate: 20
 
-#navigation:
-# - title: Home
-#   url: /blog/index.html
+navigation:
+ - title: Home
+   url: /blog/index.html
 
 social:
 #   github: positronicslab
