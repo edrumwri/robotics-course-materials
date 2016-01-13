@@ -12,9 +12,9 @@ redcarpet:
 highlighter: pygments
 paginate: 20
 
-navigation:
- - title: Home
-   url: /blog/index.html
+#navigation:
+# - title: Home
+#   url: /blog/index.html
 
 social:
 #   github: positronicslab
