@@ -6,3 +6,5 @@ layout: default
 
 [An engineer's guide to linear algebra](blog/linear-algebra) 
 
+[Introduction to C++ and OpenSceneGraph](blog/C++)
+

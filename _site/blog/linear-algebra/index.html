@@ -12,18 +12,18 @@
     <title>An engineer's guide to matrices, vectors, and numerical linear algebra</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="/robotics-course-materials/assets/img/favicon.ico" />
 
     <!-- Come and get me RSS readers -->
-    <link rel="alternate" type="application/rss+xml" title="Robotics" href="http://positronicslab.github.io/feed.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Robotics" href="/robotics-course-materials/robotics-course-materials/feed.xml" />
     
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <!--[if IE 8]><link rel="stylesheet" href="/assets/css/ie.css"><![endif]-->
-    <link rel="canonical" href="http://positronicslab.github.io/blog/linear-algebra/">
+    <link rel="stylesheet" href="/robotics-course-materials/assets/css/style.css">
+    <!--[if IE 8]><link rel="stylesheet" href="/robotics-course-materials/assets/css/ie.css"><![endif]-->
+    <link rel="canonical" href="/robotics-course-materials/robotics-course-materials/blog/linear-algebra/">
 
     <!-- Modernizr -->
-    <script src="/assets/js/modernizr.custom.15390.js" type="text/javascript"></script>
+    <script src="/robotics-course-materials/assets/js/modernizr.custom.15390.js" type="text/javascript"></script>
 
     
 </head>
@@ -43,7 +43,7 @@ MathJax.Hub.Config({
 
     <div class="header">
      <div class="container">
-         <h1 class="logo"><a href="/">Robotics</a></h1>
+         <h1 class="logo"><a href="/robotics-course-materials/">Robotics</a></h1>
          <nav class="nav-collapse">
              <ul class="noList">
                  
@@ -365,8 +365,7 @@ one time, meaning that a little logic can be used to determine the order of oper
 \mathbf{x}^\mathsf{T}\mathbf{A}\mathbf{x} \gt 0
 \end{equation}</p>
 
-<p>for any \(\mathbf{x} \in \mathbb{R}^n\) such that \(\mathbf{x} \ne \mathbf{0}\). This condition is equivalent to saying that a matrix is positive definite if all of its eigenvalues are
-positive. If instead,</p>
+<p>for any \(\mathbf{x} \in \mathbb{R}^n\) such that \(\mathbf{x} \ne \mathbf{0}\). This condition is equivalent to saying that a matrix is positive definite if all of its <a href="https://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors">eigenvalues</a> are positive; eigenvalues are readily computable with GNU Octave/Matlab (using <code>eig</code>) and with most libraries for numerical linear algebra. If \(\mathbf{A}\) is not positive definite and instead,</p>
 
 <p>\begin{equation}
 \mathbf{x}^\mathsf{T}\mathbf{A}\mathbf{x} \ge 0
@@ -450,6 +449,10 @@ such that: </p>
 rightmost columns of \(\mathbf{V}\) (from the singular value decomposition 
 of \(\mathbf{A}\)) that correspond to the zero singular values from 
 \(\mathbf{\Sigma}\) (also from the SVD of \(\mathbf{A}\)).</p>
+
+<p>Nullspaces are particularly good for optimization and least squares problems.
+For example, the nullspace allows optimizing along multiple criteria in
+hierarchical fashion.</p>
 
 <h3 id="matrix-calculus">Matrix calculus</h3>
 
@@ -614,9 +617,13 @@ example of a quick and dirty way to compute \(\epsilon\) is:</p>
 
   <!-- POST NAVIGATION -->
   <div class="postNav clearfix">
+     
+      <a class="prev" href="/robotics-course-materials/blog/C++/"><span>&laquo;&nbsp;C++ overview and OpenSceneGraph introduction</span>
+      
+    </a>
       
       
-      <a class="next" href="/blog/robot-programming/"><span>Programming autonomous robots&nbsp;&raquo;</span>
+      <a class="next" href="/robotics-course-materials/blog/robot-programming/"><span>Programming autonomous robots&nbsp;&raquo;</span>
        
       </a>
      
@@ -643,10 +650,10 @@ example of a quick and dirty way to compute \(\epsilon\) is:</p>
 
    <!-- Add jQuery and other scripts -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src=""><\/script>')</script>
-<script src="/assets/js/dropcap.min.js"></script>
-<script src="/assets/js/responsive-nav.min.js"></script>
-<script src="/assets/js/scripts.js"></script>
+<script>window.jQuery || document.write('<script src="/robotics-course-materials"><\/script>')</script>
+<script src="/robotics-course-materials/assets/js/dropcap.min.js"></script>
+<script src="/robotics-course-materials/assets/js/responsive-nav.min.js"></script>
+<script src="/robotics-course-materials/assets/js/scripts.js"></script>
 
 
 </body>

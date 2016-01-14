@@ -1,8 +1,8 @@
 title: Robotics
 author: "@ The George Washington University"
 description: "Robotics"
-url: "http://edrumwri.github.io/robotics-course-materials"
-baseurl: "http://edrumwri.github.io/robotics-course-materials"
+url: "/robotics-course-materials"
+baseurl: "/robotics-course-materials"
 paginate_path: "blog/page:num/"
 permalink: blog/:title/
 
