@@ -355,6 +355,10 @@ rightmost columns of \\(\mathbf{V}\\) (from the singular value decomposition
 of \\(\mathbf{A}\\)) that correspond to the zero singular values from 
 \\(\mathbf{\Sigma}\\) (also from the SVD of \\(\mathbf{A}\\)).
 
+Nullspaces are particularly good for optimization and least squares problems.
+For example, the nullspace allows optimizing along multiple criteria in
+hierarchical fashion.
+
 ### Matrix calculus
 
 If \\(\mathbf{a}, \mathbf{b}\\) are functions, then the derivative of (denoted by prime ') the matrix multiplication operation is: \\(\mathbf{a}^\mathsf{T}\mathbf{b} = {\mathbf{a}'}^{\mathsf{T}}\mathbf{b} + \mathbf{a}^\mathsf{T} \cdot \mathbf{b}'\\)
