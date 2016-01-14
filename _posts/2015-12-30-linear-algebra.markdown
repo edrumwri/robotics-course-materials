@@ -296,8 +296,7 @@ A symmetric matrix \\(\mathbf{A}\\) is _positive definite_ if:
 \mathbf{x}^\mathsf{T}\mathbf{A}\mathbf{x} \gt 0
 \end{equation}
 
-for any \\(\mathbf{x} \in \mathbb{R}^n\\) such that \\(\mathbf{x} \ne \mathbf{0}\\). This condition is equivalent to saying that a matrix is positive definite if all of its eigenvalues are
-positive. If instead,
+for any \\(\mathbf{x} \in \mathbb{R}^n\\) such that \\(\mathbf{x} \ne \mathbf{0}\\). This condition is equivalent to saying that a matrix is positive definite if all of its [eigenvalues](https://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors) are positive; eigenvalues are readily computable with GNU Octave/Matlab (using `eig`) and with most libraries for numerical linear algebra. If \\(\mathbf{A}\\) is not positive definite and instead,
 
 \begin{equation}
 \mathbf{x}^\mathsf{T}\mathbf{A}\mathbf{x} \ge 0
