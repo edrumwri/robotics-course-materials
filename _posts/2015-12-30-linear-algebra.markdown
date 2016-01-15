@@ -123,6 +123,7 @@ Some properties of the inner product follow, for real vectors \\(\mathbf{a}, \ma
 * The dot product is distributive over vector addition: \\(\mathbf{a} \cdot (\mathbf{b} + \mathbf{c}) = \mathbf{a} \cdot \mathbf{b} + \mathbf{a} \cdot \mathbf{c}\\)
 * If \\(\mathbf{a}, \mathbf{b} \ne \mathbf{0}\\), \\(\mathbf{a} \cdot \mathbf{b} = 0 \\) if and only if \\(\mathbf{a}\\) and \\(\mathbf{b}\\) are orthogonal
 * \\(\mathbf{a} \times (\mathbf{b} \times \mathbf{c}) = \mathbf{b}(\mathbf{a} \cdot \mathbf{c}) - \mathbf{c}(\mathbf{a} \cdot \mathbf{b})\\)
+* \\(\mathbf{a} \cdot (\mathbf{b} \times \mathbf{c}) = \mathbf{b} \cdot (\mathbf{c} \times \mathbf{a}) = \mathbf{c} \cdot (\mathbf{a} \times \mathbf{b})\\) 
 
 {% comment %}
 Problem: Convert n' * (xd + w x r) to (n' -r x n) * (xd; w). Motivate problem using velocity of a point on a rigid body.
