@@ -472,7 +472,7 @@ Still working under the assumption that \\(\mathbf{A}\\) is of full row rank,
 we can also use the singular value decomposition to solve least squares 
 problems.
 
-Recall that the singular value decomposition of \\(\mathbf{A} = \mathbf{U}\Sigma^{-1}\mathbf{V}^{\mathsf{T}}\\). \\(\mathbf{U}\\) and \\(\mathbf{V}\\) are both orthogonal, which means that \\(\mathbf{U}^{-1} = \mathbf{U}^{\mathsf{T}}\\) and \\(\mathbf{V}^{-1} = \mathbf{V}^{\mathsf{T}}\\). From the identity above, \\(\mathbf{A}^{-1} = \mathbf{V}\Sigma^{-1}\mathbf{U}^{\mathsf{T}}\\). For non-square \\(\mathbf{A}\\), \\(\mathbf{A}^+ = \mathbf{V}\mathbf{\Sigma}^+{\mathbf{U}}^\mathsf{T}\\), where \\(\Sigma^+\\) will be defined as follows:
+Recall that the singular value decomposition of \\(\mathbf{A} = \mathbf{U\Sigma\}mathbf{V}^{\mathsf{T}}\\). \\(\mathbf{U}\\) and \\(\mathbf{V}\\) are both orthogonal, which means that \\(\mathbf{U}^{-1} = \mathbf{U}^{\mathsf{T}}\\) and \\(\mathbf{V}^{-1} = \mathbf{V}^{\mathsf{T}}\\). From the identity above, \\(\mathbf{A}^{-1} = \mathbf{V}\Sigma^{-1}\mathbf{U}^{\mathsf{T}}\\). For non-square \\(\mathbf{A}\\), \\(\mathbf{A}^+ = \mathbf{V}\mathbf{\Sigma}^+{\mathbf{U}}^\mathsf{T}\\), where \\(\Sigma^+\\) will be defined as follows:
 
 \begin{equation}
 \Sigma\_{ij}^+ \leftarrow \begin{cases}\frac{1}{\Sigma\_{ij}} & \textrm{if } i = j, \\\\

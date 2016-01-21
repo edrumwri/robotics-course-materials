@@ -58,7 +58,7 @@ MathJax.Hub.Config({
          <div class="post">
   
   <h1 class="postTitle">An engineer's guide to matrices, vectors, and numerical linear algebra</h1>
-  <p class="meta">December 18, 2015 | <span class="time">18</span> Minute Read</p>
+  <p class="meta">December 18, 2015 | <span class="time">19</span> Minute Read</p>
   
   <p>This material is not meant to replace a proper course in linear algebra, where
 important concepts like vector spaces, eigenvalues/eigenvectors, and
@@ -183,6 +183,7 @@ $$</p>
 <li>The dot product is distributive over vector addition: \(\mathbf{a} \cdot (\mathbf{b} + \mathbf{c}) = \mathbf{a} \cdot \mathbf{b} + \mathbf{a} \cdot \mathbf{c}\)</li>
 <li>If \(\mathbf{a}, \mathbf{b} \ne \mathbf{0}\), \(\mathbf{a} \cdot \mathbf{b} = 0 \) if and only if \(\mathbf{a}\) and \(\mathbf{b}\) are orthogonal</li>
 <li>\(\mathbf{a} \times (\mathbf{b} \times \mathbf{c}) = \mathbf{b}(\mathbf{a} \cdot \mathbf{c}) - \mathbf{c}(\mathbf{a} \cdot \mathbf{b})\)</li>
+<li>\(\mathbf{a} \cdot (\mathbf{b} \times \mathbf{c}) = \mathbf{b} \cdot (\mathbf{c} \times \mathbf{a}) = \mathbf{c} \cdot (\mathbf{a} \times \mathbf{b})\) </li>
 </ul>
 
 <h4 id="matrix-vector-multiplication">Matrix/vector multiplication</h4>
@@ -552,7 +553,7 @@ constitutes a <em>right inverse</em> (because \(\mathbf{A}\mathbf{A}^+ = \mathbf
 we can also use the singular value decomposition to solve least squares 
 problems.</p>
 
-<p>Recall that the singular value decomposition of \(\mathbf{A} = \mathbf{U}\Sigma^{-1}\mathbf{V}^{\mathsf{T}}\). \(\mathbf{U}\) and \(\mathbf{V}\) are both orthogonal, which means that \(\mathbf{U}^{-1} = \mathbf{U}^{\mathsf{T}}\) and \(\mathbf{V}^{-1} = \mathbf{V}^{\mathsf{T}}\). From the identity above, \(\mathbf{A}^{-1} = \mathbf{V}\Sigma^{-1}\mathbf{U}^{\mathsf{T}}\). For non-square \(\mathbf{A}\), \(\mathbf{A}^+ = \mathbf{V}\mathbf{\Sigma}^+{\mathbf{U}}^\mathsf{T}\), where \(\Sigma^+\) will be defined as follows:</p>
+<p>Recall that the singular value decomposition of \(\mathbf{A} = \mathbf{U\Sigma}mathbf{V}^{\mathsf{T}}\). \(\mathbf{U}\) and \(\mathbf{V}\) are both orthogonal, which means that \(\mathbf{U}^{-1} = \mathbf{U}^{\mathsf{T}}\) and \(\mathbf{V}^{-1} = \mathbf{V}^{\mathsf{T}}\). From the identity above, \(\mathbf{A}^{-1} = \mathbf{V}\Sigma^{-1}\mathbf{U}^{\mathsf{T}}\). For non-square \(\mathbf{A}\), \(\mathbf{A}^+ = \mathbf{V}\mathbf{\Sigma}^+{\mathbf{U}}^\mathsf{T}\), where \(\Sigma^+\) will be defined as follows:</p>
 
 <p>\begin{equation}
 \Sigma_{ij}^+ \leftarrow \begin{cases}\frac{1}{\Sigma_{ij}} &amp; \textrm{if } i = j, \\
@@ -623,7 +624,7 @@ example of a quick and dirty way to compute \(\epsilon\) is:</p>
     </a>
       
       
-      <a class="next" href="/robotics-course-materials/blog/robot-programming/"><span>Programming autonomous robots&nbsp;&raquo;</span>
+      <a class="next" href="/robotics-course-materials/blog/dynamical-systems/"><span>Introduction to dynamical systems and ordinary differential equations&nbsp;&raquo;</span>
        
       </a>
      
