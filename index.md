@@ -10,3 +10,5 @@ layout: default
 
 #### [Introduction to dynamical systems and ordinary differential equations](blog/dynamical-systems)
 
+#### [Robot motion control](blog/motion-control)
+
