@@ -226,7 +226,7 @@ require that the ODEs be first order, where the _order_ of an ODE is the highest
 
 \begin{align}
 \dot{\theta} & = \vartheta \\\\
-\dot{\vartheta} + g/L \sin \theta & = 0
+\dot{\vartheta} + g/L \sin \theta & = 0 \label{eqn:varphi}
 \end{align}
 
 {% comment %}
@@ -371,7 +371,7 @@ A linear dynamical system can be expressed in the form:
 
 where \\(\mathbf{A}\\) is a matrix. If the dynamical system is linear or
 it can effectively be approximated by a linear dynamical system in the 
-neighborhood of the equilibrium point, we can analyze the eigenvalues of \\(\mathbf{A}\\). Unless \\(\mathbf{A}\\) is a symmetric matrix, it will have 
+neighborhood of an equilibrium point, we can analyze the eigenvalues of \\(\mathbf{A}\\). Unless \\(\mathbf{A}\\) is a symmetric matrix, it will have 
 both real and imaginary eigenvalues.
 
 * If the real components of all eigenvalues are negative, the linear system is asymptotically stable
@@ -395,6 +395,89 @@ The table also depicts most of these conditions.
 {% comment %}
 Identify stable, marginally stable, unstable, underdamped, overdamped, and critically damped. Which are undesirable?
 {% endcomment %}
+
+**An example:** Consider the pendulum that we integrated above. Let us
+first look for equilibrium points. Equilibrium points for the pendulum exist where \\(\dot{\theta} = 0, \dot{\varphi} = 0\\). \\(\dot{\theta} = 0\\) when the velocity of the pendulum is zero,
+so that part is easy. We next solve Equation \ref{eqn:varphi} for \\(\dot{\varphi} = 0\\):
+\begin{align}
+\dot{\varphi} & = -g/L \sin \theta \\\\
+0 & = -g/L \sin \theta
+\end{align}
+\\(\sin \theta\\) is zero for \\(\theta = \\{ 0, \pi \\}\\). Therefore, the
+pendulum has two equilibrium points: \\(\{\theta = 0, \dot{\theta} = 0\}\\) and \\(\{\theta=\pi, \dot{\theta} = 0\} \\).
+
+The pendulum is nonlinear
+because of the presence of the \\(\sin\\) term, which means that it seems that we can't express it in the form \\(\dot{\mathbf{x}} = \mathbf{Ax}\\). However,
+if we notice that \\(\sin \theta \approx \theta\\) for \\(\theta \approx 0\\) and \\(\sin \theta \approx \pi - \theta\\) for \\(\theta \approx \pi\\), then
+we can get a _linearization_ for \\(\dot{\varphi}\\):
+\begin{equation}
+\dot{\varphi} \approx \begin{cases} -g/L\ \theta & \textrm{ if } \theta \approx 0 \\\\
+-g/L\ (\pi - \theta) & \textrm{ if } \theta \approx \pi \end{cases}
+\end{equation}
+
+**What is \\(\mathbf{A}\\) in this case?**
+
+We need to be able to put the equations in the form:
+
+\begin{equation}
+\begin{bmatrix}
+\dot{\theta} \\\\
+\dot{\varphi}
+\end{bmatrix} =
+\mathbf{A}
+\begin{bmatrix}
+\theta \\\\
+\varphi
+\end{bmatrix}
+\end{equation} 
+
+This means \\(\mathbf{A}\\) can take two forms, depending on which equilibrium point we are using:
+
+\begin{align}
+\mathbf{A}\_0 & = \begin{bmatrix} 
+0 & 1 \\\\
+-g/L & 0
+\end{bmatrix}\\\\
+\mathbf{A}\_\pi & = \begin{bmatrix}
+0 & 1 \\\\
+g/L & 0
+\end{bmatrix} 
+\end{align}
+
+_Note that to get \\(\mathbf{A}\_\pi\\) we must make the variable substitution: \\(\theta^* = \theta + \pi\\) to put the equations in the form \\(\dot{\mathbf{ x}} = \mathbf{Ax}\\). This substitution need not be considered further in
+the stability analysis._
+
+**Examining the eigenvalues:**
+
+In the case of \\(\mathbf{A}\_0\\), positive \\(g\\) and \\(L\\) yields
+eigenvalues of \\(0 \pm xi \\), where \\(x\\) is an imaginary scalar. In the 
+case of
+\\(\mathbf{A}\\_\pi\\), positive \\(g\\) and \\(L\\) yields eigenvalues of
+\\(\pm y\\), where \\(y\\) is a real scalar.
+
+We can see this using Matlab or Octave:
+
+    >> g = 9.8;
+    >> L = 1.0;
+    >> A = [0 1; -g/L 0]; % first equilibrium point
+    >> eig(A)
+
+    ans =
+           0 + 3.1305i
+           0 - 3.1305i
+
+    >> A = [0 1; g/L 0];  % second equilibrium point
+    >> eig(A)
+
+    ans =
+
+           3.1305
+          -3.1305
+
+_Deeper questions_: what do the eigenvalues for \\(\mathbf{A}\_0\\) and 
+\\(\mathbf{A}\_\pi\\) indicate about stability? Now think about the configuration of the pendulum at the two equilibrium points. Does the stability analysis 
+make sense when examining these two configurations?
+
 
 
 ##### Lyapunov functions

@@ -58,7 +58,7 @@ MathJax.Hub.Config({
          <div class="post">
   
   <h1 class="postTitle">Introduction to dynamical systems and ordinary differential equations</h1>
-  <p class="meta">January 07, 2016 | <span class="time">14</span> Minute Read</p>
+  <p class="meta">January 07, 2016 | <span class="time">17</span> Minute Read</p>
   
   <p>The <em>equations of motion</em>- that transform forces applied to a robot into motion- represent a <em>dynamical system</em>, a mathematical concept. Knowledge of 
 dynamical systems allows robots to predict how a thrown ball will move and
@@ -295,7 +295,7 @@ require that the ODEs be first order, where the <em>order</em> of an ODE is the 
 
 <p>\begin{align}
 \dot{\theta} &amp; = \vartheta \\
-\dot{\vartheta} + g/L \sin \theta &amp; = 0
+\dot{\vartheta} + g/L \sin \theta &amp; = 0 \label{eqn:varphi}
 \end{align}</p>
 
 <h4 id="euler-39-s-method-for-integrating-odes">Euler&#39;s Method for integrating ODEs</h4>
@@ -434,7 +434,7 @@ quickly describe two methods for analyzing stability.</p>
 
 <p>where \(\mathbf{A}\) is a matrix. If the dynamical system is linear or
 it can effectively be approximated by a linear dynamical system in the 
-neighborhood of the equilibrium point, we can analyze the eigenvalues of \(\mathbf{A}\). Unless \(\mathbf{A}\) is a symmetric matrix, it will have 
+neighborhood of an equilibrium point, we can analyze the eigenvalues of \(\mathbf{A}\). Unless \(\mathbf{A}\) is a symmetric matrix, it will have 
 both real and imaginary eigenvalues.</p>
 
 <ul>
@@ -466,6 +466,87 @@ both real and imaginary eigenvalues.</p>
 <img src="https://controls.engin.umich.edu/wiki/images/3/30/Eigenvalue_graphs.jpg" alt="Plots of eigenvalues for a linear system." width=""/>
 </table>
 </P>
+
+<p><strong>An example:</strong> Consider the pendulum that we integrated above. Let us
+first look for equilibrium points. Equilibrium points for the pendulum exist where \(\dot{\theta} = 0, \dot{\varphi} = 0\). \(\dot{\theta} = 0\) when the velocity of the pendulum is zero,
+so that part is easy. We next solve Equation \ref{eqn:varphi} for \(\dot{\varphi} = 0\):
+\begin{align}
+\dot{\varphi} &amp; = -g/L \sin \theta \\
+0 &amp; = -g/L \sin \theta
+\end{align}
+\(\sin \theta\) is zero for \(\theta = \{ 0, \pi \}\). Therefore, the
+pendulum has two equilibrium points: \({\theta = 0, \dot{\theta} = 0}\) and \({\theta=\pi, \dot{\theta} = 0} \).</p>
+
+<p>The pendulum is nonlinear
+because of the presence of the \(\sin\) term, which means that it seems that we can&#39;t express it in the form \(\dot{\mathbf{x}} = \mathbf{Ax}\). However,
+if we notice that \(\sin \theta \approx \theta\) for \(\theta \approx 0\) and \(\sin \theta \approx \pi - \theta\) for \(\theta \approx \pi\), then
+we can get a <em>linearization</em> for \(\dot{\varphi}\):
+\begin{equation}
+\dot{\varphi} \approx \begin{cases} -g/L\ \theta &amp; \textrm{ if } \theta \approx 0 \\
+-g/L\ (\pi - \theta) &amp; \textrm{ if } \theta \approx \pi \end{cases}
+\end{equation}</p>
+
+<p><strong>What is \(\mathbf{A}\) in this case?</strong></p>
+
+<p>We need to be able to put the equations in the form:</p>
+
+<p>\begin{equation}
+\begin{bmatrix}
+\dot{\theta} \\
+\dot{\varphi}
+\end{bmatrix} =
+\mathbf{A}
+\begin{bmatrix}
+\theta \\
+\varphi
+\end{bmatrix}
+\end{equation} </p>
+
+<p>This means \(\mathbf{A}\) can take two forms, depending on which equilibrium point we are using:</p>
+
+<p>\begin{align}
+\mathbf{A}_0 &amp; = \begin{bmatrix} 
+0 &amp; 1 \\
+-g/L &amp; 0
+\end{bmatrix}\\
+\mathbf{A}_\pi &amp; = \begin{bmatrix}
+0 &amp; 1 \\
+g/L &amp; 0
+\end{bmatrix} 
+\end{align}</p>
+
+<p><em>Note that to get \(\mathbf{A}_\pi\) we must make the variable substitution: \(\theta^* = \theta + \pi\) to put the equations in the form \(\dot{\mathbf{ x}} = \mathbf{Ax}\). This substitution need not be considered further in
+the stability analysis.</em></p>
+
+<p><strong>Examining the eigenvalues:</strong></p>
+
+<p>In the case of \(\mathbf{A}_0\), positive \(g\) and \(L\) yields
+eigenvalues of \(0 \pm xi \), where \(x\) is an imaginary scalar. In the 
+case of
+\(\mathbf{A}\_\pi\), positive \(g\) and \(L\) yields eigenvalues of
+\(\pm y\), where \(y\) is a real scalar.</p>
+
+<p>We can see this using Matlab or Octave:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&gt;&gt; g = 9.8;
+&gt;&gt; L = 1.0;
+&gt;&gt; A = [0 1; -g/L 0]; % first equilibrium point
+&gt;&gt; eig(A)
+
+ans =
+       0 + 3.1305i
+       0 - 3.1305i
+
+&gt;&gt; A = [0 1; g/L 0];  % second equilibrium point
+&gt;&gt; eig(A)
+
+ans =
+
+       3.1305
+      -3.1305
+</code></pre></div>
+<p><em>Deeper questions</em>: what do the eigenvalues for \(\mathbf{A}_0\) and 
+\(\mathbf{A}_\pi\) indicate about stability? Now think about the configuration of the pendulum at the two equilibrium points. Does the stability analysis 
+make sense when examining these two configurations?</p>
 
 <h5 id="lyapunov-functions">Lyapunov functions</h5>
 
