@@ -8,11 +8,12 @@ This learning module focuses on approaches for regulating the _motion_ of a
 robot. Concepts covered include model-based (feedforward) and model-free (error feedback) approaches, composite approaches, and stability.
 
 A caveat: even if we could control the motion of a robot with perfect accuracy
-does not mean that it's a good idea. A robot that moves perfectly, minimizing 
+does not mean that it's a good idea. A robot that moves exactly as commanded, minimizing 
 the effects of all disturbances on its motion, is a robot that will crush
-humans, damage the environment, or destroy itself. [Force control](http://users.softlab.ntua.gr/~ktzaf/Courses/literature/07_Force_Control.pdf) regulates
-the force applied to the environment, while 
-[impedance control](https://en.wikipedia.org/wiki/Impedance_control) regulates 
+humans, damage the environment, or destroy itself. To avoid those problems, 
+one should consider alternative schemes like [force control](http://users.softlab.ntua.gr/~ktzaf/Courses/literature/07_Force_Control.pdf), which regulates
+the force applied to the environment, and
+[impedance control](https://en.wikipedia.org/wiki/Impedance_control), which regulates 
 the relationship between force and motion. Such schemes should be 
 considered for uncontrolled environments or when the accuracy necessary
 to perform a task is higher than the accuracy of motion and/or modeling. 
