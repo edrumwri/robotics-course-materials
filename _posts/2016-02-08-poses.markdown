@@ -150,6 +150,7 @@ Another way to write this matrix is in [block form](https://en.wikipedia.org/wik
 \mathbf{R} & \mathbf{t} \\\\
 \mathbf{0} & 1
 \end{bmatrix}
+\label{eqn:homogeneous}
 \end{align}
 
 where \\(\mathbf{R}\\) is the \\(2 \times 2\\) rotation matrix and \\(\mathbf{t}\\) is the \\(2 \times 1\\) translation vector.
