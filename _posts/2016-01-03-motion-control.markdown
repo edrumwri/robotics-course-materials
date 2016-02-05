@@ -102,7 +102,7 @@ may lag five to ten seconds behind adjustments to the taps.
 
 ### Proportional control
 
-One of the simplest error feedback controllers is the _proportional controller_,which applies the control signal proportionally to the error signal. The
+One of the simplest error feedback controllers is the _proportional controller_, which applies the control signal proportionally to the error signal. The
 cruise control system in many cars uses proportional control (also called "P control"): the throttle is applied proportionally to the difference between the current speed and the set speed. 
 
 The control for a P-controller is computed using the following function.
@@ -143,8 +143,8 @@ represented by the equation below:
 u = k\_p (x\_{\textrm{des}} - x) + k\_d (\dot{x}\_{\textrm{des}} - \dot{x})
 \end{equation} 
 
-In the cruise control example, adding derivative control would add throttle
-if the car is decelerating when it is below speed and would decrease throttle if
+In the cruise control example, adding derivative control would add _more_ throttle (compared to just a proportional control)
+if the car is decelerating when it is below speed and would decrease (or would limit the increase) the amount of throttle if
 the car is accelerating when it is above speed.
 
 ### Proportional-integrative-derivative control

@@ -1,0 +1,321 @@
+---
+layout: post
+title:  "Rigid body poses in 2D"
+date:   2015-12-20
+---
+<p class="intro">
+The rigid body assumption is a common simplification used to easily and quickly (with respect to computation) model rigid or even semi-rigid bodies. 
+</p>
+
+## Rigid body modeling
+
+The rigid body assumption requires that, for any two points \\(\mathbf{p}\_1\\) and \\(\mathbf{p}\_2\\) on a rigid body, the distance between the two points remains constant for all time:
+
+\begin{equation}
+||p\_1 - p\_2|| = c
+\end{equation}
+
+### Kinematics
+
+Kinematics is the study of the position, velocity, acceleration, and further derivatives (including the third and fourth derivatives of position, jerk and snap, respectively) of bodies, which can include particles, rigid bodies, non-rigid bodies, fluids, etc. 
+
+We start with kinematics in two dimensions, which is easier to visualize and conceptualize than 3D. Assume that we are looking at 2D kinematics on the \\(z = 0\\) plane in 3D. When we look at angular motion in 2D, the axis of rotation will be the z-axis.
+
+### Kinematics of a particle
+
+Presumably you already have knowledge of the very simple kinematics of a particle, which is a body that can be reasonably modeled as a point. We note the 
+location of that particle with respect to some frame of reference as \\(\mathbf{x}(t)\\), where \\(\mathbf{x}\\) is a two-dimensional vector. The first time-derivative of position is the linear velocity and is written \\(\dot{\mathbf{x}}(t)\\). The second time-derivative of position is the linear acceleration and is written  \\(\ddot{\mathbf{x}}(t)\\).
+
+#### Frame of reference (translation)
+
+Let’s immediately get into a seemingly cumbersome, but ultimately very useful habit of marking all relevant quantities with their reference frame. For example, assume that there does exist, somewhere in the universe, an absolute reference frame, which we’ll denote \\(w\\). We can then mark our
+position vector and its derivatives as:
+
+\begin{equation} 
+\mathbf{q}\_w(t), \dot{\mathbf{q}}\_w(t), \ddot{\mathbf{q}}\_w(t)
+\end{equation} 
+
+which means that the position (and velocity and acceleration) of a point in
+space is observed from \\(w\\). Now assume another reference frame, \\(p\\),
+which has the same orientation as \\(w\\), but is located in a different place _that is a constant offset from \\(\mathbf{q}\_w\\)_. We can then define \\(\mathbf{q}\_p = \mathbf{q}\_w + \mathbf{v}\_{\overrightarrow{qp}}\\). Notice that velocity and acceleration do not change- \\(\dot{\mathbf{q}}\_p = \dot{\mathbf{q}}\_w\\) and \\(\ddot{\mathbf{q}}\_p = \ddot{\mathbf{q}}\_w\\)- because the vector from \\(\mathbf{q}\_w\\) to frame \\(p\\) is constant.
+
+{% include image.html url="../../assets/img/translated-frame.png" description="Depiction of two frames (w and p) and a particle (q). There is a constant offset between the particle and frame p. Origins of frames are labeled with a capital 'O'. " %}
+
+#### Frame of reference (orientation)
+
+Let's now assume a new frame of reference, which we denote \\(s\\), and which is collocated with \\(w\\) but is rotated. If we assume that the first axis of \\(w\\) is named \\(\mathbf{a}\_x\\) and the second axis is named \\(\mathbf{a}\_y\\), we can similarly denote the first and second axes of \\(s\\) as \\(\mathbf{a}'\_x\\) and \\(\mathbf{a}'\_y\\). Since we are considering only two dimensions, each vector is two-dimensional. We can represent \\(\mathbf{a}\_x\\) using the vector \\(\begin{bmatrix}1 & 0\end{bmatrix}^T\\) and \\(\mathbf{a}\_y\\) using the vector \\(\begin{bmatrix}0 & 1\end{bmatrix}^T\\). We can transform vectors between the two reference frames using a matrix:
+
+\begin{equation} 
+\ \_{w}\mathbf{R}\_{s} \triangleq \begin{bmatrix}\mathbf{a}'\_{x\_1} & \mathbf{a}'\_{y\_1} \\\\ \mathbf{a}'\_{x\_2} & \mathbf{a}'\_{y\_2} \end{bmatrix}
+\end{equation}
+
+For example, try \\(\mathbf{a}'\_x \triangleq \begin{bmatrix}0 & 1\end{bmatrix}^T\\) and \\(\mathbf{a}'\_y \triangleq \begin{bmatrix}-1 & 0\end{bmatrix}^T\\). This corresponds to the matrix: 
+
+\begin{equation}\ \_{w}\mathbf{R}\_{s} \triangleq \begin{bmatrix}0 & -1 \\\\ 1 & 0\end{bmatrix}
+\end{equation}
+
+These vectors should both be unit vectors and should be orthogonal, which makes this matrix an _orthogonal_ matrix, giving it a determinant of \\(\pm 1\\). To keep everything consistent for our work, we henceforth require that the determinant always be equal to \\(+1\\).
+
+We can set \\(\ \_{w}\mathbf{R}\_{s}\\) more simply using an angular rotation by \\(\theta\\) in the plane:
+
+\begin{equation}
+\ \_{w}\mathbf{R}\_{s} = \begin{bmatrix} \cos{\theta} & -\sin{\theta} \\\\ \sin{\theta} & \cos{\theta} \end{bmatrix}
+\end{equation}
+
+{% comment %}
+Exercise: verify orthogonality of rotation matrix.
+{% endcomment %}
+
+{% include image.html url="http://www.gamasutra.com/features/20020510/image001.gif" description="Depiction of two reference frames in 2D with offset translation and rotation. Image from Gamasutra." %}
+
+We now look at how we can transform position and its time derivatives between the reference frames. For our position vector in frame \\(w\\), we have:
+
+\begin{equation}
+\mathbf{x}\_{w} = \ \_{w}\mathbf{R}\_{s}\ \mathbf{x}\_{s}
+\end{equation}
+
+Here is where the subscripts for frame of reference start to come in handy. \\(\ \_{w}\mathbf{R}\_{s}\\) transforms from frame \\(s\\) to \\(w\\) (the convention is that the "source" frame is on the right hand side and the "target" frame is on the left). You can __and should__ verify that all of the subscripts match up when moving from left to right. 
+
+Also, note that, due to the determinant of \\(\ \_{w}\mathbf{R}\_{s}\\) always being non-zero, the inverse of this matrix always exists. Indeed, we can get the transformation from \\(w\\) to \\(s\\) by inverting \\(\ \_{w}\mathbf{R}\_{s}\\): \\({\ \_{w}\mathbf{R}\_{s}}^{-1} = \ \_{s}\mathbf{R}\_{w}\\).
+
+#### Translated and oriented frame of reference
+Combining translation and orientation for a frame of reference is straightforward using the individual elements of the previous two sections. We'll denote our translated and oriented frame as \\(s\\), and note that it is oriented with respect to \\(w\\) (which we can specify using the matrix \\(\_s\mathbf{R}\_w\\) and vector \\(\overrightarrow{\mathbf{w}\_o\mathbf{s}\_o}\\), similar to those defined above). We can then define a position vector in that frame as \\(\mathbf{x}\_s =\ \_s\mathbf{R}\_w \mathbf{x}\_w + \overrightarrow{\mathbf{w}\_o\mathbf{s}\_o}\\), using the position vector \\(\mathbf{x}\_w\\) defined in the global frame. 
+
+### Concatenated transformations and homogeneous transformation matrices
+For articulated characters, animals, robots, etc., it is convenient to
+compute the position and orientation of each link as a sequence of operations. For example, in the diagram of a robot below, the second arm cover will move
+when the first arm cover does. 
+
+![Diagram of a robot](https://s-media-cache-ak0.pinimg.com/736x/a4/63/9d/a4639d499d14aaedc7b6ce3637c1c301.jpg)
+
+Similarly, for the double link pendulum below, the endpoint (\\(m\_2\\)) can
+be found by- starting from the black circle- rotating by \\(\theta\_1\\), then translating by \\(l\_1\\), then rotating by \\(\theta\_2\\), then finally translating by \\(l\_2\\).
+
+![Depiction of a double pendulum](http://scienceworld.wolfram.com/physics/dimg270.gif)
+
+Performing this sequence of transformations is painful if we have to treat
+rotation and translation separately, as in:
+$$
+\mathbf{p} = \mathbf{r} + \mathbf{R}\mathbf{u}
+$$
+where \\(\mathbf{r}\\) is the vector describing translation and \\(\mathbf{R}\\) is a rotation matrix. If we combine two such transformations, we arrive at:
+$$
+\mathbf{p}' = \mathbf{r}' + \mathbf{R}'(\mathbf{r} + \mathbf{R}\mathbf{u})
+$$
+and three transformations appears even more cumbersome:
+$$
+\mathbf{p}'' = \mathbf{r}'' + \mathbf{R}''(\mathbf{r}' + \mathbf{R}'(\mathbf{r} + \mathbf{R}\mathbf{u}))
+$$
+
+The problem is that rotation is a [linear transformation](https://en.wikipedia.org/wiki/Linear_map) while translation is not. However, we can turn translation into a linear transformation, which allows us to replace the cumbersome series of operations above with simply matrix multiplications, resulting in an equation that looks like this:
+\begin{equation}
+\mathbf{p}'' = \mathbf{T}'' \cdot \mathbf{T}' \cdot \mathbf{T} \cdot \mathbf{p}
+\label{eqn:sequence}
+\end{equation}
+This is easier to look at, use, and debug than the previous sequence of operations.
+
+#### Homogeneous coordinates
+The key is to use [homogeneous coordinates](https://en.wikipedia.org/wiki/Homogeneous_coordinates). For example, the Cartesian coordinates:
+$$
+\begin{bmatrix}
+x \\\\
+y 
+\end{bmatrix}
+$$
+become
+$$
+\begin{bmatrix}
+x \\\\
+y \\\\
+1
+\end{bmatrix}
+$$
+
+The form of the \\(\mathbf{T}\\) matrices above is now \\(3 \times 3\\) and represents a two-dimensional rotation about \\(\theta\\) _followed by_ a translation by \\((t\_x,t\_y)\\):
+\begin{equation}
+\begin{bmatrix}
+\cos{\theta} & -\sin{\theta} & t\_x \\\\
+\sin{\theta} & \cos{\theta} & t\_y \\\\
+0 & 0 & 1
+\end{bmatrix}
+\label{eqn:homogeneous}
+\end{equation}
+
+**Exercise: Apply the homogeneous transformation \\(\theta = \pi, t\_x = 1, t\_y = 1\\) to \\(\mathbf{p} = \begin{bmatrix} 1 & 1 \end{bmatrix}^{\mathsf{T}}\\). Is the result what you expected?**
+
+Another way to write this matrix is in [block form](https://en.wikipedia.org/wiki/Block_matrix):
+
+\begin{equation}
+\label{eqn:homogeneous}
+\mathbf{T} \equiv
+\begin{bmatrix}
+\mathbf{R} & \mathbf{t} \\\\
+\mathbf{0} & 1
+\end{bmatrix}
+\end{equation}
+
+where \\(\mathbf{R}\\) is the \\(2 \times 2\\) rotation matrix and \\(\mathbf{t}\\) is the \\(2 \times 1\\) translation vector.
+
+{% comment %}
+Have students rotate then translate. Have them verify that
+ordering is correct using intuition.
+{% endcomment %}
+
+#### Inverting transformations
+
+One of the great things about a rotation matrix is that its orthogonality makes it [easy and fast to invert](../linear-algebra). Unfortunately, a homogeneous transformation matrix is not orthogonal. However, we can still invert the matrix easily using the following formula:
+\begin{equation}
+\mathbf{T}^{-1} = \begin{bmatrix}
+\mathbf{R}^\mathsf{T} & -\mathbf{R}^\mathsf{T}\mathbf{t} \\\\
+\mathbf{0} & 1
+\end{bmatrix}
+\end{equation}
+
+{% comment %}
+Grad students: show that the transformation matrix is not orthogonal (does is satisfy all properties of orthogonal matrix?)
+Grad students: prove that this is equal to the inverse transformation
+{% endcomment %}
+
+
+
+#### Concatenating transformations
+
+A sequence of transformations, as might be used for determining the poses
+of the links of a robot arm, is applied from right to left: in Equation \ref{eqn:sequence}, \\(\mathbf{T}\\) is applied first, then \\(\mathbf{T}'\\), and
+finally \\(\mathbf{T}''\\). Difficulty remembering the ordering- and the ordering changes if moving from the form of the homogeneous transformation in Equation \ref{eqn:homogeneous} to an OpenGL-style homogeneous transformation!- is one
+reason we mark the frame of reference for transformations.
+
+{% comment %}
+Draw and label 
+{% endcomment %}
+
+
+### Rigid body kinematics
+Modeling particles doesn't require consideration of orientation because particles are infinitesimally small. When bodies have significant dimensions, they can not be modeled as particles and we must move along the spectrum of modeling complexity. If the body can effectively be modeled as rigid, we can completely specify the body's configuration using only a reference point on the body (often we use the center-of-mass) and the body's orientation. As we're still working in only two-dimensions, that means each body's configuration can be specified using some number of (minimally three) real numbers, termed the _generalized coordinates_. The time-derivatives of the generalized coordinates are termed the _generalized velocities_. Generalized coordinates and velocities are always defined with respect to a frame of reference. 
+
+#### Generalized coordinates in the global reference frame
+Let's first look at the generalized coordinates for a body defined in the global reference frame, \\(w\\):
+
+\begin{equation}
+\mathbf{q}\_w = \begin{bmatrix} \bar{x}\_w \\\\ \bar{y}\_w \\\\ \theta\_w \end{bmatrix}
+\end{equation}
+
+where \\(\{ \bar{x}\_w, \bar{y}\_w \}\\) is the position of the center-of-mass in frame \\(w\\). 
+
+#### General coordinates in another reference frame
+For comparison, we now examine how the body is defined in another reference frame, \\(s\\), which is defined relative to frame \\(\mathbf{w}\\) by a translation of \\(\mathbf{x}\_w^s\\) and by an orientation by an angle of \\(\varphi\_w^s\\). We can then define the matrix \\(\ \_s\mathbf{R}\_w\\) as:
+
+\begin{equation}
+\ \_s\mathbf{R}\_w = \begin{bmatrix} \cos{\varphi\_w^s} & -\sin{\varphi\_w^s} \\\\ \sin{\varphi\_w^s} & \cos{\varphi\_w^s} \end{bmatrix}
+\end{equation}
+
+and the generalized coordinates in frame \\(s\\) are now:
+
+\begin{equation}
+\mathbf{q}\_s = \begin{bmatrix}\ \_s\mathbf{R}\_w \begin{bmatrix}\bar{x}\_w \\ \bar{y}\_w \end{bmatrix} + \mathbf{x}\_w^s \\\\ \theta\_w + \varphi\_w^s \end{bmatrix}
+\end{equation}
+
+#### Generalized velocities in the global reference frame
+Let's now compute the time-derivatives:
+
+\begin{equation}
+\dot{\mathbf{q}}\_w = \begin{bmatrix} \dot{\bar{x}}\_w \\ \dot{\bar{y}}\_w \\\\ \dot{\theta}\_w \end{bmatrix}
+\end{equation}
+
+This is just the velocity of the body at its center-of-mass (the _linear velocity_) and its rate of angular rotation (the _angular velocity_). 
+
+#### Generalized velocities in another reference frame
+Things do not change appreciably when we look at the generalized velocity in frame \\(s\\).
+
+\begin{equation}
+\dot{\mathbf{q}}\_s = \begin{bmatrix}\ \_s\mathbf{R}\_w \begin{bmatrix}\dot{\bar{x}}\_w \\\\ \dot{\bar{y}}\_w \end{bmatrix} \\\\ \dot{\theta}\_w \end{bmatrix}
+\end{equation}
+
+Here we are assuming that frame \\(s\\) is fixed (and we already know that frame \\(w\\) is fixed, since it is the "global" frame of reference), because both \\(\mathbf{x}\_w^s\\) and \\(\varphi\_w^s\\) disappear upon taking the derivative.
+
+#### Generalized velocities in a moving reference frame
+What if frame \\(s\\) is _not_ fixed but instead moves relative to frame \\(w\\) with linear velocity \\(\dot{\mathbf{x}}\_w^s\\) and angular velocity \\(\dot{\varphi\_w^s}\\)? Then: 
+
+\begin{equation}
+\dot{\mathbf{q}}\_s = \begin{bmatrix}\ \_s\dot{\mathbf{R}}\_w \begin{bmatrix}\dot{\bar{x}}\_w \\\\ \dot{\bar{y}}\_w \end{bmatrix} + \dot{\mathbf{x}}^s\_w  \\\\ \dot{\theta}\_w + \dot{\varphi}^s\_w \end{bmatrix}
+\end{equation}
+
+The matrix \\(\ _s\dot{\mathbf{R}}\_w\\) has a fairly simple form, derived from the chain rule:
+
+\begin{equation}
+ \ \_s\dot{\mathbf{R}}\_w = \dot{\varphi\_w^s}\begin{bmatrix} -\sin{\varphi\_w^s} & -\cos{\varphi\_w^s}  \\ \cos{\varphi\_w^s} & -\sin{\varphi\_w^s}\end{bmatrix}
+\end{equation}
+
+Using trigonometric identities, we get:
+
+\begin{equation}
+ \ \_w\dot{\mathbf{R}}\_i = \dot{\varphi\_w^s}\begin{bmatrix} \cos{(\varphi\_w^s+\frac{\pi}{2})} & -\sin{(\varphi\_w^s+\frac{\pi}{2})}  \\\\ \sin{(\varphi\\_w^s+\frac{\pi}{2})} & \cos{(\varphi\_w^s+\frac{\pi}{2})}\end{bmatrix}
+ \end{equation}
+ Note that this takes exactly the same form as a rotation matrix in the plane by \\(\theta + \frac{\pi}{2}\\) radians scaled by the angular velocity.
+
+{% comment %} 
+\problem{Derive the generalized acceleration for a rigid body with respect to moving reference frame \\(s\\). Assume that the relative linear and angular accelerations between frame \\(s\\) and frame \\(w\\) are $\ddot{\mathbf{x}_w^s}$ and $\ddot{\varphi_w^s}$, respectively.}
+\problem{Given $\varphi_s^w = \frac{\pi}{4}, \dot{\varphi_s^w} = 1, \theta_w = \frac{\pi}{6}, \dot{\theta_w} = -2$, $\ddot{\theta_w} = 10$, $\mathbf{x}_w^s = [\ 1\ -1\ ]^T$, $\bar{\mathbf{x}}_w = [\ 5\ 5 \ ]^T$\\, $\dot{\bar{\mathbf{x}}}_w = [\ -1\ 1\ ]^T, \ddot{\bar{\mathbf{x}}}_w = [\ 10\ 1\ ]^T$, compute the generalized velocities and accelerations \emph{with respect to} \ul{fixed} \emph{frame s}. Check your answer using finite differences on the generalized coordinates.} 
+{% endcomment %}
+
+### Velocity of a point on a rigid body
+How do the kinematic equations change if the generalized coordinates are defined with respect to a point on the rigid body, rather than with respect to the body's center-of-mass? First of all, we have to define our point such that we can always identify it! Let us call this point of interest \\(\mathbf{p}\\) and define it in frame \\(w\\) as follows:
+
+\begin{equation}
+\mathbf{p}\_w = \begin{bmatrix}\bar{x}\_w \\\\ \bar{y}\_w \end{bmatrix} + \ \_w\mathbf{R}\_i(\theta\_w)\cdot \mathbf{r}\_i
+\end{equation}
+
+where \\(\ \_w\mathbf{R}\_i\\) is the matrix encoding the orientation of the body and \\(\mathbf{r}\_i\\) is a vector from the center-of-mass to the point on the body _in the body frame_, which we denote as \\(i\\): since this vector is defined in the body frame, \\(\mathbf{r}\\) does not change as the body moves or rotates.  
+
+{% comment %}
+\problem{Derive the acceleration of a point on a rigid body using the equation above.}
+{% endcomment %}
+
+#### Generalized coordinates defined with respect to a point on a rigid body
+We can define the generalized coordinates as below, though note that \\(\mathbf{p}\\) is not independent of \\(\theta\_w\\):
+
+\begin{equation}
+\mathbf{q}\_w^{\mathbf{p}\_w} = \begin{bmatrix} \mathbf{p}\_w \\\\ \theta\_w \end{bmatrix}
+\end{equation}
+
+#### Generalized velocities defined with respect to a point on a rigid body
+We now derive the generalized velocities:
+
+\begin{equation}
+\dot{\mathbf{q}}\_w^{\mathbf{p}\_w} = \begin{bmatrix} \dot{\mathbf{p}}\_w  \\\\ \dot{\theta}\_w \end{bmatrix}
+\end{equation}
+
+and we derive \\(\dot{\mathbf{p}}\_w\\) as follows:
+
+\begin{equation}
+\dot{\mathbf{p}}\_w = \begin{bmatrix}\dot{\bar{x}}\_w \\\\ \dot{\bar{y}}\_w \end{bmatrix} + \ \_w\dot{\mathbf{R}}\_i \cdot \mathbf{r}\_i
+\end{equation}
+
+As in the previous section, \\(\ \_w\dot{\mathbf{R}}\_i\\) has a simple form:
+
+\begin{equation}
+ \ \_w\dot{\mathbf{R}}\_i = \dot{\theta}\begin{bmatrix} -\sin{\theta} & -\cos{\theta}  \\\\ \cos{\theta} & -\sin{\theta}\end{bmatrix}
+\end{equation}
+
+
+#### Point defined in a moving frame of reference
+Let us now define \\(\mathbf{p}\\) in frame \\(s\\), which we'll assume is moving:
+
+\begin{equation}
+\mathbf{p}\_s = \_s\mathbf{R}\_w\Big(\begin{bmatrix}\bar{x}\_w \\ \bar{y}\_w \end{bmatrix} + \ \_w\mathbf{R}\_i(\theta\_w)\cdot \mathbf{r}\_i\Big) + \mathbf{x}\_w^s
+\end{equation}
+
+The time derivative of \\(\mathbf{p}_s\\) is:
+
+\begin{equation}
+\dot{\mathbf{p}}\_s =\ \_s\dot{\mathbf{R}}\_{w}\Big(\begin{bmatrix}\dot{\bar{x}}\_w \\ \dot{\bar{y}}\_w \end{bmatrix} + \ \_w\dot{\mathbf{R}}\_{i} \cdot \mathbf{r}\_i\Big) + \dot{\mathbf{x}}\_w^s
+\end{equation}
+
+{% comment %}
+\problem{Derive $\ddot{\mathbf{p}_s}$ from the equation above.}
+\problem{Given $\varphi_w^s = \frac{\pi}{4}, \dot{\varphi_w^s} = 1, \theta_w = \frac{\pi}{6}, \dot{\theta}_w = -2, \ddot{\theta}_w = 10$, $\mathbf{x}_w^s = [\ 1\ -1\ ]^T$, $\bar{\mathbf{x}}_w = [\ 5\ 5 \ ]^T$,\\ $\dot{\bar{\mathbf{x}}}_w = [\ -1\ 1\ ]^T, \ddot{\bar{\mathbf{x}}}_w = [\ 10\ 1\ ]^T$, $\mathbf{p}_w = [\ 0\ 0\ ]$, $\dot{\mathbf{x}}_w^s = [\ \frac{\sqrt{2}}{2}\ \frac{\sqrt{2}}{2}\ ]^T$, $\ddot{\mathbf{x}}_w^s = [\ +10\ -10\ ]^T$ (\emph{note that I have given you the point in the global frame, which means you have to determine $\mathbf{r}_i$ by yourself}) compute $\ddot{\mathbf{p}_s}$ and check your answer using finite differences.}  
+{% endcomment %}
+
+ 
+ 
+
