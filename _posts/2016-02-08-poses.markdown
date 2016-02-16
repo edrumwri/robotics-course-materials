@@ -212,14 +212,14 @@ For comparison, we now examine how the body is defined in another reference fram
 and the generalized coordinates in frame \\(s\\) are now:
 
 \begin{equation}
-\mathbf{q}\_s = \begin{bmatrix}\ \_s\mathbf{R}\_w \begin{bmatrix}\bar{x}\_w \\ \bar{y}\_w \end{bmatrix} + \mathbf{x}\_w^s \\\\ \theta\_w + \varphi\_w^s \end{bmatrix}
+\mathbf{q}\_s = \begin{bmatrix}\ \_s\mathbf{R}\_w \begin{bmatrix}\bar{x}\_w \\\\ \bar{y}\_w \end{bmatrix} + \mathbf{x}\_w^s \\\\ \theta\_w + \varphi\_w^s \end{bmatrix}
 \end{equation}
 
 #### Generalized velocities in the global reference frame
 Let's now compute the time-derivatives:
 
 \begin{equation}
-\dot{\mathbf{q}}\_w = \begin{bmatrix} \dot{\bar{x}}\_w \\ \dot{\bar{y}}\_w \\\\ \dot{\theta}\_w \end{bmatrix}
+\dot{\mathbf{q}}\_w = \begin{bmatrix} \dot{\bar{x}}\_w \\\\ \dot{\bar{y}}\_w \\\\ \dot{\theta}\_w \end{bmatrix}
 \end{equation}
 
 This is just the velocity of the body at its center-of-mass (the _linear velocity_) and its rate of angular rotation (the _angular velocity_). 
@@ -243,7 +243,7 @@ What if frame \\(s\\) is _not_ fixed but instead moves relative to frame \\(w\\)
 The matrix \\(\ _s\dot{\mathbf{R}}\_w\\) has a fairly simple form, derived from the chain rule:
 
 \begin{equation}
- \ \_s\dot{\mathbf{R}}\_w = \dot{\varphi\_w^s}\begin{bmatrix} -\sin{\varphi\_w^s} & -\cos{\varphi\_w^s}  \\ \cos{\varphi\_w^s} & -\sin{\varphi\_w^s}\end{bmatrix}
+ \ \_s\dot{\mathbf{R}}\_w = \dot{\varphi\_w^s}\begin{bmatrix} -\sin{\varphi\_w^s} & -\cos{\varphi\_w^s}  \\\\ \cos{\varphi\_w^s} & -\sin{\varphi\_w^s}\end{bmatrix}
 \end{equation}
 
 Using trigonometric identities, we get:
@@ -302,13 +302,13 @@ As in the previous section, \\(\ \_w\dot{\mathbf{R}}\_i\\) has a simple form:
 Let us now define \\(\mathbf{p}\\) in frame \\(s\\), which we'll assume is moving:
 
 \begin{equation}
-\mathbf{p}\_s = \_s\mathbf{R}\_w\Big(\begin{bmatrix}\bar{x}\_w \\ \bar{y}\_w \end{bmatrix} + \ \_w\mathbf{R}\_i(\theta\_w)\cdot \mathbf{r}\_i\Big) + \mathbf{x}\_w^s
+\mathbf{p}\_s = \_s\mathbf{R}\_w\Big(\begin{bmatrix}\bar{x}\_w \\\\ \bar{y}\_w \end{bmatrix} + \ \_w\mathbf{R}\_i(\theta\_w)\cdot \mathbf{r}\_i\Big) + \mathbf{x}\_w^s
 \end{equation}
 
 The time derivative of \\(\mathbf{p}_s\\) is:
 
 \begin{equation}
-\dot{\mathbf{p}}\_s =\ \_s\dot{\mathbf{R}}\_{w}\Big(\begin{bmatrix}\dot{\bar{x}}\_w \\ \dot{\bar{y}}\_w \end{bmatrix} + \ \_w\dot{\mathbf{R}}\_{i} \cdot \mathbf{r}\_i\Big) + \dot{\mathbf{x}}\_w^s
+\dot{\mathbf{p}}\_s =\ \_s\dot{\mathbf{R}}\_{w}\Big(\begin{bmatrix}\dot{\bar{x}}\_w \\\\ \dot{\bar{y}}\_w \end{bmatrix} + \ \_w\dot{\mathbf{R}}\_{i} \cdot \mathbf{r}\_i\Big) + \dot{\mathbf{x}}\_w^s
 \end{equation}
 
 {% comment %}
