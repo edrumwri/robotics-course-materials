@@ -5,8 +5,8 @@
     <description>Robotics</description>
     <link>/robotics-course-materials/robotics-course-materials/</link>
     <atom:link href="/robotics-course-materials/robotics-course-materials/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 31 Jan 2016 22:40:39 -0600</pubDate>
-    <lastBuildDate>Sun, 31 Jan 2016 22:40:39 -0600</lastBuildDate>
+    <pubDate>Wed, 17 Feb 2016 11:23:23 -0600</pubDate>
+    <lastBuildDate>Wed, 17 Feb 2016 11:23:23 -0600</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       
@@ -782,6 +782,849 @@ to pick footsteps to prevent falling over, among other uses.   &lt;/p&gt;
         <pubDate>Thu, 07 Jan 2016 00:00:00 -0600</pubDate>
         <link>/robotics-course-materials/robotics-course-materials/blog/dynamical-systems/</link>
         <guid isPermaLink="true">/robotics-course-materials/robotics-course-materials/blog/dynamical-systems/</guid>
+        
+        
+      </item>
+      
+    
+      
+      <item>
+        <title>Rigid body poses in 2D</title>
+        <description>&lt;p class=&quot;intro&quot;&gt;
+The rigid body assumption is a common simplification used to easily and quickly (with respect to computation) model rigid or even semi-rigid bodies. 
+&lt;/p&gt;
+
+&lt;h2 id=&quot;rigid-body-modeling&quot;&gt;Rigid body modeling&lt;/h2&gt;
+
+&lt;p&gt;The rigid body assumption requires that, for any two points \(\mathbf{p}_1\) and \(\mathbf{p}_2\) on a rigid body, the distance between the two points remains constant for all time:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+||p_1 - p_2|| = c
+\end{equation}&lt;/p&gt;
+
+&lt;h3 id=&quot;kinematics&quot;&gt;Kinematics&lt;/h3&gt;
+
+&lt;p&gt;Kinematics is the study of the position, velocity, acceleration, and further derivatives (including the third and fourth derivatives of position, jerk and snap, respectively) of bodies, which can include particles, rigid bodies, non-rigid bodies, fluids, etc. &lt;/p&gt;
+
+&lt;p&gt;We start with kinematics in two dimensions, which is easier to visualize and conceptualize than 3D. Assume that we are looking at 2D kinematics on the \(z = 0\) plane in 3D. When we look at angular motion in 2D, the axis of rotation will be the z-axis.&lt;/p&gt;
+
+&lt;h3 id=&quot;kinematics-of-a-particle&quot;&gt;Kinematics of a particle&lt;/h3&gt;
+
+&lt;p&gt;Presumably you already have knowledge of the very simple kinematics of a particle, which is a body that can be reasonably modeled as a point. We note the 
+location of that particle with respect to some frame of reference as \(\mathbf{x}(t)\), where \(\mathbf{x}\) is a two-dimensional vector. The first time-derivative of position is the linear velocity and is written \(\dot{\mathbf{x}}(t)\). The second time-derivative of position is the linear acceleration and is written  \(\ddot{\mathbf{x}}(t)\).&lt;/p&gt;
+
+&lt;h4 id=&quot;frame-of-reference-translation&quot;&gt;Frame of reference (translation)&lt;/h4&gt;
+
+&lt;p&gt;Let’s immediately get into a seemingly cumbersome, but ultimately very useful habit of marking all relevant quantities with their reference frame. For example, assume that there does exist, somewhere in the universe, an absolute reference frame, which we’ll denote \(w\). We can then mark our
+position vector and its derivatives as:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation} 
+\mathbf{q}_w(t), \dot{\mathbf{q}}_w(t), \ddot{\mathbf{q}}_w(t)
+\end{equation} &lt;/p&gt;
+
+&lt;p&gt;which means that the position (and velocity and acceleration) of a point in
+space is observed from \(w\). Now assume another reference frame, \(p\),
+which has the same orientation as \(w\), but is located in a different place &lt;em&gt;that is a constant offset from \(\mathbf{q}_w\)&lt;/em&gt;. We can then define \(\mathbf{q}_p = \mathbf{q}_w + \mathbf{v}_{\overrightarrow{qp}}\). Notice that velocity and acceleration do not change- \(\dot{\mathbf{q}}_p = \dot{\mathbf{q}}_w\) and \(\ddot{\mathbf{q}}_p = \ddot{\mathbf{q}}_w\)- because the vector from \(\mathbf{q}_w\) to frame \(p\) is constant.&lt;/p&gt;
+
+&lt;P&gt;
+&lt;table class=&quot;image&quot;&gt;
+&lt;caption align=&quot;bottom&quot;&gt;Depiction of two frames (w and p) and a particle (q). There is a constant offset between the particle and frame p. Origins of frames are labeled with a capital &#39;O&#39;. &lt;/caption&gt;
+&lt;img src=&quot;../../assets/img/translated-frame.png&quot; alt=&quot;Depiction of two frames (w and p) and a particle (q). There is a constant offset between the particle and frame p. Origins of frames are labeled with a capital &#39;O&#39;. &quot; width=&quot;&quot;/&gt;
+&lt;/table&gt;
+&lt;/P&gt;
+
+&lt;h4 id=&quot;frame-of-reference-orientation&quot;&gt;Frame of reference (orientation)&lt;/h4&gt;
+
+&lt;p&gt;Let&amp;#39;s now assume a new frame of reference, which we denote \(s\), and which is collocated with \(w\) but is rotated. If we assume that the first axis of \(w\) is named \(\mathbf{a}_x\) and the second axis is named \(\mathbf{a}_y\), we can similarly denote the first and second axes of \(s\) as \(\mathbf{a}&amp;#39;_x\) and \(\mathbf{a}&amp;#39;_y\). Since we are considering only two dimensions, each vector is two-dimensional. We can represent \(\mathbf{a}_x\) using the vector \(\begin{bmatrix}1 &amp;amp; 0\end{bmatrix}^T\) and \(\mathbf{a}_y\) using the vector \(\begin{bmatrix}0 &amp;amp; 1\end{bmatrix}^T\). We can transform vectors between the two reference frames using a matrix:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation} 
+\ _{w}\mathbf{R}_{s} \triangleq \begin{bmatrix}\mathbf{a}&amp;#39;_{x_1} &amp;amp; \mathbf{a}&amp;#39;_{y_1} \\ \mathbf{a}&amp;#39;_{x_2} &amp;amp; \mathbf{a}&amp;#39;_{y_2} \end{bmatrix}
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;For example, try \(\mathbf{a}&amp;#39;_x \triangleq \begin{bmatrix}0 &amp;amp; 1\end{bmatrix}^T\) and \(\mathbf{a}&amp;#39;_y \triangleq \begin{bmatrix}-1 &amp;amp; 0\end{bmatrix}^T\). This corresponds to the matrix: &lt;/p&gt;
+
+&lt;p&gt;\begin{equation}\ _{w}\mathbf{R}_{s} \triangleq \begin{bmatrix}0 &amp;amp; -1 \\ 1 &amp;amp; 0\end{bmatrix}
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;These vectors should both be unit vectors and should be orthogonal, which makes this matrix an &lt;em&gt;orthogonal&lt;/em&gt; matrix, giving it a determinant of \(\pm 1\). To keep everything consistent for our work, we henceforth require that the determinant always be equal to \(+1\).&lt;/p&gt;
+
+&lt;p&gt;We can set \(\ _{w}\mathbf{R}_{s}\) more simply using an angular rotation by \(\theta\) in the plane:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+\ _{w}\mathbf{R}_{s} = \begin{bmatrix} \cos{\theta} &amp;amp; -\sin{\theta} \\ \sin{\theta} &amp;amp; \cos{\theta} \end{bmatrix}
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;p&gt;Given \(\theta = \frac{\pi}{2}\), \(\ _{w}\mathbf{R}_{s}\) will be the matrix:
+\begin{equation*}
+\begin{bmatrix}
+0 &amp;amp; -1 \\
+1 &amp;amp; 0
+\end{bmatrix}
+\end{equation*}&lt;/p&gt;
+
+&lt;p&gt;The two frames \(s\) and \(w\) are depicted in the figure below. &lt;/p&gt;
+
+&lt;P&gt;
+&lt;table class=&quot;image&quot;&gt;
+&lt;caption align=&quot;bottom&quot;&gt;Depiction of two frames with collocated origins but different orientations.&lt;/caption&gt;
+&lt;img src=&quot;../../assets/img/rotation-only.png&quot; alt=&quot;Depiction of two frames with collocated origins but different orientations.&quot; width=&quot;400px&quot;/&gt;
+&lt;/table&gt;
+&lt;/P&gt;
+
+&lt;p&gt;&lt;em&gt;You can make sense of the rotation matrix without knowing \(\theta\).&lt;/em&gt; The first column of the matrix determines the direction of \(\mathbf{x}_s\) in \(w\)&amp;#39;s frame. The second column of the matrix determines the direction of \(\mathbf{y}_y\) in \(w\)&amp;#39;s frame. &lt;strong&gt;Make sure you understand this point before moving on.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;We now look at how we can transform position and its time derivatives between the reference frames. For our position vector in frame \(w\), we have:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+\mathbf{x}_{w} = \ _{w}\mathbf{R}_{s}\ \mathbf{x}_{s}
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;Here is where the subscripts for frame of reference start to come in handy. \(\ _{w}\mathbf{R}_{s}\) transforms from frame \(s\) to \(w\) (the convention is that the &amp;quot;source&amp;quot; frame is on the right hand side and the &amp;quot;target&amp;quot; frame is on the left). You can &lt;strong&gt;and should&lt;/strong&gt; verify that all of the subscripts match up when moving from left to right. &lt;/p&gt;
+
+&lt;p&gt;Also, note that, due to the determinant of \(\ _{w}\mathbf{R}_{s}\) always being non-zero, the inverse of this matrix always exists. Indeed, we can get the transformation from \(w\) to \(s\) by inverting \(\ _{w}\mathbf{R}_{s}\): \({\ _{w}\mathbf{R}_{s}}^{-1} = \ _{s}\mathbf{R}_{w}\).&lt;/p&gt;
+
+&lt;h4 id=&quot;translated-and-oriented-frame-of-reference&quot;&gt;Translated and oriented frame of reference&lt;/h4&gt;
+
+&lt;p&gt;Combining translation and orientation for a frame of reference is straightforward using the individual elements of the previous two sections. We&amp;#39;ll denote our translated and oriented frame as \(s\), and note that it is oriented with respect to \(w\) (which we can specify using the matrix \(_w\mathbf{R}_s\) and vector \(\overrightarrow{\mathbf{w}_o\mathbf{s}_o}\)- the subscript \(\ _o\) indicates the origin of a frame). We can then define a position vector in that frame as \(\mathbf{x}_s =\ _s\mathbf{R}_w \mathbf{x}_w + \overrightarrow{\mathbf{w}_o\mathbf{s}_o}\), using the position vector \(\mathbf{x}_w\) defined in the global frame. &lt;/p&gt;
+
+&lt;P&gt;
+&lt;table class=&quot;image&quot;&gt;
+&lt;caption align=&quot;bottom&quot;&gt;Depiction of two frames with offset origins and different orientations.&lt;/caption&gt;
+&lt;img src=&quot;../../assets/img/rotation+translation.png&quot; alt=&quot;Depiction of two frames with offset origins and different orientations.&quot; width=&quot;400px&quot;/&gt;
+&lt;/table&gt;
+&lt;/P&gt;
+
+&lt;h3 id=&quot;concatenated-transformations-and-homogeneous-transformation-matrices&quot;&gt;Concatenated transformations and homogeneous transformation matrices&lt;/h3&gt;
+
+&lt;p&gt;For articulated characters, animals, robots, etc., it is convenient to
+compute the position and orientation of each link as a sequence of operations. For example, in the diagram of a robot below, the second arm cover will move
+when the first arm cover does. &lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://s-media-cache-ak0.pinimg.com/736x/a4/63/9d/a4639d499d14aaedc7b6ce3637c1c301.jpg&quot; alt=&quot;Diagram of a robot&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;Similarly, for the double link pendulum below, the endpoint (\(m_2\)) can
+be found by- starting from the black circle- rotating by \(\theta_1\), then translating by \(l_1\), then rotating by \(\theta_2\), then finally translating by \(l_2\).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://scienceworld.wolfram.com/physics/dimg270.gif&quot; alt=&quot;Depiction of a double pendulum&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;Performing this sequence of transformations is painful if we have to treat
+rotation and translation separately, as in:
+$$
+\mathbf{p} = \mathbf{r} + \mathbf{R}\mathbf{u}
+$$
+where \(\mathbf{r}\) is the vector describing translation and \(\mathbf{R}\) is a rotation matrix. If we combine two such transformations, we arrive at:
+$$
+\mathbf{p}&amp;#39; = \mathbf{r}&amp;#39; + \mathbf{R}&amp;#39;(\mathbf{r} + \mathbf{R}\mathbf{u})
+$$
+and three transformations appears even more cumbersome:
+$$
+\mathbf{p}&amp;#39;&amp;#39; = \mathbf{r}&amp;#39;&amp;#39; + \mathbf{R}&amp;#39;&amp;#39;(\mathbf{r}&amp;#39; + \mathbf{R}&amp;#39;(\mathbf{r} + \mathbf{R}\mathbf{u}))
+$$&lt;/p&gt;
+
+&lt;p&gt;The problem is that rotation is a &lt;a href=&quot;https://en.wikipedia.org/wiki/Linear_map&quot;&gt;linear transformation&lt;/a&gt; while translation is not. However, we can turn translation into a linear transformation, which allows us to replace the cumbersome series of operations above with simply matrix multiplications, resulting in an equation that looks like this:
+\begin{equation}
+\mathbf{p}&amp;#39;&amp;#39; = \mathbf{T}&amp;#39;&amp;#39; \cdot \mathbf{T}&amp;#39; \cdot \mathbf{T} \cdot \mathbf{p}
+\label{eqn:sequence}
+\end{equation}
+This is easier to look at, use, and debug than the previous sequence of operations.&lt;/p&gt;
+
+&lt;h4 id=&quot;homogeneous-coordinates&quot;&gt;Homogeneous coordinates&lt;/h4&gt;
+
+&lt;p&gt;The key is to use &lt;a href=&quot;https://en.wikipedia.org/wiki/Homogeneous_coordinates&quot;&gt;homogeneous coordinates&lt;/a&gt;. For example, the Cartesian coordinates:
+$$
+\begin{bmatrix}
+x \\
+y 
+\end{bmatrix}
+$$
+become
+$$
+\begin{bmatrix}
+x \\
+y \\
+1
+\end{bmatrix}
+$$&lt;/p&gt;
+
+&lt;p&gt;The form of the \(\mathbf{T}\) matrices above is now \(3 \times 3\) and represents a two-dimensional rotation about \(\theta\) &lt;em&gt;followed by&lt;/em&gt; a translation by \((t_x,t_y)\):
+\begin{equation}
+\begin{bmatrix}
+\cos{\theta} &amp;amp; -\sin{\theta} &amp;amp; t_x \\
+\sin{\theta} &amp;amp; \cos{\theta} &amp;amp; t_y \\
+0 &amp;amp; 0 &amp;amp; 1
+\end{bmatrix}
+\label{eqn:homogeneous}
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Exercise: Apply the homogeneous transformation \(\theta = \pi, t_x = 1, t_y = 1\) to \(\mathbf{p} = \begin{bmatrix} 1 &amp;amp; 1 \end{bmatrix}^{\mathsf{T}}\). Is the result what you expected?&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Another way to write this matrix is in &lt;a href=&quot;https://en.wikipedia.org/wiki/Block_matrix&quot;&gt;block form&lt;/a&gt;:&lt;/p&gt;
+
+&lt;p&gt;\begin{align}
+\mathbf{T} \equiv
+\begin{bmatrix}
+\mathbf{R} &amp;amp; \mathbf{t} \\
+\mathbf{0} &amp;amp; 1
+\end{bmatrix}
+\label{eqn:homogeneous2}
+\end{align}&lt;/p&gt;
+
+&lt;p&gt;where \(\mathbf{R}\) is the \(2 \times 2\) rotation matrix and \(\mathbf{t}\) is the \(2 \times 1\) translation vector.&lt;/p&gt;
+
+&lt;h4 id=&quot;inverting-transformations&quot;&gt;Inverting transformations&lt;/h4&gt;
+
+&lt;p&gt;One of the great things about a rotation matrix is that its orthogonality makes it &lt;a href=&quot;../linear-algebra&quot;&gt;easy and fast to invert&lt;/a&gt;. Unfortunately, a homogeneous transformation matrix is not orthogonal. However, we can still invert the matrix easily using the following formula:
+\begin{equation}
+\mathbf{T}^{-1} = \begin{bmatrix}
+\mathbf{R}^\mathsf{T} &amp;amp; -\mathbf{R}^\mathsf{T}\mathbf{t} \\
+\mathbf{0} &amp;amp; 1
+\end{bmatrix}
+\end{equation}&lt;/p&gt;
+
+&lt;h4 id=&quot;transforming-points-vs-transforming-vectors&quot;&gt;Transforming points vs. transforming vectors&lt;/h4&gt;
+
+&lt;p&gt;When we transform points (as might compose vertices in &lt;a href=&quot;https://en.wikipedia.org/wiki/Polytope&quot;&gt;polytopic shapes&lt;/a&gt;), the Euclidean norm of those points may
+change. When we transform vectors (as might describe the angular velocity
+of a body), &lt;em&gt;we wish to preserve lengths&lt;/em&gt;. Consider the figure above where
+\(\theta = \frac{\pi}{2}\). The homogeneous transformation matrix corresponding to this figure is:
+\begin{equation*}
+\ _w\mathbf{T}_s \equiv 
+\begin{bmatrix}
+0 &amp;amp; -1 &amp;amp; 1 \\
+1 &amp;amp; 0 &amp;amp; 1 \\
+0 &amp;amp; 0 &amp;amp; 1
+\end{bmatrix}
+\end{equation*}&lt;/p&gt;
+
+&lt;p&gt;If we define the vector \(\mathbf{v}_s \equiv \begin{bmatrix} 1 &amp;amp; 1 &amp;amp; 1 \end{bmatrix}^{\mathsf{T}}\), then:
+\begin{equation*}
+\ _w\mathbf{T}_s \mathbf{v}_s = \mathbf{v}_w = \begin{bmatrix} 0 \\ 2 \\ 1 \end{bmatrix}
+\end{equation*}
+and we notice that the lengths of the two vectors are not equal (ignoring the homogeneous components of course): \(||\mathbf{v}_s|| = \sqrt{2} \neq 2 = ||\mathbf{v}_w||\). If we want to preserve magnitudes, we only apply the rotational part of the matrix:
+\begin{equation*}
+\ _w\mathbf{R}_s \equiv
+\begin{bmatrix}
+0 &amp;amp; -1 \\
+1 &amp;amp; 1
+\end{bmatrix}
+\end{equation*}
+Then \(||\ _w\mathbf{R}_s \cdot \begin{bmatrix} 1 &amp;amp; 1 \end{bmatrix}^{\mathsf{T}}|| = ||\begin{bmatrix} 1 &amp;amp; 1 \end{bmatrix}^{\mathsf{T}}||\).&lt;/p&gt;
+
+&lt;h4 id=&quot;concatenating-transformations&quot;&gt;Concatenating transformations&lt;/h4&gt;
+
+&lt;p&gt;A sequence of transformations, as might be used for determining the poses
+of the links of a robot arm, is applied from right to left: in Equation \ref{eqn:sequence}, \(\mathbf{T}\) is applied first, then \(\mathbf{T}&amp;#39;\), and
+finally \(\mathbf{T}&amp;#39;&amp;#39;\). Difficulty remembering the ordering- and the ordering changes if moving from the form of the homogeneous transformation in Equation \ref{eqn:homogeneous} to an OpenGL-style homogeneous transformation!- is one
+reason we mark the frame of reference for transformations.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt; This example shows how we can determine the location of any point on a multi-rigid body or the pose defined with respect to a link on a multi-rigid body using a sequence of transformations. See the depiction of a pendulum below. &lt;/p&gt;
+
+&lt;P&gt;
+&lt;table class=&quot;image&quot;&gt;
+&lt;caption align=&quot;bottom&quot;&gt;Depiction of frames and variables used to describe the kinematics of a single pendulum.&lt;/caption&gt;
+&lt;img src=&quot;../../assets/img/pendulum-frames.png&quot; alt=&quot;Depiction of frames and variables used to describe the kinematics of a single pendulum.&quot; width=&quot;400px&quot;/&gt;
+&lt;/table&gt;
+&lt;/P&gt;
+
+&lt;p&gt;The transformation from Frame 1 (defined at the endpoint of the pendulum) to Frame 0 (the world frame) is determined like so:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation*}
+\ _0\mathbf{T}_1 = \ _0\mathbf{T}_{0&amp;#39;} \cdot \ _{0&amp;#39;}\mathbf{T}_1
+\end{equation*}&lt;/p&gt;
+
+&lt;p&gt;where&lt;/p&gt;
+
+&lt;p&gt;\begin{equation*}
+_0\mathbf{T}_{0&amp;#39;} \equiv
+\begin{bmatrix}
+\cos{\theta} &amp;amp; -\sin{\theta} &amp;amp; 0 \\
+\sin{\theta} &amp;amp; \cos{\theta} &amp;amp; 0 \\
+0 &amp;amp; 0 &amp;amp; 1
+\end{bmatrix}
+\end{equation*}
+and
+\begin{equation*}
+_{0&amp;#39;}\mathbf{T}_{1} \equiv
+\begin{bmatrix}
+1 &amp;amp; 0 &amp;amp; 0 \\
+0 &amp;amp; 1 &amp;amp; -\ell \\
+0 &amp;amp; 0 &amp;amp; 1
+\end{bmatrix}
+\end{equation*}&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Make sure you understand why the \(\ell\) in \(\ _{0&amp;#39;}\mathbf{T}_1\)
+is translated along -y&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Given the relationship \(\ _0\mathbf{T}_1\), we can transform points from Frame 1 to Frame 0. For instance, if I want to know the position of the pendulum bob in the world frame, I can do this:&lt;/p&gt;
+
+&lt;p&gt;\begin{align}
+\mathbf{p}_1 &amp;amp; \equiv \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix} \\
+\mathbf{p}_0 &amp;amp; = \ _0\mathbf{T}_1 \cdot \mathbf{p}_1
+\end{align}&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;You should try this yourself using simple values for \(\theta\) and \(\ell\)&lt;/em&gt; (like \(pi\) and \(1\), respectively). You should also practice
+converting from points in Frame 0 back to Frame 1.&lt;/p&gt;
+
+&lt;h3 id=&quot;rigid-body-kinematics&quot;&gt;Rigid body kinematics&lt;/h3&gt;
+
+&lt;p&gt;Modeling particles doesn&amp;#39;t require consideration of orientation because particles are infinitesimally small. When bodies have significant dimensions, they can not be modeled as particles and we must move along the spectrum of modeling complexity. If the body can effectively be modeled as rigid, we can completely specify the body&amp;#39;s configuration using only a reference point on the body (often we use the center-of-mass) and the body&amp;#39;s orientation. As we&amp;#39;re still working in only two-dimensions, that means each body&amp;#39;s configuration can be specified using some number of (minimally three) real numbers, termed the &lt;em&gt;generalized coordinates&lt;/em&gt;. The time-derivatives of the generalized coordinates are termed the &lt;em&gt;generalized velocities&lt;/em&gt;. Generalized coordinates and velocities are always defined with respect to a frame of reference. &lt;/p&gt;
+
+&lt;h4 id=&quot;generalized-coordinates-in-the-global-reference-frame&quot;&gt;Generalized coordinates in the global reference frame&lt;/h4&gt;
+
+&lt;p&gt;Let&amp;#39;s first look at the generalized coordinates for a body defined in the global reference frame, \(w\):&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+\mathbf{q}_w = \begin{bmatrix} \bar{x}_w \\ \bar{y}_w \\ \theta_w \end{bmatrix}
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;where \({ \bar{x}_w, \bar{y}_w }\) is the position of the center-of-mass in frame \(w\). &lt;/p&gt;
+
+&lt;h4 id=&quot;general-coordinates-in-another-reference-frame&quot;&gt;General coordinates in another reference frame&lt;/h4&gt;
+
+&lt;p&gt;For comparison, we now examine how the body is defined in another reference frame, \(s\), which is defined relative to frame \(\mathbf{w}\) by a translation of \(\mathbf{x}_w^s\) and by an orientation by an angle of \(\varphi_w^s\). We can then define the matrix \(\ _s\mathbf{R}_w\) as:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+\ _s\mathbf{R}_w = \begin{bmatrix} \cos{\varphi_w^s} &amp;amp; -\sin{\varphi_w^s} \\ \sin{\varphi_w^s} &amp;amp; \cos{\varphi_w^s} \end{bmatrix}
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;and the generalized coordinates in frame \(s\) are now:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+\mathbf{q}_s = \begin{bmatrix}\ _s\mathbf{R}_w \begin{bmatrix}\bar{x}_w \\ \bar{y}_w \end{bmatrix} + \mathbf{x}_w^s \\ \theta_w + \varphi_w^s \end{bmatrix}
+\end{equation}&lt;/p&gt;
+
+&lt;h4 id=&quot;generalized-velocities-in-the-global-reference-frame&quot;&gt;Generalized velocities in the global reference frame&lt;/h4&gt;
+
+&lt;p&gt;Let&amp;#39;s now compute the time-derivatives:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+\dot{\mathbf{q}}_w = \begin{bmatrix} \dot{\bar{x}}_w \\ \dot{\bar{y}}_w \\ \dot{\theta}_w \end{bmatrix}
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;This is just the velocity of the body at its center-of-mass (the &lt;em&gt;linear velocity&lt;/em&gt;) and its rate of angular rotation (the &lt;em&gt;angular velocity&lt;/em&gt;). &lt;/p&gt;
+
+&lt;h4 id=&quot;generalized-velocities-in-another-reference-frame&quot;&gt;Generalized velocities in another reference frame&lt;/h4&gt;
+
+&lt;p&gt;Things do not change appreciably when we look at the generalized velocity in frame \(s\).&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+\dot{\mathbf{q}}_s = \begin{bmatrix}\ _s\mathbf{R}_w \begin{bmatrix}\dot{\bar{x}}_w \\ \dot{\bar{y}}_w \end{bmatrix} \\ \dot{\theta}_w \end{bmatrix}
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;Here we are assuming that frame \(s\) is fixed (and we already know that frame \(w\) is fixed, since it is the &amp;quot;global&amp;quot; frame of reference), because both \(\mathbf{x}_w^s\) and \(\varphi_w^s\) disappear upon taking the derivative.&lt;/p&gt;
+
+&lt;h4 id=&quot;generalized-velocities-in-a-moving-reference-frame&quot;&gt;Generalized velocities in a moving reference frame&lt;/h4&gt;
+
+&lt;p&gt;What if frame \(s\) is &lt;em&gt;not&lt;/em&gt; fixed but instead moves relative to frame \(w\) with linear velocity \(\dot{\mathbf{x}}_w^s\) and angular velocity \(\dot{\varphi_w^s}\)? Then: &lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+\dot{\mathbf{q}}_s = \begin{bmatrix}\ _s\dot{\mathbf{R}}_w \begin{bmatrix}\dot{\bar{x}}_w \\ \dot{\bar{y}}_w \end{bmatrix} + \dot{\mathbf{x}}^s_w  \\ \dot{\theta}_w + \dot{\varphi}^s_w \end{bmatrix}
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;The matrix \(\ _s\dot{\mathbf{R}}_w\) has a fairly simple form, derived from the chain rule:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+ \ _s\dot{\mathbf{R}}_w = \dot{\varphi_w^s}\begin{bmatrix} -\sin{\varphi_w^s} &amp;amp; -\cos{\varphi_w^s}  \\ \cos{\varphi_w^s} &amp;amp; -\sin{\varphi_w^s}\end{bmatrix}
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;Using trigonometric identities, we get:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+ \ _w\dot{\mathbf{R}}_i = \dot{\varphi_w^s}\begin{bmatrix} \cos{(\varphi_w^s+\frac{\pi}{2})} &amp;amp; -\sin{(\varphi_w^s+\frac{\pi}{2})}  \\ \sin{(\varphi_w^s+\frac{\pi}{2})} &amp;amp; \cos{(\varphi_w^s+\frac{\pi}{2})}\end{bmatrix}
+ \end{equation}
+ Note that this takes exactly the same form as a rotation matrix in the plane by \(\theta + \frac{\pi}{2}\) radians scaled by the angular velocity.&lt;/p&gt;
+
+&lt;h3 id=&quot;velocity-of-a-point-on-a-rigid-body&quot;&gt;Velocity of a point on a rigid body&lt;/h3&gt;
+
+&lt;p&gt;How do the kinematic equations change if the generalized coordinates are defined with respect to a point on the rigid body, rather than with respect to the body&amp;#39;s center-of-mass? First of all, we have to define our point such that we can always identify it! Let us call this point of interest \(\mathbf{p}\) and define it in Frame \(w\) as follows:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+\mathbf{p}_w = \begin{bmatrix}\bar{x}_w \\ \bar{y}_w \end{bmatrix} + \ _w\mathbf{R}_i(\theta_w)\cdot \mathbf{r}_i
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;where \(\ _w\mathbf{R}_i\) is the matrix encoding the orientation of the body and \(\mathbf{r}_i\) is a vector from the center-of-mass to the point on the body &lt;em&gt;in the body frame&lt;/em&gt;, which we denote as \(i\): since this vector is defined in the body frame, \(\mathbf{r}\) does not change as the body moves or rotates.  &lt;/p&gt;
+
+&lt;p&gt;We can then derive \(\dot{\mathbf{p}}_w\):
+\begin{equation}
+\dot{\mathbf{p}}_w = \begin{bmatrix}\dot{\bar{x}}_w \\ \dot{\bar{y}}_w \end{bmatrix} + \ _w\dot{\mathbf{R}}_i(\theta_w, \dot{\theta}_w)\cdot \mathbf{r}_i
+\end{equation}
+where
+\begin{equation}
+\ _w\dot{\mathbf{R}}_i \equiv
+\dot{\theta}_w 
+\begin{bmatrix}
+\cos{(\theta_w + \frac{\pi}{2})} &amp;amp; -\sin{(\theta_w + \frac{\pi}{2})} \\
+\sin{(\theta_w + \frac{\pi}{2})} &amp;amp; \cos{(\theta_w + \frac{\pi}{2})}
+\end{bmatrix}
+\end{equation}
+as hinted at in the section immediately previous. &lt;/p&gt;
+
+&lt;h4 id=&quot;generalized-coordinates-defined-with-respect-to-a-point-on-a-rigid-body&quot;&gt;Generalized coordinates defined with respect to a point on a rigid body&lt;/h4&gt;
+
+&lt;p&gt;We can define the generalized coordinates as below, though note that \(\mathbf{p}\) is not independent of \(\theta_w\):&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+\mathbf{q}_w^{\mathbf{p}_w} = \begin{bmatrix} \mathbf{p}_w \\ \theta_w \end{bmatrix}
+\end{equation}&lt;/p&gt;
+
+&lt;h4 id=&quot;generalized-velocities-defined-with-respect-to-a-point-on-a-rigid-body&quot;&gt;Generalized velocities defined with respect to a point on a rigid body&lt;/h4&gt;
+
+&lt;p&gt;We now derive the generalized velocities:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+\dot{\mathbf{q}}_w^{\mathbf{p}_w} = \begin{bmatrix} \dot{\mathbf{p}}_w  \\ \dot{\theta}_w \end{bmatrix}
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;and we derive \(\dot{\mathbf{p}}_w\) as follows:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+\dot{\mathbf{p}}_w = \begin{bmatrix}\dot{\bar{x}}_w \\ \dot{\bar{y}}_w \end{bmatrix} + \ _w\dot{\mathbf{R}}_i \cdot \mathbf{r}_i
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;As in the previous section, \(\ _w\dot{\mathbf{R}}_i\) has a simple form:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+ \ _w\dot{\mathbf{R}}_i = \dot{\theta}\begin{bmatrix} -\sin{\theta} &amp;amp; -\cos{\theta}  \\ \cos{\theta} &amp;amp; -\sin{\theta}\end{bmatrix}
+\end{equation}&lt;/p&gt;
+
+&lt;h4 id=&quot;point-defined-in-a-moving-frame-of-reference&quot;&gt;Point defined in a moving frame of reference&lt;/h4&gt;
+
+&lt;p&gt;Let us now define \(\mathbf{p}\) in frame \(s\), which we&amp;#39;ll assume is moving:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+\mathbf{p}_s = _s\mathbf{R}_w\Big(\begin{bmatrix}\bar{x}_w \\ \bar{y}_w \end{bmatrix} + \ _w\mathbf{R}_i(\theta_w)\cdot \mathbf{r}_i\Big) + \mathbf{x}_w^s
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;The time derivative of \(\mathbf{p}_s\) is:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+\dot{\mathbf{p}}_s =\ _s\dot{\mathbf{R}}_{w}\Big(\begin{bmatrix}\dot{\bar{x}}_w \\ \dot{\bar{y}}_w \end{bmatrix} + \ _w\dot{\mathbf{R}}_{i} \cdot \mathbf{r}_i\Big) + \dot{\mathbf{x}}_w^s
+\end{equation}&lt;/p&gt;
+</description>
+        
+          <description>&lt;p class=&quot;intro&quot;&gt;
+The rigid body assumption is a common simplification used to easily and quickly (with respect to computation) model rigid or even semi-rigid bodies. 
+&lt;/p&gt;
+</description>
+        
+        <pubDate>Sun, 20 Dec 2015 00:00:00 -0600</pubDate>
+        <link>/robotics-course-materials/robotics-course-materials/blog/poses/</link>
+        <guid isPermaLink="true">/robotics-course-materials/robotics-course-materials/blog/poses/</guid>
+        
+        
+      </item>
+      
+    
+      
+      <item>
+        <title>Rigid body poses in 3D</title>
+        <description>&lt;p&gt;&lt;p class=&quot;intro&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;The primary difficulty when beginning to consider three-dimensional kinematics 
+is due to the significant difference between two-dimensional and three-dimensional orientations. In two-dimensions, orientation can be represented using a single scalar value. In three-dimensions, a plethora of three-dimensional orientations are conceivable, and at least three values are necessary to represent all 3D rotations. We will not consider translation in three dimensions: it is treated exactly as in 2D (with an additional component to represent location along the \(z\) axis, of course).&lt;/p&gt;
+
+&lt;p&gt;We will again use the convention that frame \(w\) indicates a &amp;quot;world frame&amp;quot; and frame \(s\) indicates an alternative frame of reference.&lt;/p&gt;
+
+&lt;h3 id=&quot;representations-of-3d-orientation&quot;&gt;Representations of 3D orientation&lt;/h3&gt;
+
+&lt;h4 id=&quot;rotation-matrices&quot;&gt;Rotation matrices&lt;/h4&gt;
+
+&lt;p&gt;We can describe the orientation of one reference frame in 3D with respect to 
+another using \(3\times 3\) matrices analogously to how we define relative
+orientations in 2D using \(2\times 2\) matrices. &lt;/p&gt;
+
+&lt;p&gt;Again consider our alternative frame of reference \(s\), which is collocated with \(w\) but is oriented differently. Assume that the axes of \(w\) are named \(\mathbf{a}_x\), \(\mathbf{a}_y\), and \(\mathbf{a}_z\) and that the respective axes of \(s\) are denoted \(\mathbf{a}&amp;#39;_x, \mathbf{a}&amp;#39;_y\), and \(\mathbf{a}&amp;#39;_z\). All of these vectors are three-dimensional. One choice of the set of vectors \(\mathbf{a}_x, \mathbf{a}_y\), and \(\mathbf{a}_z\) are the vectors \(\begin{bmatrix}1 &amp;amp; 0 &amp;amp; 0\end{bmatrix}^{\mathsf{T}}\), \(\begin{bmatrix}0 &amp;amp; 1 &amp;amp; 0\end{bmatrix}^{\mathsf{T}}\), and \(\begin{bmatrix}0 &amp;amp; 0 &amp;amp; 1\end{bmatrix}^{\mathsf{T}}\), respectively. We can now transform vectors between the reference frames using this matrix:
+$$
+\ _{w}\mathbf{R}_{s} \triangleq \begin{bmatrix}\mathbf{a}&amp;#39;_{x_1} &amp;amp; \mathbf{a}&amp;#39;_{y_1} &amp;amp; \mathbf{a}&amp;#39;_{z_1} \end{bmatrix} 
+$$
+Like the \(2 \times 2\) rotation matrices, the matrix above is orthogonal. A nice computational implication of this property is that the inverse of a rotation matrix is equal to its inverse (which makes inversion both fast and numerically stable). If the coordinate frame is &lt;em&gt;right-handed&lt;/em&gt;, then \(\mathbf{a}_x \times \mathbf{a}_y = \mathbf{a}_z\) is a right-handed cross-product and the determinant of \(_w\mathbf{R}_s = 1\). If the coordinate frame is &lt;em&gt;left-handed&lt;/em&gt;, then \(\mathbf{a}_x \times \mathbf{a}_y = \mathbf{a}_z\) is a left-handed cross-product and \(\textrm{det}(\ _w\mathbf{R}_s) = 1\). &lt;/p&gt;
+
+&lt;p&gt;I note that all vectors should be unit vectors and the set of vectors should be mutually orthogonal (hint: you should use this as a debugging check in your coursework). If one or both of these conditions is not satisfied, you will have significant problems!&lt;/p&gt;
+
+&lt;h5 id=&quot;concatenating-rotations&quot;&gt;Concatenating rotations&lt;/h5&gt;
+
+&lt;p&gt;If we have two orientations, \(\ _w\mathbf{R}_s\) and \(\ _s\mathbf{R}_r\), we can concatenate them- effecting one rotation followed by another- using matrix multiplication: \(\ _w\mathbf{R}_r =_r\). Of course, matrix multiplication is commutative, so the order of multiplication is important to get the proper rotation. This warning should sound familiar: use subscripts (or superscripts, or some other system that works for you), to make sure that your operations are correct. Just verifying that your calculations are right by testing one or two cases is dangerous!&lt;/p&gt;
+
+&lt;h4 id=&quot;axis-angle&quot;&gt;Axis-angle&lt;/h4&gt;
+
+&lt;p&gt;The axis-angle representation of orientation appears as the following:
+$$
+\begin{bmatrix}
+u_x &amp;amp; u_y &amp;amp; u_z
+\end{bmatrix}^{\mathsf{T}}
+\theta
+$$
+This representation indicates that a rotation about the &lt;em&gt;unit vector&lt;/em&gt; \(\begin{bmatrix} u_x &amp;amp; u_y &amp;amp; u_z \end{bmatrix}^{\mathsf{T}}\) by an angle of \(\theta\).&lt;/p&gt;
+
+&lt;p&gt;The rotation matrix representation corresponds one-to-one to SO(3), the 
+&amp;quot;special orthogonal group&amp;quot; of orientations in three-dimensions. However,
+the axis-angle representation generally maps two-to-one to SO(3): the values \((\begin{bmatrix} u_x &amp;amp; u_y &amp;amp; u_z \end{bmatrix}^{\mathsf{T}} \theta)\) and \((\begin{bmatrix} -u_x &amp;amp; -u_y &amp;amp; -u_z \end{bmatrix}^{\mathsf{T}} -\theta)\) are identical. The exception is a singularity at \((\begin{bmatrix} u_x &amp;amp; u_y &amp;amp; u_z \end{bmatrix}^{\mathsf{T}} 0)\), where the values of \(u_x\), \(u_y\), and \(u_z\) are arbitrary: all values map to an identity orientation. The singularity makes conversion from a rotation matrix to the axis-angle representation a little tricky, as will be seen below.&lt;/p&gt;
+
+&lt;h5 id=&quot;conversion-to-rotation-matrix&quot;&gt;Conversion to rotation matrix&lt;/h5&gt;
+
+&lt;p&gt;$$
+\begin{bmatrix}
+u_x^2v + \cos{\theta} &amp;amp; u_x u_y v - u_z\sin{\theta} &amp;amp; u_xu_z v + y\sin{\theta}\\
+u_xu_yv + u_z\sin{\theta} &amp;amp; u_y^2v + \cos{\theta} &amp;amp; u_yu_z v - u_x\sin{\theta}\\
+u_xu_zv - u_y\sin{\theta} &amp;amp; u_yu_zv - u_x\sin{\theta} &amp;amp; u_z^2v + \cos{\theta}&lt;br&gt;
+\end{bmatrix}
+$$
+where \(v = 1 - \cos{\theta}\) if \(|\theta| &amp;gt; \epsilon\), and \(v = \frac{\sin^2{\theta}}{1+\cos{\theta}}\) otherwise (this formula minimizes cancellation error (see [Ericson 2005], p. 441).&lt;/p&gt;
+
+&lt;p&gt;Note that there exists no straightforward way to concatenate rotations using the axis-angle representation; one must convert to rotation matrices, multiply, and convert back (if so desired).&lt;/p&gt;
+
+&lt;h5 id=&quot;conversion-from-rotation-matrix&quot;&gt;Conversion from rotation matrix&lt;/h5&gt;
+
+&lt;p&gt;\begin{align}
+\theta &amp;amp; = \cos^{-1}\Big(\frac{1}{2}(R_{xx} + R_{yy} + R_{zz} - 1)\Big) \\
+u_x &amp;amp; = \frac{R_{zy} - R_{yz}}{2 \sin \theta} \\
+u_y &amp;amp; = \frac{R_{xz} - R_{zx}}{2 \sin \theta} \\
+u_z &amp;amp; = \frac{R_{yx} - R_{xy}}{2 \sin \theta} 
+\end{align}&lt;/p&gt;
+
+&lt;h4 id=&quot;unit-quaternions&quot;&gt;Unit quaternions&lt;/h4&gt;
+
+&lt;p&gt;Unit quaternions take the form:
+$$
+\left.\begin{array}{llll} e_x &amp;amp; e_y &amp;amp; e_z &amp;amp; e_w \end{array}\right.
+$$
+and are subject to the constraint \(e_x^2 + e_y^2 + e_z^2 + e_w^2 = 1\). The following general text about unit quaternions- also known as &lt;em&gt;rotational quaternions&lt;/em&gt; and &lt;em&gt;Euler parameters&lt;/em&gt; (the latter especially in Mechanics)- was adapted from Wikipedia:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;Unit quaternions represent [SO(3)] in a very straightforward way. 
+The correspondence between rotations and quaternions can be understood 
+by first visualizing the space of rotations itself. In order to 
+visualize the space of rotations, it helps to consider a simpler case. 
+Any rotation in three dimensions can be described by a rotation by 
+some angle about some axis; for our purposes, we will use an axis 
+vector to establish handedness for our angle. Consider the special 
+case in which the axis of rotation lies in the xy plane. We can then 
+specify the axis of one of these rotations by a point on a circle 
+through which the vector crosses, and we can select the radius of the 
+circle to denote the angle of rotation. Similarly, a rotation whose 
+axis of rotation lies in the xy plane can be described as a point on 
+a sphere of fixed radius in three dimensions. Beginning at the north 
+pole of a sphere in three dimensional space, we specify the point at 
+the north pole to be the identity rotation (a zero angle rotation). 
+Just as in the case of the identity rotation, no axis of rotation is 
+defined, and the angle of rotation (zero) is irrelevant. A rotation 
+having a very small rotation angle can be specified by a slice through 
+the sphere parallel to the xy plane and very near the north pole. 
+The circle defined by this slice will be very small, corresponding to 
+the small angle of the rotation. As the rotation angles become larger, 
+the slice moves in the -z direction, and the circles become larger 
+until the equator of the sphere is reached, which will correspond to a 
+rotation angle of pi radians. Continuing southward, the radii of the 
+circles now become smaller (corresponding to the absolute value of the 
+angle of the rotation considered as a negative number). Finally, as 
+the south pole is reached, the circles shrink once more to the 
+identity rotation, which is also specified as the point at the 
+south pole.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h5 id=&quot;angle-between-two-orientations&quot;&gt;Angle between two orientations&lt;/h5&gt;
+
+&lt;p&gt;One nice property of unit quaternions is that they allow one to compute the distance between two orientations using the &lt;em&gt;geodesic&lt;/em&gt; between the orientations. Think of the geodesic as the shortest path connecting any two orientations in SO(3). The distance between two orientations \(A\) and \(B\) is measured using the angle between them:
+or equivalently (if it disturbs you to perform dot products over unit quaternions:
+$$
+\theta = \cos^{-1}{(e^A_xe^B_x + e^A_ye^B_y + e^A_ze^B_z + e^A_we^B_w)}
+$$&lt;/p&gt;
+
+&lt;h5 id=&quot;conversion-to-rotation-matrices&quot;&gt;Conversion to rotation matrices&lt;/h5&gt;
+
+&lt;p&gt;We can transform unit quaternions to \(3 \times 3\) rotation matrices using the function definition \(R(.)\) below:
+$$
+R(\mathbf{e}) = 
+\begin{bmatrix}
+2(e_x^2 + e_w^2) - 1 &amp;amp; 2(e_xe_y - e_ze_w) &amp;amp; 2(e_xe_z + e_ye_w) \\
+2(e_xe_y + e_ze_w) &amp;amp; 2(e_y^2 + e_w^2) - 1 &amp;amp; 2(e_ye_z - e_xe_w) \\
+2(e_xe_z - e_ye_w) &amp;amp; 2(e_ye_z + e_xe_w) &amp;amp; 2(e_z^2 + e_w^2) - 1
+\end{bmatrix}
+$$&lt;/p&gt;
+
+&lt;h5 id=&quot;transforming-vectors&quot;&gt;Transforming vectors&lt;/h5&gt;
+
+&lt;p&gt;If we define the two matrices \(\mathbf{G}\) and \(\mathbf{L}\) as follows:
+$$
+\mathbf{G}(\mathbf{e}) \triangleq \begin{bmatrix} 
+-e_x &amp;amp; e_w &amp;amp; -e_z &amp;amp; e_y \\
+-e_y &amp;amp; e_z  &amp;amp; e_w &amp;amp; -e_x \\
+-e_z &amp;amp; -e_y &amp;amp; e_x &amp;amp; e_w
+\end{bmatrix}
+$$
+$$
+\mathbf{L}(\mathbf{e}) \triangleq \begin{bmatrix} 
+-e_x &amp;amp; e_w &amp;amp; e_z &amp;amp; -e_y \\
+-e_y &amp;amp; -e_z  &amp;amp; e_w &amp;amp; e_x \\
+-e_z &amp;amp; e_y &amp;amp; -e_x &amp;amp; e_w
+\end{bmatrix}
+$$
+then you can verify that \(R(\mathbf{e}) = \mathbf{G}(\mathbf{e}){\mathbf{L}(\mathbf{e})}^{\mathsf{T}}\). Then, transforming a vector \(\mathbf{v}\) is most efficient by applying the operation \(\mathbf{G}(\mathbf{e}){\mathbf{L}(\mathbf{e})}^\mathsf{T}\mathbf{v}\).&lt;/p&gt;
+
+&lt;h5 id=&quot;inversion-of-rotation&quot;&gt;Inversion of rotation&lt;/h5&gt;
+
+&lt;p&gt;Inversion of rotation using quaternions is simple using the &lt;em&gt;conjugate&lt;/em&gt;
+of a quaternion: simply negate the vector component of the quaternion values to get the conjugate:
+$$
+R(\mathbf{e})^{-1} = R(-\mathbf{e})
+$$&lt;/p&gt;
+
+&lt;h5 id=&quot;concatenation-of-rotations&quot;&gt;Concatenation of rotations&lt;/h5&gt;
+
+&lt;p&gt;We can apply rotation \(A\) (represented by quaternion \(\mathbf{e}^A\)) followed by rotation \(B\) (represented by quaternion \(\mathbf{e}^B\) using the following matrix-vector multiplication operation:
+$$
+\mathbf{e}^B \otimes \mathbf{e}^A = \begin{bmatrix}
+e^A_w &amp;amp; e^A_z &amp;amp; -e^A_y &amp;amp; e^A_x \\ 
+-e^A_z &amp;amp; e^A_w &amp;amp; e^A_x &amp;amp; e^A_y \\
+e^A_y &amp;amp; -e^A_x &amp;amp; e^A_w &amp;amp; e^A_z \\ 
+-e^A_x &amp;amp; -e^A_y &amp;amp; -e^A_z &amp;amp; e^A_w&lt;br&gt;
+\end{bmatrix}
+\begin{bmatrix}
+e^B_x \\
+e^B_y \\
+e^B_z \\
+e^B_w
+\end{bmatrix}
+$$&lt;/p&gt;
+
+&lt;h4 id=&quot;alternative-representations&quot;&gt;Alternative representations&lt;/h4&gt;
+
+&lt;p&gt;There exist alternative representations of orientations in 3D, including &lt;em&gt;Euler/roll-pitch-yaw/Tait-Bryan&lt;/em&gt; angles, &lt;em&gt;Gibbs vectors&lt;/em&gt;, &lt;em&gt;Pauli spin matrices&lt;/em&gt;, among others. I will not cover these representations in this post.&lt;/p&gt;
+
+&lt;h4 id=&quot;storage-considerations&quot;&gt;Storage considerations&lt;/h4&gt;
+
+&lt;p&gt;Encoding orientations exposes a tradeoff between speed and memory that may not immediately obvious to you. A few options for encoding orientations are:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Store the full \(3 \times 3\) matrix&lt;/li&gt;
+&lt;li&gt;Store the first two columns of the full \(3 \times 3\) matrix and compute the last column as needed at run-time&lt;/li&gt;
+&lt;li&gt;Encode orientation using a three-dimensional orientation representation (Euler angles, roll-pitch-yaw angles)&lt;/li&gt;
+&lt;li&gt;Encode orientation using a four-dimensional orientation representation (Quaternions, axis-angle)
+The various computational tradeoffs between the choice of representation is shown in the table below.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;table&gt;&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;\(3\times 3\) matrix&lt;/th&gt;
+&lt;th&gt;\(2 \times 3\) matrix&lt;/th&gt;
+&lt;th&gt;Euler-angles&lt;/th&gt;
+&lt;th&gt;Quaternions&lt;/th&gt;
+&lt;th&gt;Axis-angle&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Storage&lt;/td&gt;
+&lt;td&gt;9 values&lt;/td&gt;
+&lt;td&gt;6 values&lt;/td&gt;
+&lt;td&gt;3 values&lt;/td&gt;
+&lt;td&gt;4 values&lt;/td&gt;
+&lt;td&gt;4 values&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Conversion to matrix&lt;/td&gt;
+&lt;td&gt;N/A&lt;/td&gt;
+&lt;td&gt;6*, 3+&lt;/td&gt;
+&lt;td&gt;6 trig, 16*, 4+&lt;/td&gt;
+&lt;td&gt;30*, 12+&lt;/td&gt;
+&lt;td&gt;2 trig, 24*, 18+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Vector transform&lt;/td&gt;
+&lt;td&gt;9*, 6+&lt;/td&gt;
+&lt;td&gt;15*, 9+&lt;/td&gt;
+&lt;td&gt;N/A&lt;/td&gt;
+&lt;td&gt;24*, 15+&lt;/td&gt;
+&lt;td&gt;23*, 16+, 2 trig&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Rotation concatenation&lt;/td&gt;
+&lt;td&gt;27*, 18+&lt;/td&gt;
+&lt;td&gt;33*, 21+&lt;/td&gt;
+&lt;td&gt;N/A&lt;/td&gt;
+&lt;td&gt;16*, 12+&lt;/td&gt;
+&lt;td&gt;N/A&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Re-normalization cost&lt;/td&gt;
+&lt;td&gt;36*, 27+, 3 sqrt&lt;/td&gt;
+&lt;td&gt;15*, 11+, 2 sqrt&lt;/td&gt;
+&lt;td&gt;N/A&lt;/td&gt;
+&lt;td&gt;4*, 3+, 1 sqrt&lt;/td&gt;
+&lt;td&gt;N/A&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+
+&lt;h3 id=&quot;homogeneous-transformations&quot;&gt;Homogeneous transformations&lt;/h3&gt;
+
+&lt;p&gt;Homogeneous transformations work in 3D exactly like they did in 2D. The 
+obvious differences are that homogeneous coordinates are now four dimensional:
+$$
+\begin{bmatrix}
+x \\
+y \\
+z \\
+1
+\end{bmatrix}
+$$&lt;/p&gt;
+
+&lt;p&gt;and that the transformation matrices are now \(4 \times 4\). The upper left
+\(3 \times 3\) block of the matrix is a rotation matrix and the fourth
+column is a translation vector. The matrix still represents a rotation followed by a translation. The &lt;a href=&quot;https://en.wikipedia.org/wiki/Block_matrix&quot;&gt;block form of the matrix&lt;/a&gt; still looks like this:
+\begin{equation}
+\mathbf{T} \equiv
+\begin{bmatrix}
+\mathbf{R} &amp;amp; \mathbf{t} \\
+\mathbf{0} &amp;amp; 1
+\end{bmatrix}
+\label{eqn:homogeneous}
+\end{equation}
+but now \(\mathbf{R}\) is the \(3 \times 3\) rotation matrix and \(\mathbf{t}\) is the \(3 \times 1\) translation vector.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Homogeneous transformations can be inverted &lt;a href=&quot;../poses&quot;&gt;exactly as they were in the two-dimensional case&lt;/a&gt;.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;angular-velocity-and-acceleration-in-3d&quot;&gt;Angular velocity and acceleration in 3D&lt;/h3&gt;
+
+&lt;p&gt;In order to explore the concept of angular velocity, we&amp;#39;ll examine the velocity of a point on a rigid body in 3D both geometrically and using calculus.
+$$
+\mathbf{p}_w = \bar{\mathbf{x}}_w + _w\mathbf{R}_i\mathbf{r}_i
+$$
+where \(\mathbf{p}_w\) is the point in the global frame, \(_w\mathbf{R}_i\) is the rotation matrix from frame \(i\) to the global frame, and \(\mathbf{r}_i\) is the vector from the center-of-mass of the body to the point &lt;em&gt;in the body frame&lt;/em&gt;, \(i\). 
+When we take the time-derivative of this equation, we get:
+$$
+\dot{\mathbf{p}}_w = \dot{\bar{\mathbf{x}}}_w + _w\dot{\mathbf{R}}_i\mathbf{r}_i
+$$
+The remainder of this section will focus on gleaning insight into the structure of \(_w\mathbf{R}_i\). We start with a geometric interpretation of \(\dot{\mathbf{p}}_w\) using the figure below. If we ignore the body&amp;#39;s linear velocity (by assuming that \(\dot{\bar{\mathbf{x}}}_w = \mathbf{0}\)), then we find that the velocity of \(\dot{\mathbf{p}}_w\) is orthogonal both to the axis of rotation \(\mathbf{\omega}_w/||\mathbf{\omega}_w||\) and to the vector (\(||\mathbf{p} - \bar{\mathbf{x}}||\)). You can confirm geometrically or numerically that the magnitude of \(\dot{\mathbf{p}}_w\) is proportional to both \(||\mathbf{\omega}_w||\) and \(||\mathbf{r}_i||\). &lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../../assets/img/frame-geom.png&quot; alt=&quot;A frame&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;Based on this geometric interpretation of point velocity, it should be clear that \(\dot{\mathbf{p}}_w = \mathbf{\omega}_w \times\ _w\mathbf{R}_i\mathbf{r}_i\) (when the linear velocity at the center-of-mass is not zero, it just adds to \(\dot{\mathbf{p}}_w\)). Accounting for the equation above, we have \(_w\dot{\mathbf{R}}_i\mathbf{r}_i = \mathbf{\omega}_w \times _w\mathbf{R}_i\mathbf{r}_i\), and thus \(_w\dot{\mathbf{R}}_i = \mathbf{\omega}_w \times _w\mathbf{R}_i\). This formula should appear strange to you, because how can we take the cross product between a vector and a matrix? Doing a little matrix arithmetic, we get
+\begin{equation}
+\label{eqn:skewsymm}
+_w\dot{\mathbf{R}}_i\cdot_w{\mathbf{R}_i}^{\mathsf{T}} = \tilde{\mathbf{\omega}}_w
+\end{equation}
+where we will get to the definition of \(\tilde{\mathbf{\omega}}\) shortly.&lt;/p&gt;
+
+&lt;p&gt;Now, let&amp;#39;s use calculus to examine the time-derivative of a rotation matrix. We start with an identity from orthogonality:
+$$
+_w\mathbf{R}_i\cdot{_w\mathbf{R}_i}^{\mathsf{T}} - \mathbf{I} = \mathbf{0}
+$$
+Now computing the time-derivative:
+$$
+\dot{_w\mathbf{R}_i}\cdot{_w\mathbf{R}_i}^{\mathsf{T}} + _w\mathbf{R}_i\cdot{\dot{_w\mathbf{R}_i}}^{\mathsf{T}} = \mathbf{0}
+$$
+Using equations above, it should be apparent to you that
+$$
+\tilde{\mathbf{\omega}}_w + {\tilde{\mathbf{\omega}}_w}^{\mathsf{T}} = \mathbf{0}
+$$
+This equation indicates that \(\tilde{\mathbf{\omega}}_w\) is a &lt;em&gt;skew symmetric matrix&lt;/em&gt;, which takes the form:
+$$
+\tilde{\mathbf{\omega}} = \begin{bmatrix} 
+0 &amp;amp; -\omega_z &amp;amp; \omega_y \\
+\omega_z &amp;amp; 0 &amp;amp; -\omega_x \\
+-\omega_y &amp;amp; \omega_x &amp;amp; 0
+\end{bmatrix}
+$$
+from which we can recover the \(3 \times 1\) angular velocity tensor \(\mathbf{\omega}_w = \begin{bmatrix} \omega_x &amp;amp; \omega_y &amp;amp; \omega_z \end{bmatrix}^T\). &lt;/p&gt;
+
+&lt;h4 id=&quot;angular-acceleration&quot;&gt;Angular acceleration&lt;/h4&gt;
+
+&lt;p&gt;Let us now take the time-derivative of \(\dot{\mathbf{p}}_w\) to get:
+\begin{equation}
+\ddot{\mathbf{p}}_w = \ddot{\bar{\mathbf{x}}}_w + \frac{d}{dt}(\tilde{\mathbf{\omega}}_w\cdot_w\mathbf{R}_i)\mathbf{r}_i = \ddot{\bar{\mathbf{x}}}_w + \dot{\mathbf{\omega}}_w \times _w\mathbf{R}_i \cdot \mathbf{r}_i + \mathbf{\omega}_w \times _w\dot{\mathbf{R}}_i \cdot \mathbf{r}_i
+\label{eqn:pddot}
+\end{equation}
+The \(3 \times 1\) vector \(\dot{\mathbf{\omega}}_w\) (also commonly written \(\mathbf{\alpha}_w\)) is the angular acceleration. The equation above is equivalent to:
+\begin{equation}
+\ddot{\mathbf{p}}_w = \ddot{\bar{\mathbf{x}}}_w + \dot{\mathbf{\omega}}_w \times _w\mathbf{R}_i \cdot \mathbf{r}_i + \mathbf{\omega}_w \times \mathbf{\omega} \times _w\mathbf{R}_i \cdot \mathbf{r}_i
+\end{equation}
+The second term on the right above is called the &lt;em&gt;transverse acceleration&lt;/em&gt; and the term to its right is the &lt;em&gt;centripetal acceleration&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Since we&amp;#39;re examining centripetal acceleration, let&amp;#39;s look at the phenomenon of Coriolis acceleration. To do that, we need to compute the acceleration of the point with respect to a point defined in a moving frame (\(s\), which we now assume is moving):
+\begin{align}
+\mathbf{p}_s &amp;amp; = \ _s\mathbf{R}_w\mathbf{p}_w + \mathbf{x}_w^s \\
+\dot{\mathbf{p}}_s &amp;amp; = _s\dot{\mathbf{R}}_w\mathbf{p}_w + \ _s\mathbf{R}_w\dot{\mathbf{p}}_w \\
+\ddot{\mathbf{p}}_s &amp;amp; = \dot{\mathbf{\omega}}_s \times \ _s\mathbf{R}_w\mathbf{p}_w + \mathbf{\omega}_s \times \ _s\mathbf{R}_w\dot{\mathbf{p}}_w + \mathbf{\omega}_s \times \ _s\mathbf{R}_w\dot{\mathbf{p}}_w +  \ _s\mathbf{R}_w\ddot{\mathbf{p}}_w \\
+&amp;amp; = \dot{\mathbf{\omega}}_s \times \ _s\mathbf{R}_w\mathbf{p}_w + 2\mathbf{\omega}_s \times \ _s\mathbf{R}_w\dot{\mathbf{p}}_w +  \ _s\mathbf{R}_w\ddot{\mathbf{p}}_w
+\end{align}
+The second term that appears is the &lt;em&gt;Coriolis acceleration&lt;/em&gt;. Notice that this term only appears when observing the acceleration of a point from a moving point.&lt;/p&gt;
+
+&lt;h4 id=&quot;renormalization&quot;&gt;Renormalization&lt;/h4&gt;
+
+&lt;p&gt;Let us say that you wish to update the rigid body orientation using first-order integration (although the problem we are exploring happens with any integration approach):
+\begin{equation}
+\mathbf{R}(t+\Delta t) = \mathbf{R}(t) + \Delta t\cdot \dot{\mathbf{R}}(t)
+\end{equation}
+If the angular velocity is large, then \(\dot{\mathbf{R}}\) will be large as well. As a result, the columns of \(\mathbf{R}(t+\Delta t)\) will generally no longer be either normalized or mutually orthogonal. \(\mathbf{R}(t + \Delta t)\) must then be renormalized using Gram-Schmidt normalization. &lt;/p&gt;
+
+&lt;h4 id=&quot;time-derivatives-of-quaternions&quot;&gt;Time-derivatives of quaternions&lt;/h4&gt;
+
+&lt;p&gt;The first time-derivative of the unit quaternion exhibits the following (identical) relationships with angular velocity: \(\mathbf{\omega}_w = 2\mathbf{G}(\mathbf{e})\dot{\mathbf{e}}\) and \(\dot{\mathbf{e}} = \frac{1}{2}{\mathbf{G}(\mathbf{e})}^{\mathsf{T}}\mathbf{\omega}_w\).
+It can also be shown that \(\mathbf{\omega}_i = 2\mathbf{L}(\mathbf{e})\dot{\mathbf{e}}\) and \(\dot{\mathbf{e}} = \frac{1}{2}{\mathbf{L}(\mathbf{e})}^{\mathsf{T}}\mathbf{\omega}_i\), where \(\mathbf{\omega}_i\) is the angular velocity vector in the body&amp;#39;s frame.&lt;/p&gt;
+
+&lt;p&gt;An advantage of unit quaternions is that renormalization is simple using an update:
+\begin{align}
+\mathbf{e}(t + \Delta t) &amp;amp; = \mathbf{e}(t) + \Delta t \cdot \dot{\mathbf{e}}(t) \\
+\mathbf{e}(t + \Delta t) &amp;amp; \leftarrow \frac{\mathbf{e}(t + \Delta t)}{\sqrt{e_x(t + \Delta t) + e_y^2(t + \Delta t) + e_z^2(t + \Delta t) + e_w^2(t + \Delta t)}}
+\end{align} &lt;/p&gt;
+
+&lt;p&gt;The second time-derivative of the unit quaternion exhibits the following relationships with angular acceleration: \(\dot{\mathbf{\omega}}_w = 2\mathbf{G}(\mathbf{e})\ddot{\mathbf{e}}\) and \(\ddot{\mathbf{e}} = \frac{1}{2}{\mathbf{G}(\mathbf{e})}^{\mathsf{T}}\dot{\mathbf{\omega}}_w\). It can also be shown that \(\dot{\mathbf{\omega}}_i = 2\mathbf{L}(\mathbf{e})\ddot{\mathbf{e}}\) and \(\ddot{\mathbf{e}} = \frac{1}{2}{\mathbf{L}(\mathbf{e})}^{\mathsf{T}}\dot{\mathbf{\omega}}_i\).&lt;/p&gt;
+
+&lt;h3 id=&quot;generalized-coordinates&quot;&gt;Generalized coordinates&lt;/h3&gt;
+
+&lt;p&gt;Our choices for generalized coordinates, velocities, and accelerations are:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Use one representation for everything (position plus unit quaternions). The advantages with this approach are that (1) coordinates/velocities/accelerations can be added to each other and (2) for dynamics, all formulas can be dealt with abstractly as \(\mathbf{f} = \mathbf{M}\mathbf{a}\) (Newton&amp;#39;s second law), \(\mathbf{p} = \mathbf{M}\mathbf{v}\) (generalized momentum), &lt;em&gt;etc.&lt;/em&gt; (one never needs to do any intermediate calculations).&lt;/li&gt;
+&lt;li&gt;Use position and multiple representations for orientation, such as unit quaternions and (typically) scaled-axis angle (i.e., \(\mathbf{\omega}, \dot{\mathbf{\omega}}\)). The advantages with this approach are that (1) it&amp;#39;s more compact (generalized velocities and accelerations for rigid bodies require only six parameters, generalized inertia matrices are only \(6 \times 6\) rather than \(7 \times 7\)) and (2)   it&amp;#39;s far simpler: one need not convert generalized inertia, generalized forces, &lt;em&gt;etc.&lt;/em&gt; from their &amp;quot;natural&amp;quot; six-dimensional representation (to be explored at a later time) to a less-intuitive seven-dimensional representation.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;generalized-coordinates-in-the-global-reference-frame&quot;&gt;Generalized coordinates in the global reference frame&lt;/h4&gt;
+
+&lt;p&gt;Let&amp;#39;s first look at the generalized coordinates for a body defined in the global reference frame, \(w\). We will define the generalized coordinates using unit quaternions:
+\begin{equation} 
+\mathbf{q}_w = \begin{bmatrix} \bar{x}_w \\ \bar{y}_w \\ \bar{z}_w \\ \mathbf{e}_i \end{bmatrix}
+\end{equation}
+where \({ \bar{x}_w, \bar{y}_w, \bar{z}_w }\) is the position of the center-of-mass in frame \(w\).  \(\ _w\mathbf{e}_i\) gives the orientation of the body relative to the global frame.&lt;/p&gt;
+
+&lt;h4 id=&quot;general-coordinates-in-another-reference-frame&quot;&gt;General coordinates in another reference frame&lt;/h4&gt;
+
+&lt;p&gt;For comparison, let&amp;#39;s look at how the body is defined in another reference frame, \(s\), which is defined relative to frame \(\mathbf{w}\) by a translation of \(\mathbf{x}_w^s\) and by an orientation via the rotation matrix \(_s\mathbf{R}_w\) (and using the equivalent unit quaternion \(\ _s\mathbf{e}_w\)).
+The generalized coordinates in frame \(s\) are now:
+\begin{equation}
+\mathbf{q}_s = \begin{bmatrix}_s\mathbf{R}_w \begin{bmatrix}\bar{x}_w \\ \bar{y}_w \\ \bar{z}_w \end{bmatrix} + \mathbf{x}_w^s  \\ 
+_s\mathbf{e}_w \otimes _w\mathbf{e}_i \end{bmatrix}
+\end{equation}&lt;/p&gt;
+
+&lt;h4 id=&quot;generalized-velocities-in-the-global-reference-frame&quot;&gt;Generalized velocities in the global reference frame&lt;/h4&gt;
+
+&lt;p&gt;Let&amp;#39;s now compute the time-derivatives:
+\begin{equation} 
+\dot{\mathbf{q}}_w = \begin{bmatrix} \dot{\bar{x}}_w \\ \dot{\bar{y}}_w \\ \dot{\bar{z}}_w \\ _w\dot{\mathbf{e}}_i\end{bmatrix}
+\end{equation}&lt;/p&gt;
+
+&lt;h4 id=&quot;generalized-velocities-in-another-reference-frame&quot;&gt;Generalized velocities in another reference frame&lt;/h4&gt;
+
+&lt;p&gt;The generalized velocity in \mbox{frame \(s\)} is:
+\begin{equation}
+\dot{\mathbf{q}}_s 
+= \begin{bmatrix}\tilde{\mathbf{\omega}}_s\cdot \ _s\mathbf{R}_w\begin{bmatrix}\dot{\bar{x}}_w \\ \dot{\bar{y}}_w \\ \dot{\bar{z}}_w \end{bmatrix} \\ _s\mathbf{e}_w \otimes _w\dot{\mathbf{e}}_i \end{bmatrix}
+\end{equation}
+Here we are assuming that frame \(s\) is fixed (and we already know that frame \(w\) is fixed, since it is the ``global&amp;#39;&amp;#39; frame of reference), because \(\mathbf{x}_w^s\) disappears upon taking the derivative and \(\ _s\mathbf{e}_w\) is constant.&lt;/p&gt;
+
+&lt;h4 id=&quot;generalized-velocities-in-a-moving-reference-frame&quot;&gt;Generalized velocities in a moving reference frame&lt;/h4&gt;
+
+&lt;p&gt;What if frame \(s\) is &lt;em&gt;not&lt;/em&gt; fixed but instead moves relative to frame \(w\) with linear velocity \(\dot{\mathbf{x}}_w^s\) and angular velocity \(\dot{\mathbf{\omega}}_w^s\)? Then: 
+\begin{equation}
+\dot{\mathbf{q}}_s = \begin{bmatrix}\tilde{\mathbf{\omega}}_s\cdot \ _s\mathbf{R}_w \begin{bmatrix}\dot{\bar{x}}_w \\ \dot{\bar{y}}_w \\ \dot{\bar{z}}_w \end{bmatrix} + \dot{\mathbf{x}}^s_w  \\ _s\dot{\mathbf{e}}_w \otimes _w\mathbf{e}_i + _s\dot{\mathbf{e}}_w \otimes _w\mathbf{e}_i \end{bmatrix}
+\end{equation}&lt;/p&gt;
+</description>
+        
+          <description>&lt;p&gt;&lt;p class=&quot;intro&quot;&gt;&lt;/p&gt;
+</description>
+        
+        <pubDate>Sat, 19 Dec 2015 00:00:00 -0600</pubDate>
+        <link>/robotics-course-materials/robotics-course-materials/blog/poses3/</link>
+        <guid isPermaLink="true">/robotics-course-materials/robotics-course-materials/blog/poses3/</guid>
         
         
       </item>
@@ -1785,11 +2628,12 @@ those with some background in Java or C.  &lt;/p&gt;
 robot. Concepts covered include model-based (feedforward) and model-free (error feedback) approaches, composite approaches, and stability.&lt;/p&gt;
 
 &lt;p&gt;A caveat: even if we could control the motion of a robot with perfect accuracy
-does not mean that it&amp;#39;s a good idea. A robot that moves perfectly, minimizing 
+does not mean that it&amp;#39;s a good idea. A robot that moves exactly as commanded, minimizing 
 the effects of all disturbances on its motion, is a robot that will crush
-humans, damage the environment, or destroy itself. &lt;a href=&quot;http://users.softlab.ntua.gr/%7Ektzaf/Courses/literature/07_Force_Control.pdf&quot;&gt;Force control&lt;/a&gt; regulates
-the force applied to the environment, while 
-&lt;a href=&quot;https://en.wikipedia.org/wiki/Impedance_control&quot;&gt;impedance control&lt;/a&gt; regulates 
+humans, damage the environment, or destroy itself. To avoid those problems, 
+one should consider alternative schemes like &lt;a href=&quot;http://users.softlab.ntua.gr/%7Ektzaf/Courses/literature/07_Force_Control.pdf&quot;&gt;force control&lt;/a&gt;, which regulates
+the force applied to the environment, and
+&lt;a href=&quot;https://en.wikipedia.org/wiki/Impedance_control&quot;&gt;impedance control&lt;/a&gt;, which regulates 
 the relationship between force and motion. Such schemes should be 
 considered for uncontrolled environments or when the accuracy necessary
 to perform a task is higher than the accuracy of motion and/or modeling. &lt;/p&gt;
@@ -1887,7 +2731,7 @@ may lag five to ten seconds behind adjustments to the taps.&lt;/p&gt;
 
 &lt;h3 id=&quot;proportional-control&quot;&gt;Proportional control&lt;/h3&gt;
 
-&lt;p&gt;One of the simplest error feedback controllers is the &lt;em&gt;proportional controller&lt;/em&gt;,which applies the control signal proportionally to the error signal. The
+&lt;p&gt;One of the simplest error feedback controllers is the &lt;em&gt;proportional controller&lt;/em&gt;, which applies the control signal proportionally to the error signal. The
 cruise control system in many cars uses proportional control (also called &amp;quot;P control&amp;quot;): the throttle is applied proportionally to the difference between the current speed and the set speed. &lt;/p&gt;
 
 &lt;p&gt;The control for a P-controller is computed using the following function.&lt;/p&gt;
@@ -1924,8 +2768,8 @@ represented by the equation below: &lt;/p&gt;
 u = k_p (x_{\textrm{des}} - x) + k_d (\dot{x}_{\textrm{des}} - \dot{x})
 \end{equation} &lt;/p&gt;
 
-&lt;p&gt;In the cruise control example, adding derivative control would add throttle
-if the car is decelerating when it is below speed and would decrease throttle if
+&lt;p&gt;In the cruise control example, adding derivative control would add &lt;em&gt;more&lt;/em&gt; throttle (compared to just a proportional control)
+if the car is decelerating when it is below speed and would decrease (or would limit the increase) the amount of throttle if
 the car is accelerating when it is above speed.&lt;/p&gt;
 
 &lt;h3 id=&quot;proportional-integrative-derivative-control&quot;&gt;Proportional-integrative-derivative control&lt;/h3&gt;

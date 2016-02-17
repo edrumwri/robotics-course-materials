@@ -13,3 +13,6 @@ layout: default
 #### [Robot motion control](blog/motion-control)
 
 #### [Rigid body poses in 2D](blog/poses)
+
+#### [Rigid body poses in 3D](blog/poses3)
+

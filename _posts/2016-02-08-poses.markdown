@@ -62,11 +62,25 @@ We can set \\(\ \_{w}\mathbf{R}\_{s}\\) more simply using an angular rotation by
 \ \_{w}\mathbf{R}\_{s} = \begin{bmatrix} \cos{\theta} & -\sin{\theta} \\\\ \sin{\theta} & \cos{\theta} \end{bmatrix}
 \end{equation}
 
+**Example**:
+
+Given \\(\theta = \frac{\pi}{2}\\), \\(\ \_{w}\mathbf{R}\_{s}\\) will be the matrix:
+\begin{equation*}
+\begin{bmatrix}
+0 & -1 \\\\
+1 & 0
+\end{bmatrix}
+\end{equation*}
+
+The two frames \\(s\\) and \\(w\\) are depicted in the figure below. 
+
+{%include image.html url="../../assets/img/rotation-only.png" description="Depiction of two frames with collocated origins but different orientations." width="400px" %}
+
+*You can make sense of the rotation matrix without knowing \\(\theta\\).* The first column of the matrix determines the direction of \\(\mathbf{x}\_s\\) in \\(w\\)'s frame. The second column of the matrix determines the direction of \\(\mathbf{y}\_y\\) in \\(w\\)'s frame. **Make sure you understand this point before moving on.**
+
 {% comment %}
 Exercise: verify orthogonality of rotation matrix.
 {% endcomment %}
-
-{% include image.html url="http://www.gamasutra.com/features/20020510/image001.gif" description="Depiction of two reference frames in 2D with offset translation and rotation. Image from Gamasutra." %}
 
 We now look at how we can transform position and its time derivatives between the reference frames. For our position vector in frame \\(w\\), we have:
 
@@ -79,7 +93,9 @@ Here is where the subscripts for frame of reference start to come in handy. \\(\
 Also, note that, due to the determinant of \\(\ \_{w}\mathbf{R}\_{s}\\) always being non-zero, the inverse of this matrix always exists. Indeed, we can get the transformation from \\(w\\) to \\(s\\) by inverting \\(\ \_{w}\mathbf{R}\_{s}\\): \\({\ \_{w}\mathbf{R}\_{s}}^{-1} = \ \_{s}\mathbf{R}\_{w}\\).
 
 #### Translated and oriented frame of reference
-Combining translation and orientation for a frame of reference is straightforward using the individual elements of the previous two sections. We'll denote our translated and oriented frame as \\(s\\), and note that it is oriented with respect to \\(w\\) (which we can specify using the matrix \\(\_s\mathbf{R}\_w\\) and vector \\(\overrightarrow{\mathbf{w}\_o\mathbf{s}\_o}\\), similar to those defined above). We can then define a position vector in that frame as \\(\mathbf{x}\_s =\ \_s\mathbf{R}\_w \mathbf{x}\_w + \overrightarrow{\mathbf{w}\_o\mathbf{s}\_o}\\), using the position vector \\(\mathbf{x}\_w\\) defined in the global frame. 
+Combining translation and orientation for a frame of reference is straightforward using the individual elements of the previous two sections. We'll denote our translated and oriented frame as \\(s\\), and note that it is oriented with respect to \\(w\\) (which we can specify using the matrix \\(\_w\mathbf{R}\_s\\) and vector \\(\overrightarrow{\mathbf{w}\_o\mathbf{s}\_o}\\)- the subscript \\(\ \_o\\) indicates the origin of a frame). We can then define a position vector in that frame as \\(\mathbf{x}\_s =\ \_s\mathbf{R}\_w \mathbf{x}\_w + \overrightarrow{\mathbf{w}\_o\mathbf{s}\_o}\\), using the position vector \\(\mathbf{x}\_w\\) defined in the global frame. 
+
+{%include image.html url="../../assets/img/rotation+translation.png" description="Depiction of two frames with offset origins and different orientations." width="400px" %}
 
 ### Concatenated transformations and homogeneous transformation matrices
 For articulated characters, animals, robots, etc., it is convenient to
@@ -178,12 +194,84 @@ Grad students: prove that this is equal to the inverse transformation
 
 
 
+#### Transforming points vs. transforming vectors
+
+When we transform points (as might compose vertices in [polytopic shapes](https://en.wikipedia.org/wiki/Polytope)), the Euclidean norm of those points may
+change. When we transform vectors (as might describe the angular velocity
+of a body), *we wish to preserve lengths*. Consider the figure above where
+\\(\theta = \frac{\pi}{2}\\). The homogeneous transformation matrix corresponding to this figure is:
+\begin{equation*}
+\ \_w\mathbf{T}\_s \equiv 
+\begin{bmatrix}
+0 & -1 & 1 \\\\
+1 & 0 & 1 \\\\
+0 & 0 & 1
+\end{bmatrix}
+\end{equation*}
+
+If we define the vector \\(\mathbf{v}\_s \equiv \begin{bmatrix} 1 & 1 & 1 \end{bmatrix}^{\mathsf{T}}\\), then:
+\begin{equation*}
+\ \_w\mathbf{T}\_s \mathbf{v}\_s = \mathbf{v}\_w = \begin{bmatrix} 0 \\\\ 2 \\\\ 1 \end{bmatrix}
+\end{equation*}
+and we notice that the lengths of the two vectors are not equal (ignoring the homogeneous components of course): \\(||\mathbf{v}\_s|| = \sqrt{2} \neq 2 = ||\mathbf{v}\_w||\\). If we want to preserve magnitudes, we only apply the rotational part of the matrix:
+\begin{equation*}
+\ \_w\mathbf{R}\_s \equiv
+\begin{bmatrix}
+0 & -1 \\\\
+1 & 1
+\end{bmatrix}
+\end{equation*}
+Then \\(||\ \_w\mathbf{R}\_s \cdot \begin{bmatrix} 1 & 1 \end{bmatrix}^{\mathsf{T}}|| = ||\begin{bmatrix} 1 & 1 \end{bmatrix}^{\mathsf{T}}||\\).
+
 #### Concatenating transformations
 
 A sequence of transformations, as might be used for determining the poses
 of the links of a robot arm, is applied from right to left: in Equation \ref{eqn:sequence}, \\(\mathbf{T}\\) is applied first, then \\(\mathbf{T}'\\), and
 finally \\(\mathbf{T}''\\). Difficulty remembering the ordering- and the ordering changes if moving from the form of the homogeneous transformation in Equation \ref{eqn:homogeneous} to an OpenGL-style homogeneous transformation!- is one
 reason we mark the frame of reference for transformations.
+
+**Example:** This example shows how we can determine the location of any point on a multi-rigid body or the pose defined with respect to a link on a multi-rigid body using a sequence of transformations. See the depiction of a pendulum below. 
+
+{%include image.html url="../../assets/img/pendulum-frames.png" description="Depiction of frames and variables used to describe the kinematics of a single pendulum." width="400px" %}
+
+The transformation from Frame 1 (defined at the endpoint of the pendulum) to Frame 0 (the world frame) is determined like so:
+
+\begin{equation*}
+\ \_0\mathbf{T}\_1 = \ \_0\mathbf{T}\_{0'} \cdot \ \_{0'}\mathbf{T}\_1
+\end{equation*}
+
+where
+
+\begin{equation*}
+\_0\mathbf{T}\_{0'} \equiv
+\begin{bmatrix}
+\cos{\theta} & -\sin{\theta} & 0 \\\\
+\sin{\theta} & \cos{\theta} & 0 \\\\
+0 & 0 & 1
+\end{bmatrix}
+\end{equation*}
+and
+\begin{equation*}
+\_{0'}\mathbf{T}\_{1} \equiv
+\begin{bmatrix}
+1 & 0 & 0 \\\\
+0 & 1 & -\ell \\\\
+0 & 0 & 1
+\end{bmatrix}
+\end{equation*}
+
+**Make sure you understand why the \\(\ell\\) in \\(\ \_{0'}\mathbf{T}\_1\\)
+is translated along -y**.
+
+Given the relationship \\(\ \_0\mathbf{T}\_1\\), we can transform points from Frame 1 to Frame 0. For instance, if I want to know the position of the pendulum bob in the world frame, I can do this:
+
+\begin{align}
+\mathbf{p}\_1 & \equiv \begin{bmatrix} 0 \\\\ 0 \\\\ 1 \end{bmatrix} \\\\
+\mathbf{p}\_0 & = \ \_0\mathbf{T}\_1 \cdot \mathbf{p}\_1
+\end{align}
+
+*You should try this yourself using simple values for \\(\theta\\) and \\(\ell\\)* (like \\(pi\\) and \\(1\\), respectively). You should also practice
+converting from points in Frame 0 back to Frame 1.
 
 {% comment %}
 Draw and label 
@@ -249,7 +337,7 @@ The matrix \\(\ _s\dot{\mathbf{R}}\_w\\) has a fairly simple form, derived from 
 Using trigonometric identities, we get:
 
 \begin{equation}
- \ \_w\dot{\mathbf{R}}\_i = \dot{\varphi\_w^s}\begin{bmatrix} \cos{(\varphi\_w^s+\frac{\pi}{2})} & -\sin{(\varphi\_w^s+\frac{\pi}{2})}  \\\\ \sin{(\varphi\\_w^s+\frac{\pi}{2})} & \cos{(\varphi\_w^s+\frac{\pi}{2})}\end{bmatrix}
+ \ \_w\dot{\mathbf{R}}\_i = \dot{\varphi\_w^s}\begin{bmatrix} \cos{(\varphi\_w^s+\frac{\pi}{2})} & -\sin{(\varphi\_w^s+\frac{\pi}{2})}  \\\\ \sin{(\varphi\_w^s+\frac{\pi}{2})} & \cos{(\varphi\_w^s+\frac{\pi}{2})}\end{bmatrix}
  \end{equation}
  Note that this takes exactly the same form as a rotation matrix in the plane by \\(\theta + \frac{\pi}{2}\\) radians scaled by the angular velocity.
 
@@ -259,13 +347,29 @@ Using trigonometric identities, we get:
 {% endcomment %}
 
 ### Velocity of a point on a rigid body
-How do the kinematic equations change if the generalized coordinates are defined with respect to a point on the rigid body, rather than with respect to the body's center-of-mass? First of all, we have to define our point such that we can always identify it! Let us call this point of interest \\(\mathbf{p}\\) and define it in frame \\(w\\) as follows:
+How do the kinematic equations change if the generalized coordinates are defined with respect to a point on the rigid body, rather than with respect to the body's center-of-mass? First of all, we have to define our point such that we can always identify it! Let us call this point of interest \\(\mathbf{p}\\) and define it in Frame \\(w\\) as follows:
 
 \begin{equation}
 \mathbf{p}\_w = \begin{bmatrix}\bar{x}\_w \\\\ \bar{y}\_w \end{bmatrix} + \ \_w\mathbf{R}\_i(\theta\_w)\cdot \mathbf{r}\_i
 \end{equation}
 
 where \\(\ \_w\mathbf{R}\_i\\) is the matrix encoding the orientation of the body and \\(\mathbf{r}\_i\\) is a vector from the center-of-mass to the point on the body _in the body frame_, which we denote as \\(i\\): since this vector is defined in the body frame, \\(\mathbf{r}\\) does not change as the body moves or rotates.  
+
+We can then derive \\(\dot{\mathbf{p}}\_w\\):
+\begin{equation}
+\dot{\mathbf{p}}\_w = \begin{bmatrix}\dot{\bar{x}}\_w \\\\ \dot{\bar{y}}\_w \end{bmatrix} + \ \_w\dot{\mathbf{R}}\_i(\theta\_w, \dot{\theta}\_w)\cdot \mathbf{r}\_i
+\end{equation}
+where
+\begin{equation}
+\ \_w\dot{\mathbf{R}}\_i \equiv
+\dot{\theta}\_w 
+\begin{bmatrix}
+\cos{(\theta\_w + \frac{\pi}{2})} & -\sin{(\theta\_w + \frac{\pi}{2})} \\\\
+\sin{(\theta\_w + \frac{\pi}{2})} & \cos{(\theta\_w + \frac{\pi}{2})}
+\end{bmatrix}
+\end{equation}
+as hinted at in the section immediately previous. 
+
 
 {% comment %}
 \problem{Derive the acceleration of a point on a rigid body using the equation above.}
