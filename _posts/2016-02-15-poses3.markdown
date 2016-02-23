@@ -26,7 +26,7 @@ Like the \\(2 \times 2\\) rotation matrices, the matrix above is orthogonal. A n
 I note that all vectors should be unit vectors and the set of vectors should be mutually orthogonal (hint: you should use this as a debugging check in your coursework). If one or both of these conditions is not satisfied, you will have significant problems!
 
 ##### Concatenating rotations
-If we have two orientations, \\(\ \_w\mathbf{R}\_s\\) and \\(\ \_s\mathbf{R}\_r\\), we can concatenate them- effecting one rotation followed by another- using matrix multiplication: \\(\ \_w\mathbf{R}\_r =\_r\\). Of course, matrix multiplication is commutative, so the order of multiplication is important to get the proper rotation. This warning should sound familiar: use subscripts (or superscripts, or some other system that works for you), to make sure that your operations are correct. Just verifying that your calculations are right by testing one or two cases is dangerous!
+If we have two orientations, \\(\ \_w\mathbf{R}\_s\\) and \\(\ \_s\mathbf{R}\_r\\), we can concatenate them- effecting one rotation followed by another- using matrix multiplication: \\(\ \_w\mathbf{R}\_r =\ \_w\mathbf{R}\_s \cdot \ \_s\mathbf{R}\_r\\). Of course, matrix multiplication is commutative, so the order of multiplication is important to get the proper rotation. This warning should sound familiar: use subscripts (or superscripts, or some other system that works for you), to make sure that your operations are correct. Just verifying that your calculations are right by testing one or two cases is dangerous!
 
 #### Axis-angle
 The axis-angle representation of orientation appears as the following:
