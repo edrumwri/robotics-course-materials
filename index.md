@@ -16,3 +16,5 @@ layout: default
 
 #### [Rigid body poses in 3D](blog/poses3)
 
+#### [Forward kinematics](blog/forward-kinematics)
+

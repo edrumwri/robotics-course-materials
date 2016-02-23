@@ -5,8 +5,8 @@
     <description>Robotics</description>
     <link>/robotics-course-materials/robotics-course-materials/</link>
     <atom:link href="/robotics-course-materials/robotics-course-materials/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 17 Feb 2016 11:23:23 -0600</pubDate>
-    <lastBuildDate>Wed, 17 Feb 2016 11:23:23 -0600</lastBuildDate>
+    <pubDate>Tue, 23 Feb 2016 11:01:31 -0500</pubDate>
+    <lastBuildDate>Tue, 23 Feb 2016 11:01:31 -0500</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       
@@ -264,7 +264,7 @@ an architecture for a typical robot system- including &lt;em&gt;planners&lt;/em&
 combining reactive and deliberative behaviors for dextrous robots.&lt;/p&gt;
 </description>
         
-        <pubDate>Thu, 07 Jan 2016 00:00:00 -0600</pubDate>
+        <pubDate>Thu, 07 Jan 2016 00:00:00 -0500</pubDate>
         <link>/robotics-course-materials/robotics-course-materials/blog/robot-programming/</link>
         <guid isPermaLink="true">/robotics-course-materials/robotics-course-materials/blog/robot-programming/</guid>
         
@@ -779,7 +779,7 @@ dynamical systems allows robots to predict how a thrown ball will move and
 to pick footsteps to prevent falling over, among other uses.   &lt;/p&gt;
 </description>
         
-        <pubDate>Thu, 07 Jan 2016 00:00:00 -0600</pubDate>
+        <pubDate>Thu, 07 Jan 2016 00:00:00 -0500</pubDate>
         <link>/robotics-course-materials/robotics-course-materials/blog/dynamical-systems/</link>
         <guid isPermaLink="true">/robotics-course-materials/robotics-course-materials/blog/dynamical-systems/</guid>
         
@@ -1209,7 +1209,7 @@ The rigid body assumption is a common simplification used to easily and quickly 
 &lt;/p&gt;
 </description>
         
-        <pubDate>Sun, 20 Dec 2015 00:00:00 -0600</pubDate>
+        <pubDate>Sun, 20 Dec 2015 00:00:00 -0500</pubDate>
         <link>/robotics-course-materials/robotics-course-materials/blog/poses/</link>
         <guid isPermaLink="true">/robotics-course-materials/robotics-course-materials/blog/poses/</guid>
         
@@ -1622,7 +1622,7 @@ Here we are assuming that frame \(s\) is fixed (and we already know that frame \
           <description>&lt;p&gt;&lt;p class=&quot;intro&quot;&gt;&lt;/p&gt;
 </description>
         
-        <pubDate>Sat, 19 Dec 2015 00:00:00 -0600</pubDate>
+        <pubDate>Sat, 19 Dec 2015 00:00:00 -0500</pubDate>
         <link>/robotics-course-materials/robotics-course-materials/blog/poses3/</link>
         <guid isPermaLink="true">/robotics-course-materials/robotics-course-materials/blog/poses3/</guid>
         
@@ -2195,7 +2195,7 @@ spans are defined. My intent is to give you a practical guide to concepts
 in matrix arithmetic and numerical linear algebra that I have found useful. &lt;/p&gt;
 </description>
         
-        <pubDate>Fri, 18 Dec 2015 00:00:00 -0600</pubDate>
+        <pubDate>Fri, 18 Dec 2015 00:00:00 -0500</pubDate>
         <link>/robotics-course-materials/robotics-course-materials/blog/linear-algebra/</link>
         <guid isPermaLink="true">/robotics-course-materials/robotics-course-materials/blog/linear-algebra/</guid>
         
@@ -2613,9 +2613,309 @@ This learning module will provide an overview of C++, targeted toward
 those with some background in Java or C.  &lt;/p&gt;
 </description>
         
-        <pubDate>Fri, 18 Dec 2015 00:00:00 -0600</pubDate>
+        <pubDate>Fri, 18 Dec 2015 00:00:00 -0500</pubDate>
         <link>/robotics-course-materials/robotics-course-materials/blog/C++/</link>
         <guid isPermaLink="true">/robotics-course-materials/robotics-course-materials/blog/C++/</guid>
+        
+        
+      </item>
+      
+    
+      
+      <item>
+        <title>Forward kinematics</title>
+        <description>&lt;p class=&quot;intro&quot;&gt;
+Forward kinematics is the process of determining the location and orientation of a designated point on a robot as a function of the robot&#39;s configuration.
+&lt;/p&gt;
+
+&lt;h2 id=&quot;constraining-the-movement-of-rigid-bodies&quot;&gt;Constraining the movement of rigid bodies&lt;/h2&gt;
+
+&lt;p&gt;In a previous learning module, we learned that rigid bodies have six
+degrees of freedom: three for translation and three for rotation. Rigid
+robots are composed of a number of these rigid bodies (which we call &amp;quot;links&amp;quot;)
+and some constraints on the links&amp;#39; motion (called &amp;quot;joints&amp;quot;). Some common joints are depicted below: &lt;/p&gt;
+
+&lt;P&gt;
+&lt;table class=&quot;image&quot;&gt;
+&lt;caption align=&quot;bottom&quot;&gt;A weld (or &#39;fixed joint&#39;) prevents both relative linear and angular motion between two rigid bodies.&lt;/caption&gt;
+&lt;img src=&quot;https://www.accessiblesystems.com/images/bul/weld.jpg&quot; alt=&quot;A weld (or &#39;fixed joint&#39;) prevents both relative linear and angular motion between two rigid bodies.&quot; width=&quot;600&quot;/&gt;
+&lt;/table&gt;
+&lt;/P&gt;
+
+&lt;P&gt;
+&lt;table class=&quot;image&quot;&gt;
+&lt;caption align=&quot;bottom&quot;&gt;A ball and socket joint prevents relative linear motion between two bodies.&lt;/caption&gt;
+&lt;img src=&quot;https://sjeyr7pe.wikispaces.com/file/view/BALLSOCK.JPG.jpeg/240766305/BALLSOCK.JPG.jpeg&quot; alt=&quot;A ball and socket joint prevents relative linear motion between two bodies.&quot; width=&quot;600&quot;/&gt;
+&lt;/table&gt;
+&lt;/P&gt;
+
+&lt;P&gt;
+&lt;table class=&quot;image&quot;&gt;
+&lt;caption align=&quot;bottom&quot;&gt;Revolute joints prevents relative linear motion between two bodies (like a ball and socket joint) and allow relative rotational motion around only one axis. Revolute joints are common in robotics applications, particularly for robots that emulate biological organisms.&lt;/caption&gt;
+&lt;img src=&quot;http://200.126.14.82/web/help/toolbox/physmod/mech/mech_building18.gif&quot; alt=&quot;Revolute joints prevents relative linear motion between two bodies (like a ball and socket joint) and allow relative rotational motion around only one axis. Revolute joints are common in robotics applications, particularly for robots that emulate biological organisms.&quot; width=&quot;600&quot;/&gt;
+&lt;/table&gt;
+&lt;/P&gt;
+
+&lt;P&gt;
+&lt;table class=&quot;image&quot;&gt;
+&lt;caption align=&quot;bottom&quot;&gt;Universal joints prevent relative linear motion between two bodies (like a ball and socket joint) and allow relative rotational motion around two axes.&lt;/caption&gt;
+&lt;img src=&quot;http://www.flamingriver.com/sysimg/34-dd-x-34-dd-forged-u-joint-fr2644.jpg&quot; alt=&quot;Universal joints prevent relative linear motion between two bodies (like a ball and socket joint) and allow relative rotational motion around two axes.&quot; width=&quot;600&quot;/&gt;
+&lt;/table&gt;
+&lt;/P&gt;
+
+&lt;P&gt;
+&lt;table class=&quot;image&quot;&gt;
+&lt;caption align=&quot;bottom&quot;&gt;Prismatic joints eliminate relative rotational motion between two bodies and allow relative linear motion along one axis between the two bodies. Prismatic joints are particularly common in industrial robots.&lt;/caption&gt;
+&lt;img src=&quot;http://ode-wiki.org/wiki/images/5/5f/PistonJoint.jpg&quot; alt=&quot;Prismatic joints eliminate relative rotational motion between two bodies and allow relative linear motion along one axis between the two bodies. Prismatic joints are particularly common in industrial robots.&quot; width=&quot;600&quot;/&gt;
+&lt;/table&gt;
+&lt;/P&gt;
+
+&lt;h3 id=&quot;an-example-of-constrained-motion&quot;&gt;An example of constrained motion&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Foucault_pendulum&quot;&gt;The Foucault pendulum&lt;/a&gt; was
+devised as an experiment to demonstrate the rotation of the Earth. It consists
+of a bob suspended from the ceiling by a long wire.&lt;/p&gt;
+
+&lt;P&gt;
+&lt;table class=&quot;image&quot;&gt;
+&lt;caption align=&quot;bottom&quot;&gt;Animation of the Foucault pendulum. The Earth&#39;s rotation causes the trajectory of the pendulum to change over time, causing a spiral pattern to emerge on the floor.&lt;/caption&gt;
+&lt;img src=&quot;http://i.imgur.com/2UoaPJe.gif&quot; alt=&quot;Animation of the Foucault pendulum. The Earth&#39;s rotation causes the trajectory of the pendulum to change over time, causing a spiral pattern to emerge on the floor.&quot; width=&quot;&quot;/&gt;
+&lt;/table&gt;
+&lt;/P&gt;
+
+&lt;p&gt;If we assume that the wire is massless, then the only rigid body is the
+pendulum bob (since the ceiling is massive and effectively still, we do not
+consider it). If the ceiling is located at the origin of the world \(\begin{bmatrix}0 &amp;amp; 0 &amp;amp; 0\end{bmatrix}^\mathsf{T}\), then the pendulum must satisfy the &lt;a href=&quot;https://en.wikipedia.org/wiki/Implicit_function&quot;&gt;implicit equation&lt;/a&gt;:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+\mathbf{x} + \ _w\mathbf{R}_i \mathbf{u}_i = \mathbf{0} \label{eqn:ball-and-socket}
+\end{equation} &lt;/p&gt;
+
+&lt;p&gt;where \(\mathbf{x}\) is the center-of-mass of the bob, \(_w\mathbf{R}_i\) is the orientation of the bob, and \(\mathbf{u}_i\) is a vector from the center-of-mass of the bob to the origin of the world. These variables are depicted in the figure below.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../../assets/img/foucault-diagram.png&quot; alt=&quot;Depiction of variables for Foucault pendulum&quot;&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;precise-definition-of-forward-kinematics&quot;&gt;Precise definition of forward kinematics&lt;/h2&gt;
+
+&lt;p&gt;Forward kinematics can take multiple forms, depending on the output sought:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+\mathbf{f}(\mathbf{q}) \to \begin{cases} 
+\mathbb{R}^2 &amp;amp; \textrm{ for Cartesian position in 2D} \\
+\mathbb{R}^3 &amp;amp; \textrm{ for Cartesian position in 3D} \\
+SO(2) &amp;amp; \textrm{ for planar orientation in 2D} \\
+SO(3) &amp;amp; \textrm{ for 3D orientation} \\
+SE(2) &amp;amp; \textrm{ for Cartesian position in 2D and planar orientation} \\
+SE(3) &amp;amp; \textrm{ for Cartesian position in 2D and 3D orientation}
+\end{cases}
+\end{equation} &lt;/p&gt;
+
+&lt;p&gt;The output of this function is in what is known as &lt;em&gt;operational space&lt;/em&gt;: we
+use this generic term because of all of the possible mappings described above.
+To make these mappings more concrete, the planar orientation SO(2) is just an angle.
+Similarly, SE(2) is two real numbers plus an angle. These numbers are generally stacked into a vector like this:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+\begin{bmatrix}
+x\\
+y\\
+\theta
+\end{bmatrix}
+\end{equation} &lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;though they are equally valid stacked like this&lt;/em&gt;:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation*}
+\begin{bmatrix}
+\theta\\
+x\\
+y
+\end{bmatrix}
+\end{equation*} &lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;or even like this&lt;/em&gt;:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation*}
+\begin{bmatrix}
+x\\
+\theta\\
+y
+\end{bmatrix}
+\end{equation*} &lt;/p&gt;
+
+&lt;p&gt;Another possibility is using a \(3 \times 3\) homogeneous transformation
+matrix:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+\begin{bmatrix}
+c_{\theta} &amp;amp; -s_{\theta} &amp;amp; x \\
+s_{\theta} &amp;amp; c_{\theta} &amp;amp; y \\
+0 &amp;amp; 0 &amp;amp; 1
+\end{bmatrix}
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;where \(c_{\theta}\) means \(\cos{\theta}\) and \(s_{\theta}\) means \(\sin{\theta}\).&lt;/p&gt;
+
+&lt;p&gt;We will see shortly how this representation can be useful.&lt;/p&gt;
+
+&lt;p&gt;3D orientation can be described using any of the representations in &lt;a href=&quot;../poses3&quot;&gt;the learning module on 3D poses&lt;/a&gt;, include Euler angles, axis-angle, unit quaternions, or rotation matrices. The \(4 \times 4\) homogeneous transformation 
+matrix is common:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+\begin{bmatrix}
+r_{11} &amp;amp; r_{12} &amp;amp; r_{13} &amp;amp; x \\
+r_{21} &amp;amp; r_{22} &amp;amp; r_{23} &amp;amp; y \\
+r_{31} &amp;amp; r_{32} &amp;amp; r_{33} &amp;amp; z \\
+0 &amp;amp; 0 &amp;amp; 0 &amp;amp; 1
+\end{bmatrix}
+\end{equation}&lt;/p&gt;
+
+&lt;h3 id=&quot;an-example&quot;&gt;An example&lt;/h3&gt;
+
+&lt;p&gt;Consider a double pendulum in 2D with two joint angles, \(q_1\) and \(q_2\), and link lengths \(\ell_1\) and \(\ell_2\). We will focus on the pendulum&amp;#39;s endpoint location and orientation. Because the pendulum is in 2D, its forward kinematics function maps to SE(2).&lt;/p&gt;
+
+&lt;p&gt;The configuration of the pendulum in SE(2), using a \(3 \times 3\)
+homogeneous transformation matrix, when \(q_1 = 0, q_2 = 0\) is:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation*} 
+\begin{bmatrix}
+1 &amp;amp; 0 &amp;amp; \ell_1 + \ell_2 \\
+0 &amp;amp; 1 &amp;amp; 0 \\
+0 &amp;amp; 0 &amp;amp; 1
+\end{bmatrix}
+\end{equation*}&lt;/p&gt;
+
+&lt;p&gt;What is the operational space configuration of the endpoint at generalized configuration \(q_1 = \frac{\pi}{2}, q_2 = \frac{-\pi}{2}\)?&lt;/p&gt;
+
+&lt;p&gt;We will use the following reference frames.&lt;/p&gt;
+
+&lt;p&gt;\begin{align}
+_w\mathbf{T}_1 &amp;amp; \equiv 
+\begin{bmatrix} 
+c_1 &amp;amp; -s_1 &amp;amp; 0 \\
+s_1 &amp;amp; c_1 &amp;amp; 0 \\
+0 &amp;amp; 0 &amp;amp; 1
+\end{bmatrix}\\ 
+_1\mathbf{T}_{1&amp;#39;} &amp;amp; \equiv
+\begin{bmatrix} 
+1 &amp;amp; 0 &amp;amp; \ell_1 \\
+0 &amp;amp; 1 &amp;amp; 0 \\
+0 &amp;amp; 0 &amp;amp; 1
+\end{bmatrix}\\
+_{1&amp;#39;}\mathbf{T}_{2} &amp;amp; \equiv
+\begin{bmatrix} 
+c_2 &amp;amp; -s_2 &amp;amp; 0 \\
+s_2 &amp;amp; c_2 &amp;amp; 0 \\
+0 &amp;amp; 0 &amp;amp; 1
+\end{bmatrix}\\ 
+_2\mathbf{T}_{2&amp;#39;} &amp;amp; \equiv
+\begin{bmatrix} 
+1 &amp;amp; 0 &amp;amp; \ell_2 \\
+0 &amp;amp; 1 &amp;amp; 0 \\
+0 &amp;amp; 0 &amp;amp; 1
+\end{bmatrix}
+\end{align}&lt;/p&gt;
+
+&lt;p&gt;where \(c_1, s_1, c_2, s_2\) denote \(\cos{q_1}, \sin{q_1}, \cos{q_2}, \sin{q_2}\), respectively.&lt;/p&gt;
+
+&lt;p&gt;When we substitute \(q_1 = \frac{\pi}{2}, q_2 = \frac{-\pi}{2}\) and multiply \(_w\mathbf{T}_1 \cdot\ _1\mathbf{T}_{1&amp;#39;} \cdot _{1&amp;#39;}\mathbf{T}_2 \cdot _{2}\mathbf{T}_{2&amp;#39;}\), we arrive at:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+_w\mathbf{T}_{2&amp;#39;} = \begin{bmatrix}
+c_{1}c_2 - s_1s_2 &amp;amp; -c_2s_1 - c_1s_2 &amp;amp; l_1 c_1 + l_2 (c_{1}c_2 - s_1s_2) \\
+c_2s_1 + c_1s_2 &amp;amp; c_1 c_2 - s_1s_2 &amp;amp; l_1 s_1 + l_2 (c_2s_1 + c_1s_2) \\
+0 &amp;amp; 0 &amp;amp; 1
+\end{bmatrix}
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;which simplifies to (I used Macsyma to do the simplification):&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+_w\mathbf{T}_{2&amp;#39;} = \begin{bmatrix}
+c_{1+2} &amp;amp; -s_{1+2} &amp;amp; l_1 c_1 + l_2 c_{1+2} \\
+s_{1+2} &amp;amp; c_{1+2} &amp;amp; l_1 s_1 + l_2 s_{1+2} \\
+0 &amp;amp; 0 &amp;amp; 1
+\end{bmatrix}
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;The upper left \(2 \times 2\) part of this matrix gives the orientation of the second link. The upper right \(2 \times 1\) part of this matrix gives the position of the end point of the second link.&lt;/p&gt;
+
+&lt;P&gt;
+&lt;table class=&quot;image&quot;&gt;
+&lt;caption align=&quot;bottom&quot;&gt;Depiction of the various frames in the example above for q1 = pi/4, q2 = -pi/4.&lt;/caption&gt;
+&lt;img src=&quot;../../assets/img/two-link-frames.png&quot; alt=&quot;Depiction of the various frames in the example above for q1 = pi/4, q2 = -pi/4.&quot; width=&quot;&quot;/&gt;
+&lt;/table&gt;
+&lt;/P&gt;
+
+&lt;h3 id=&quot;denavit-hartenberg-parameters&quot;&gt;Denavit-Hartenberg parameters&lt;/h3&gt;
+
+&lt;p&gt;If a robot manufacturer draws a figure providing the data above, you might
+make a mistake computing the forward kinematics function (particularly as
+we move from two joints to, say, seven). The &lt;a href=&quot;https://en.wikipedia.org/wiki/Denavit%E2%80%93Hartenberg_parameters&quot;&gt;Denavit-Hartenberg parameters&lt;/a&gt; provide a more
+compact, less error prone encoding using four parameters per reference frame.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=rA9tm0gTln8&quot;&gt;Here&lt;/a&gt; is a nice video depicting
+Denavit-Hartenberg. &lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;The nice part of D-H parameters&lt;/em&gt; is that a simple algorithm can compute
+the forward kinematics for a robot given a small table of parameters. &lt;em&gt;I
+personally skip using D-H parameters&lt;/em&gt; because I find that determining them is
+error prone. D-H parameters transfer the likelihood of making an error from 
+the forward kinematics programmer to the robotics manufacturer. &lt;/p&gt;
+
+&lt;h2 id=&quot;determining-a-robot-39-s-number-of-degrees-of-freedom&quot;&gt;Determining a robot&amp;#39;s number of degrees-of-freedom&lt;/h2&gt;
+
+&lt;p&gt;For a robot affixed to its environment, the robot&amp;#39;s degrees of freedom (DoF) is
+equal to its number of joint variables (if the robot has kinematic loops, its
+DOF is equal to its &lt;em&gt;independent&lt;/em&gt; joint variables). &lt;/p&gt;
+
+&lt;P&gt;
+&lt;table class=&quot;image&quot;&gt;
+&lt;caption align=&quot;bottom&quot;&gt;A robot with kinematic loops.&lt;/caption&gt;
+&lt;img src=&quot;../../assets/img/veloce-frontal.jpg&quot; alt=&quot;A robot with kinematic loops.&quot; width=&quot;600&quot;/&gt;
+&lt;/table&gt;
+&lt;/P&gt;
+
+&lt;P&gt;
+&lt;table class=&quot;image&quot;&gt;
+&lt;caption align=&quot;bottom&quot;&gt;A graph depicting the kinematic structure of the veloce robot depicted previously.&lt;/caption&gt;
+&lt;img src=&quot;../../assets/img/veloce.png&quot; alt=&quot;A graph depicting the kinematic structure of the veloce robot depicted previously.&quot; width=&quot;600&quot;/&gt;
+&lt;/table&gt;
+&lt;/P&gt;
+
+&lt;P&gt;
+&lt;table class=&quot;image&quot;&gt;
+&lt;caption align=&quot;bottom&quot;&gt;A graph depicting the kinematic structure of a human. Note that the graph is a tree.&lt;/caption&gt;
+&lt;img src=&quot;https://upload.wikimedia.org/wikipedia/commons/2/2c/Modele_cinematique_corps_humain.svg&quot; alt=&quot;A graph depicting the kinematic structure of a human. Note that the graph is a tree.&quot; width=&quot;400&quot;/&gt;
+&lt;/table&gt;
+&lt;/P&gt;
+
+&lt;p&gt;If a robot is not affixed to its environment, we say that its base is
+&amp;quot;floating&amp;quot;, and that robot has six degrees of freedom plus its number of
+independent joint variables. In fact, a minimum (there may be more than one) 
+set of variables used to specify a robot&amp;#39;s configuration is known as
+&lt;em&gt;minimum coordinates&lt;/em&gt; or &lt;em&gt;independent coordinates&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;As a quick aside, there may not be an actuator at every joint. If the number
+of actuators is fewer than the robot&amp;#39;s DoF, we say that the robot is
+&lt;em&gt;underactuated&lt;/em&gt;. Such robots are particularly challenging to control.
+Legged robots, for instance, are underactuated, as are quadrotors. &lt;/p&gt;
+
+&lt;h3 id=&quot;an-alternative-approach-to-determining-the-number-of-degrees-of-freedom&quot;&gt;An alternative approach to determining the number of degrees of freedom&lt;/h3&gt;
+
+&lt;p&gt;Each rigid body in three dimensions has six degrees of freedom (three translation, three rotation). So, multiply the number of robot links by six, and then subtract the total number of constraint equations.&lt;/p&gt;
+
+&lt;p&gt;For the example of the Foucault pendulum, there is one rigid body (the body) and three constraint equations (Equation \ref{eqn:ball-and-socket}; note the vector form of the equation). The total number of degrees-of-freedom is therefore \(6 - 3 = 3\).&lt;/p&gt;
+</description>
+        
+          <description>&lt;p class=&quot;intro&quot;&gt;
+Forward kinematics is the process of determining the location and orientation of a designated point on a robot as a function of the robot&#39;s configuration.
+&lt;/p&gt;
+</description>
+        
+        <pubDate>Sat, 12 Dec 2015 00:00:00 -0500</pubDate>
+        <link>/robotics-course-materials/robotics-course-materials/blog/forward-kinematics/</link>
+        <guid isPermaLink="true">/robotics-course-materials/robotics-course-materials/blog/forward-kinematics/</guid>
         
         
       </item>
@@ -2903,7 +3203,7 @@ specified low value to the specified high value&lt;/li&gt;
 robot. Concepts covered include model-based (feedforward) and model-free (error feedback) approaches, composite approaches, and stability.&lt;/p&gt;
 </description>
         
-        <pubDate>Wed, 09 Dec 2015 00:00:00 -0600</pubDate>
+        <pubDate>Wed, 09 Dec 2015 00:00:00 -0500</pubDate>
         <link>/robotics-course-materials/robotics-course-materials/blog/motion-control/</link>
         <guid isPermaLink="true">/robotics-course-materials/robotics-course-materials/blog/motion-control/</guid>
         
