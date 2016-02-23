@@ -100,7 +100,7 @@ and are subject to the constraint \\(e\_x^2 + e\_y^2 + e\_z^2 + e\_w^2 = 1\\). T
     south pole.
 
 ##### Angle between two orientations
-One nice property of unit quaternions is that they allow one to compute the distance between two orientations using the _geodesic_ between the orientations. Think of the geodesic as the shortest path connecting any two orientations in SO(3). The distance between two orientations \\(A\\) and \\(B\\) is measured using the angle between them:
+One nice property of unit quaternions is that they allow one to compute the distance between two orientations using the _geodesic_ between the orientations. Think of the geodesic as the shortest path connecting any two orientations in SO(3). The distance between two orientations \\(A\\) and \\(B\\) is measured using the angle between them: \\(\theta = \cos^{-1}{\mathbf{e}^{A^\mathsf{T}}\mathbf{e}^B}\\)
 or equivalently (if it disturbs you to perform dot products over unit quaternions:
 $$
 \theta = \cos^{-1}{(e^A\_xe^B\_x + e^A\_ye^B\_y + e^A\_ze^B\_z + e^A\_we^B\_w)}
