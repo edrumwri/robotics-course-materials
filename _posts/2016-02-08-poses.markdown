@@ -290,6 +290,7 @@ Let's first look at the generalized coordinates for a body defined in the global
 
 where \\(\{ \bar{x}\_w, \bar{y}\_w \}\\) is the position of the center-of-mass in frame \\(w\\). 
 
+{% comment %}
 #### General coordinates in another reference frame
 For comparison, we now examine how the body is defined in another reference frame, \\(s\\), which is defined relative to frame \\(\mathbf{w}\\) by a translation of \\(\mathbf{x}\_w^s\\) and by an orientation by an angle of \\(\varphi\_w^s\\). We can then define the matrix \\(\ \_s\mathbf{R}\_w\\) as:
 
@@ -302,6 +303,7 @@ and the generalized coordinates in frame \\(s\\) are now:
 \begin{equation}
 \mathbf{q}\_s = \begin{bmatrix}\ \_s\mathbf{R}\_w \begin{bmatrix}\bar{x}\_w \\\\ \bar{y}\_w \end{bmatrix} + \mathbf{x}\_w^s \\\\ \theta\_w + \varphi\_w^s \end{bmatrix}
 \end{equation}
+{% endcomment %}
 
 #### Generalized velocities in the global reference frame
 Let's now compute the time-derivatives:
@@ -312,6 +314,7 @@ Let's now compute the time-derivatives:
 
 This is just the velocity of the body at its center-of-mass (the _linear velocity_) and its rate of angular rotation (the _angular velocity_). 
 
+{% comment %}
 #### Generalized velocities in another reference frame
 Things do not change appreciably when we look at the generalized velocity in frame \\(s\\).
 
@@ -341,7 +344,6 @@ Using trigonometric identities, we get:
  \end{equation}
  Note that this takes exactly the same form as a rotation matrix in the plane by \\(\theta + \frac{\pi}{2}\\) radians scaled by the angular velocity.
 
-{% comment %} 
 \problem{Derive the generalized acceleration for a rigid body with respect to moving reference frame \\(s\\). Assume that the relative linear and angular accelerations between frame \\(s\\) and frame \\(w\\) are $\ddot{\mathbf{x}_w^s}$ and $\ddot{\varphi_w^s}$, respectively.}
 \problem{Given $\varphi_s^w = \frac{\pi}{4}, \dot{\varphi_s^w} = 1, \theta_w = \frac{\pi}{6}, \dot{\theta_w} = -2$, $\ddot{\theta_w} = 10$, $\mathbf{x}_w^s = [\ 1\ -1\ ]^T$, $\bar{\mathbf{x}}_w = [\ 5\ 5 \ ]^T$\\, $\dot{\bar{\mathbf{x}}}_w = [\ -1\ 1\ ]^T, \ddot{\bar{\mathbf{x}}}_w = [\ 10\ 1\ ]^T$, compute the generalized velocities and accelerations \emph{with respect to} \ul{fixed} \emph{frame s}. Check your answer using finite differences on the generalized coordinates.} 
 {% endcomment %}
@@ -368,12 +370,13 @@ where
 \sin{(\theta\_w + \frac{\pi}{2})} & \cos{(\theta\_w + \frac{\pi}{2})}
 \end{bmatrix}
 \end{equation}
-as hinted at in the section immediately previous. 
+
+_Problem:_ Derive this identity for the time derivative of a rotation matrix
+using derivative calculus and trigonometric identities. 
 
 
 {% comment %}
 \problem{Derive the acceleration of a point on a rigid body using the equation above.}
-{% endcomment %}
 
 #### Generalized coordinates defined with respect to a point on a rigid body
 We can define the generalized coordinates as below, though note that \\(\mathbf{p}\\) is not independent of \\(\theta\_w\\):
@@ -415,7 +418,6 @@ The time derivative of \\(\mathbf{p}_s\\) is:
 \dot{\mathbf{p}}\_s =\ \_s\dot{\mathbf{R}}\_{w}\Big(\begin{bmatrix}\dot{\bar{x}}\_w \\\\ \dot{\bar{y}}\_w \end{bmatrix} + \ \_w\dot{\mathbf{R}}\_{i} \cdot \mathbf{r}\_i\Big) + \dot{\mathbf{x}}\_w^s
 \end{equation}
 
-{% comment %}
 \problem{Derive $\ddot{\mathbf{p}_s}$ from the equation above.}
 \problem{Given $\varphi_w^s = \frac{\pi}{4}, \dot{\varphi_w^s} = 1, \theta_w = \frac{\pi}{6}, \dot{\theta}_w = -2, \ddot{\theta}_w = 10$, $\mathbf{x}_w^s = [\ 1\ -1\ ]^T$, $\bar{\mathbf{x}}_w = [\ 5\ 5 \ ]^T$,\\ $\dot{\bar{\mathbf{x}}}_w = [\ -1\ 1\ ]^T, \ddot{\bar{\mathbf{x}}}_w = [\ 10\ 1\ ]^T$, $\mathbf{p}_w = [\ 0\ 0\ ]$, $\dot{\mathbf{x}}_w^s = [\ \frac{\sqrt{2}}{2}\ \frac{\sqrt{2}}{2}\ ]^T$, $\ddot{\mathbf{x}}_w^s = [\ +10\ -10\ ]^T$ (\emph{note that I have given you the point in the global frame, which means you have to determine $\mathbf{r}_i$ by yourself}) compute $\ddot{\mathbf{p}_s}$ and check your answer using finite differences.}  
 {% endcomment %}

@@ -315,12 +315,15 @@ If the state of a dynamical system is two dimensional, we can readily
 visualize the change in state using arrow depictions. Examine some 
 visualizations of dynamical systems below carefully.
 
-The dynamical system below can be seen to drive the state to \\(\mathbf{x}=0,0\\). This point is known as a _equilibrium point_ or a _fixed point_. This 
-particular system is _stable_ in the region that we are viewing: if the
-system enters this region, the state will eventually end up at the equilibrium
-point.
+The dynamical system below can be seen to drive the state to \\(\mathbf{x}=0,0\\). This point is known as a _equilibrium point_ or a _fixed point_.
+ 
+_Definition of an equilibrium point / fixed point_:
 
-This concept is important in airplanes. If the pilot puts the plane into a dive
+**A state \\(\mathbf{x} \in \mathbb{R}^n\\) is an equilibrium point if \\(\mathbf{f(x)} = \mathbf{0}\\), where \\(\dot{\mathbf{x}} = \mathbf{f}(\mathbf{x}, t)\\).**
+
+The dynamical system below is _stable_ in the region that we are viewing: if the
+system enters this region, the state will eventually end up at the equilibrium
+point. This concept is important in airplanes. If the pilot puts the plane into a dive
 and then removes her hands from the yoke, the plane will return to level
 flight after a short time. _This concept is important in robotics for the same reason_:
 a robot will ideally "go to rest" if no controls are applied to it for some

@@ -277,7 +277,7 @@ Since we're examining centripetal acceleration, let's look at the phenomenon of 
 \ddot{\mathbf{p}}\_s & = \dot{\mathbf{\omega}}\_s \times \ \_s\mathbf{R}\_w\mathbf{p}\_w + \mathbf{\omega}\_s \times \ \_s\mathbf{R}\_w\dot{\mathbf{p}}\_w + \mathbf{\omega}\_s \times \ \_s\mathbf{R}\_w\dot{\mathbf{p}}\_w +  \ \_s\mathbf{R}\_w\ddot{\mathbf{p}}\_w \\\\
 & = \dot{\mathbf{\omega}}\_s \times \ \_s\mathbf{R}\_w\mathbf{p}\_w + 2\mathbf{\omega}\_s \times \ \_s\mathbf{R}\_w\dot{\mathbf{p}}\_w +  \ \_s\mathbf{R}\_w\ddot{\mathbf{p}}\_w
 \end{align}
-The second term that appears is the _Coriolis acceleration_. Notice that this term only appears when observing the acceleration of a point from a moving point.
+The second term that appears is the _Coriolis acceleration_. Notice that this term only appears when observing the acceleration of a point from a moving frame.
 
 #### Renormalization
 Let us say that you wish to update the rigid body orientation using first-order integration (although the problem we are exploring happens with any integration approach):

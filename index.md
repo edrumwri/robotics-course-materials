@@ -18,3 +18,5 @@ layout: default
 
 #### [Forward kinematics](blog/forward-kinematics)
 
+#### [Differential kinematics](blog/differential-kinematics)
+

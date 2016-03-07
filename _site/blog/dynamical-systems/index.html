@@ -370,12 +370,15 @@ as a formal parameter, because the ODE is not explicitly dependent upon \(t\).</
 visualize the change in state using arrow depictions. Examine some 
 visualizations of dynamical systems below carefully.</p>
 
-<p>The dynamical system below can be seen to drive the state to \(\mathbf{x}=0,0\). This point is known as a <em>equilibrium point</em> or a <em>fixed point</em>. This 
-particular system is <em>stable</em> in the region that we are viewing: if the
-system enters this region, the state will eventually end up at the equilibrium
-point.</p>
+<p>The dynamical system below can be seen to drive the state to \(\mathbf{x}=0,0\). This point is known as a <em>equilibrium point</em> or a <em>fixed point</em>.</p>
 
-<p>This concept is important in airplanes. If the pilot puts the plane into a dive
+<p><em>Definition of an equilibrium point / fixed point</em>:</p>
+
+<p><strong>A state \(\mathbf{x} \in \mathbb{R}^n\) is an equilibrium point if \(\mathbf{f(x)} = \mathbf{0}\), where \(\dot{\mathbf{x}} = \mathbf{f}(\mathbf{x}, t)\).</strong></p>
+
+<p>The dynamical system below is <em>stable</em> in the region that we are viewing: if the
+system enters this region, the state will eventually end up at the equilibrium
+point. This concept is important in airplanes. If the pilot puts the plane into a dive
 and then removes her hands from the yoke, the plane will return to level
 flight after a short time. <em>This concept is important in robotics for the same reason</em>:
 a robot will ideally &quot;go to rest&quot; if no controls are applied to it for some
