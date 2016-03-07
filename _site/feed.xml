@@ -5,8 +5,8 @@
     <description>Robotics</description>
     <link>/robotics-course-materials/robotics-course-materials/</link>
     <atom:link href="/robotics-course-materials/robotics-course-materials/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 07 Mar 2016 15:39:43 -0500</pubDate>
-    <lastBuildDate>Mon, 07 Mar 2016 15:39:43 -0500</lastBuildDate>
+    <pubDate>Mon, 07 Mar 2016 15:50:33 -0500</pubDate>
+    <lastBuildDate>Mon, 07 Mar 2016 15:50:33 -0500</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       
@@ -2855,11 +2855,11 @@ rather than more general robots (like humanoids). &lt;/p&gt;
 &lt;p&gt;Recall that the forward kinematics equation is:&lt;/p&gt;
 
 &lt;p&gt;\begin{equation}
-\mathbf{x} = f^p(\mathbf{q})
+\mathbf{x} = \mathbf{f}^p(\mathbf{q})
 \end{equation}&lt;/p&gt;
 
 &lt;p&gt;where \(p\) is a frame attached to a rigid link of the robot,
-\(\mathbf{q}\) are the \(n\) generalized coordinates of the robot, and \(\mathbf{x}\) is the pose of \(p\) in another frame (typically the world frame). If \(\mathbf{x}\) is represented by \(m\) real numbers, then \(f : \mathbb{R}^n \to \mathbb{R}^m \).&lt;/p&gt;
+\(\mathbf{q}\) are the \(n\) generalized coordinates of the robot, and \(\mathbf{x}\) is the pose of \(p\) in another frame (typically the world frame). If \(\mathbf{x}\) is represented by \(m\) real numbers, then \(\mathbf{f} : \mathbb{R}^n \to \mathbb{R}^m \).&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;We will use \(p\) throughout this learning module to refer to
 a pose attached to a rigid link on the robot.&lt;/strong&gt; &lt;/p&gt;
@@ -2871,14 +2871,14 @@ a pose attached to a rigid link on the robot.&lt;/strong&gt; &lt;/p&gt;
 &lt;/table&gt;
 &lt;/P&gt;
 
-&lt;h4 id=&quot;inverting-f&quot;&gt;Inverting \(f(.)\)&lt;/h4&gt;
+&lt;h4 id=&quot;inverting-mathbf-f&quot;&gt;Inverting \(\mathbf{f}(.)\)&lt;/h4&gt;
 
-&lt;p&gt;Inverting \(f(.)\) means determining \(f^{-1}(\mathbf{x} = \mathbf{q}\), where \(\mathbf{x}\) is one of the possible outputs of the forward kinematics function (SO(2), SO(3), \(\mathbf{R}^2, \mathbf{R}^3\), SE(2), SE(3)). This inversion is generally challenging because \(f(.)\) is a nonlinear function. Additional challenges are that:&lt;/p&gt;
+&lt;p&gt;Inverting \(\mathbf{f}(.)\) means determining \(\mathbf{f}^{-1}(\mathbf{x}) = \mathbf{q}\), where \(\mathbf{x}\) is one of the possible outputs of the forward kinematics function (SO(2), SO(3), \(\mathbb{R}^2, \mathbb{R}^3\), SE(2), SE(3)). This inversion is generally challenging because \(\mathbf{f}(.)\) is a nonlinear function. Additional challenges are that:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;\(f^{-1}(\mathbf{x})\) may have no solutions&lt;/li&gt;
-&lt;li&gt;\(f^{-1}(\mathbf{x}\)) may have multiple solutions&lt;/li&gt;
-&lt;li&gt;Computation of \(f^{-1}(.)\) generally recommends the use of a symbolic mathematics package (like &lt;a href=&quot;http://maxima.sourceforge.net&quot;&gt;Macsyma&lt;/a&gt;), which means that changing the kinematics of the robot means re-derivation of the inverse kinematics function&lt;/li&gt;
+&lt;li&gt;\(\mathbf{f}^{-1}(\mathbf{x})\) may have no solutions&lt;/li&gt;
+&lt;li&gt;\(\mathbf{f}^{-1}(\mathbf{x}\)) may have multiple solutions&lt;/li&gt;
+&lt;li&gt;Computation of \(\mathbf{f}^{-1}(.)\) generally recommends the use of a symbolic mathematics package (like &lt;a href=&quot;http://maxima.sourceforge.net&quot;&gt;Macsyma&lt;/a&gt;), which means that changing the kinematics of the robot means re-derivation of the inverse kinematics function&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Analytical inverse kinematics requires that the number of constraints be
@@ -2917,7 +2917,7 @@ changes in \(\mathbf{q}\). &lt;a href=&quot;../forward-kinematics&quot;&gt;Recal
 
 &lt;p&gt;The first matrix is the &lt;em&gt;Jacobian of pose \(\mathbf{p}\) with respect to
 the generalized configuration&lt;/em&gt;. Refer back to the &lt;a href=&quot;../linear-algebra/&quot;&gt;material on linear algebra&lt;/a&gt; if you need a refresher on Jacobian matrices. The second matrix is just the generalized
-velocity, \(\dot{\mathbf{q}}\). So, we can write Equation \ref{eqn:Jacobians-jull} as:
+velocity, \(\dot{\mathbf{q}}\). So, we can write Equation \ref{eqn:Jacobians-full} as:
 \begin{equation}
 \dot{\mathbf{x}} = \mathbf{J}\dot{\mathbf{q}} \label{eqn:Jacobians}
 \end{equation}
@@ -3024,7 +3024,7 @@ process converges to an answer.&lt;/p&gt;
 &lt;li&gt;If \(||\Delta \mathbf{x}|| &amp;lt; \epsilon \) &lt;strong&gt;return&lt;/strong&gt; &lt;em&gt;success&lt;/em&gt; &lt;/li&gt;
 &lt;li&gt;Compute Jacobian (\(\mathbf{J}\)), evaluated at \(\mathbf{q}\)&lt;/li&gt;
 &lt;li&gt;Solve least squares problem, \(\min_{\mathbf{q}} ||\mathbf{J}\Delta \mathbf{q} - \Delta \mathbf{x}||\) &lt;/li&gt;
-&lt;li&gt;Determine \(t \le 1\) such that \(||\mathbf{x}_{\textrm{des}} - f(\mathbf{q + t\Delta \mathbf{q}}\)) is minimized&lt;/li&gt;
+&lt;li&gt;Determine \(t \le 1\) such that \(||\mathbf{x}_{\textrm{des}} - \mathbf{f}(\mathbf{q + t\Delta \mathbf{q}}\)) is minimized&lt;/li&gt;
 &lt;li&gt;Update \(\mathbf{q}\): \(\mathbf{q} \leftarrow \mathbf{q} + t\Delta \mathbf{q}\)&lt;/li&gt;
 &lt;li&gt;Repeat (2) until maximum iterations exceeded&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;return&lt;/strong&gt; &lt;em&gt;failure&lt;/em&gt;&lt;/li&gt;
@@ -3366,7 +3366,7 @@ same entries in \(\dot{\mathbf{q}}\).&lt;/p&gt;
 
 &lt;ol&gt;
 &lt;li&gt;The endpoint of the mechanism (&lt;a href=&quot;../forward-kinematics&quot;&gt;already determined&lt;/a&gt;)&lt;/li&gt;
-&lt;li&gt;The location of each joint (\(\mathbf{j}_i\)&lt;/li&gt;
+&lt;li&gt;The location of each joint (\(\mathbf{j}_i)\)&lt;/li&gt;
 &lt;li&gt;Each joint&amp;#39;s axis: this always points along the \(z\)-axis, since this example is in 2D&lt;/li&gt;
 &lt;/ol&gt;
 
@@ -3390,7 +3390,7 @@ _w\mathbf{T}_1 \cdot\ _1\mathbf{T}_{1&amp;#39;} =
 c_1 &amp;amp; -s_1 &amp;amp; 0 \\
 s_1 &amp;amp; c_1 &amp;amp; 0 \\
 0 &amp;amp; 0 &amp;amp; 1
-\end{bmatrix} cdot
+\end{bmatrix} \cdot
 \begin{bmatrix} 
 1 &amp;amp; 0 &amp;amp; \ell_1 \\
 0 &amp;amp; 1 &amp;amp; 0 \\

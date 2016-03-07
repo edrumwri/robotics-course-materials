@@ -17,24 +17,24 @@ rather than more general robots (like humanoids).
 Recall that the forward kinematics equation is:
 
 \begin{equation}
-\mathbf{x} = f^p(\mathbf{q})
+\mathbf{x} = \mathbf{f}^p(\mathbf{q})
 \end{equation}
 
 where \\(p\\) is a frame attached to a rigid link of the robot,
-\\(\mathbf{q}\\) are the \\(n\\) generalized coordinates of the robot, and \\(\mathbf{x}\\) is the pose of \\(p\\) in another frame (typically the world frame). If \\(\mathbf{x}\\) is represented by \\(m\\) real numbers, then \\(f : \mathbb{R}^n \to \mathbb{R}^m \\).
+\\(\mathbf{q}\\) are the \\(n\\) generalized coordinates of the robot, and \\(\mathbf{x}\\) is the pose of \\(p\\) in another frame (typically the world frame). If \\(\mathbf{x}\\) is represented by \\(m\\) real numbers, then \\(\mathbf{f} : \mathbb{R}^n \to \mathbb{R}^m \\).
 
 **We will use \\(p\\) throughout this learning module to refer to
 a pose attached to a rigid link on the robot.** 
 
 {% include image.html url="../../assets/img/frame-p-on-robot.png" description="Depiction of Frame p, which is defined with respect to one of the robot's links. While forward kinematics seeks to determine how p is positioned and oriented with respect to the global frame, differential kinematics seek to determine how quickly p changes as a function of the robot's current configuration." %} 
 
-#### Inverting \\(f(.)\\)
+#### Inverting \\(\mathbf{f}(.)\\)
 
-Inverting \\(f(.)\\) means determining \\(f^{-1}(\mathbf{x} = \mathbf{q}\\), where \\(\mathbf{x}\\) is one of the possible outputs of the forward kinematics function (SO(2), SO(3), \\(\mathbf{R}^2, \mathbf{R}^3\\), SE(2), SE(3)). This inversion is generally challenging because \\(f(.)\\) is a nonlinear function. Additional challenges are that:
+Inverting \\(\mathbf{f}(.)\\) means determining \\(\mathbf{f}^{-1}(\mathbf{x}) = \mathbf{q}\\), where \\(\mathbf{x}\\) is one of the possible outputs of the forward kinematics function (SO(2), SO(3), \\(\mathbb{R}^2, \mathbb{R}^3\\), SE(2), SE(3)). This inversion is generally challenging because \\(\mathbf{f}(.)\\) is a nonlinear function. Additional challenges are that:
 
-* \\(f^{-1}(\mathbf{x})\\) may have no solutions
-* \\(f^{-1}(\mathbf{x}\\)) may have multiple solutions
-* Computation of \\(f^{-1}(.)\\) generally recommends the use of a symbolic mathematics package (like [Macsyma](http://maxima.sourceforge.net)), which means that changing the kinematics of the robot means re-derivation of the inverse kinematics function
+* \\(\mathbf{f}^{-1}(\mathbf{x})\\) may have no solutions
+* \\(\mathbf{f}^{-1}(\mathbf{x}\\)) may have multiple solutions
+* Computation of \\(\mathbf{f}^{-1}(.)\\) generally recommends the use of a symbolic mathematics package (like [Macsyma](http://maxima.sourceforge.net)), which means that changing the kinematics of the robot means re-derivation of the inverse kinematics function
 
 Analytical inverse kinematics requires that the number of constraints be
 equal to the robot's number of generalized coordinates. Artificial constraints
@@ -67,7 +67,7 @@ changes in \\(\mathbf{q}\\). [Recall that \\(\mathbf{x}\\) can represent positio
 
 The first matrix is the _Jacobian of pose \\(\mathbf{p}\\) with respect to
 the generalized configuration_. Refer back to the [material on linear algebra](../linear-algebra/) if you need a refresher on Jacobian matrices. The second matrix is just the generalized
-velocity, \\(\dot{\mathbf{q}}\\). So, we can write Equation \ref{eqn:Jacobians-jull} as:
+velocity, \\(\dot{\mathbf{q}}\\). So, we can write Equation \ref{eqn:Jacobians-full} as:
 \begin{equation}
 \dot{\mathbf{x}} = \mathbf{J}\dot{\mathbf{q}} \label{eqn:Jacobians}
 \end{equation}
@@ -172,7 +172,7 @@ Given \\(\mathbf{q}\_{\textrm{init}}\\), do:
 3. If \\(||\Delta \mathbf{x}|| < \epsilon \\) __return__ _success_ 
 4. Compute Jacobian (\\(\mathbf{J}\\)), evaluated at \\(\mathbf{q}\\)
 5. Solve least squares problem, \\(\min_{\mathbf{q}} ||\mathbf{J}\Delta \mathbf{q} - \Delta \mathbf{x}||\\) 
-6. Determine \\(t \le 1\\) such that \\(||\mathbf{x}\_{\textrm{des}} - f(\mathbf{q + t\Delta \mathbf{q}}\\)) is minimized
+6. Determine \\(t \le 1\\) such that \\(||\mathbf{x}\_{\textrm{des}} - \mathbf{f}(\mathbf{q + t\Delta \mathbf{q}}\\)) is minimized
 7. Update \\(\mathbf{q}\\): \\(\mathbf{q} \leftarrow \mathbf{q} + t\Delta \mathbf{q}\\)
 8. Repeat (2) until maximum iterations exceeded
 9. __return__ _failure_
@@ -522,7 +522,7 @@ same entries in \\(\dot{\mathbf{q}}\\).
 We again use the double pendulum example from [the forward kinematics module](../forward-kinematics). We need the following pieces of information:
 
 1. The endpoint of the mechanism ([already determined](../forward-kinematics))
-2. The location of each joint (\\(\mathbf{j}\_i\\)
+2. The location of each joint (\\(\mathbf{j}\_i)\\)
 3. Each joint's axis: this always points along the \\(z\\)-axis, since this example is in 2D
 
 Finally, we also have to determine the form of the Jacobian that we want: I'll say that we want a \\(3 \times 2\\) Jacobian matrix so that \\(\dot{\mathbf{x}}\\) corresponds to:
@@ -545,7 +545,7 @@ is:
 c\_1 & -s\_1 & 0 \\\\
 s\_1 & c\_1 & 0 \\\\
 0 & 0 & 1
-\end{bmatrix} cdot
+\end{bmatrix} \cdot
 \begin{bmatrix} 
 1 & 0 & \ell\_1 \\\\
 0 & 1 & 0 \\\\
