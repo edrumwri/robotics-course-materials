@@ -5,8 +5,8 @@
     <description>Robotics</description>
     <link>/robotics-course-materials/robotics-course-materials/</link>
     <atom:link href="/robotics-course-materials/robotics-course-materials/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 07 Mar 2016 15:50:33 -0500</pubDate>
-    <lastBuildDate>Mon, 07 Mar 2016 15:50:33 -0500</lastBuildDate>
+    <pubDate>Mon, 07 Mar 2016 22:07:57 -0500</pubDate>
+    <lastBuildDate>Mon, 07 Mar 2016 22:07:57 -0500</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       
@@ -2932,11 +2932,12 @@ compute the Jacobian matrix of the double pendulum&amp;#39;s endpoint. Stated an
 l_1 c_1 + l_2 c_{1+2} \\
 l_1 s_1 + l_2 s_{1+2}
 \end{bmatrix}
+\label{eqn:fkin-example}
 \end{equation}&lt;/p&gt;
 
-&lt;p&gt;Before reading further, make sure you know (a) the dimension of \(\mathbf{q}\), (b) the dimension of \(\mathbf{f}(.)\), and the dimension of the Jacobian matrix that will be produced. &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Before reading further, make sure you know (a) the dimension of \(\mathbf{q}\), (b) the dimension of \(\mathbf{f}(.)\), and the dimension of the Jacobian matrix that will be produced.&lt;/strong&gt; &lt;/p&gt;
 
-&lt;p&gt;The Jacobian matrix for this equation will be:
+&lt;p&gt;The Jacobian matrix for Equation \ref{eqn:fkin-example} will be:
 \begin{equation}
 \begin{bmatrix}
 \frac{\partial f_1}{\partial q_1} &amp;amp; \frac{\partial f_1}{\partial q_2} \\
@@ -3003,14 +3004,16 @@ where \(\mathbf{x}\) and \(\dot{\mathbf{x}}\) are the position and velocity of t
 
 &lt;h3 id=&quot;numerical-inverse-kinematics&quot;&gt;Numerical inverse kinematics&lt;/h3&gt;
 
-&lt;p&gt;State of the art numerical approaches for inverse kinematics use a &lt;a href=&quot;https://en.wikipedia.org/wiki/Newton%27s_method&quot;&gt;Newton-Raphson based process for finding roots of nonlinear systems of equations&lt;/a&gt;. Such algorithms are susceptible to failing to find a solution,
+&lt;p&gt;State of the art numerical approaches for inverse kinematics use a &lt;a href=&quot;https://en.wikipedia.org/wiki/Newton%27s_method&quot;&gt;Newton-Raphson based process for finding roots of nonlinear systems of equations&lt;/a&gt;. These algorithms compute \(\mathbf{f}^{-1}(\mathbf{x}) = \mathbf{q}\) by finding the roots \(\mathbf{q}\) that satisfy \(\mathbf{f}(\mathbf{q}) - \mathbf{x} = \mathbf{0}\).&lt;/p&gt;
+
+&lt;p&gt;Such algorithms are susceptible to failing to find a solution,
 even when one or more solutions is known to exist. I will give an overview
 of the basic approach, but extensions to this approach can yield significantly 
 greater solvability.  &lt;/p&gt;
 
-&lt;p&gt;While we can&amp;#39;t necessarily compute \(\mathbf{f}^{-1}(.)\), we &lt;em&gt;can invert \(\mathbf{f}(.)\) in a small neighborhood around a generalized configuration&lt;/em&gt;. So 
-the idea behind the &lt;em&gt;resolved motion rate control (RMRC)&lt;/em&gt; Algorithm (to be described below) is this: repeatedly (1) invert \(\mathbf{f}(.)\) around a 
-generalized configuration and (2) use that inverse to determine how to alter 
+&lt;p&gt;The idea behind these approaches follows. While we can&amp;#39;t necessarily compute \(\mathbf{f}^{-1}(.)\), we &lt;em&gt;can invert \(\mathbf{f}(.)\) in a small neighborhood around a generalized configuration&lt;/em&gt;. So 
+the &lt;em&gt;resolved motion rate control (RMRC)&lt;/em&gt; Algorithm (to be described below) repeatedly (1) inverts \(\mathbf{f}(.)\) around a 
+generalized configuration and (2) uses that inverse to determine how to alter 
 the generalized coordinates to move toward the goal. The hope is that the
 process converges to an answer.&lt;/p&gt;
 
@@ -3036,7 +3039,7 @@ process converges to an answer.&lt;/p&gt;
 necessarily desirable when attempting to find
 joint angles that minimize residual error in desired position &lt;em&gt;and&lt;/em&gt;
 orientation simultaneously. One can attempt to use scaling factors to bias
-the least squares solution, but I generally attempt to avoid such hacking.&lt;/p&gt;
+the least squares solution, but I work to avoid such hacking.&lt;/p&gt;
 
 &lt;p&gt;I present the least squares options without further comment on this issue.&lt;/p&gt;
 
@@ -3063,25 +3066,35 @@ that the Jacobian transpose approach yields a descent direction follows.&lt;/p&g
 &lt;p&gt;Properties of the Jacobian transpose method:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Slow convergence to a solution (but requires only a \(O(n^2)\) operation, in place of expensive \(O(n^3)\) operations)&lt;/li&gt;
-&lt;li&gt;No numerical problems; robust to singularities and near singularities&lt;/li&gt;
+&lt;li&gt;Slow (linear) convergence to a solution (but requires \(O(n^2)\) operations, in place of expensive \(O(n^3)\) operations)&lt;/li&gt;
+&lt;li&gt;No numerical problems; robust to singularities and near singularities in the Jacobian matrix&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;&lt;strong&gt;Unregularized pseudo-inverse-based least squares&lt;/strong&gt;:&lt;/p&gt;
 
-&lt;p&gt;We can use the right pseudo inverse to solve the least squares problem.&lt;/p&gt;
+&lt;p&gt;Alternatively, we can use the right pseudo inverse to solve the least squares problem.&lt;/p&gt;
 
 &lt;p&gt;\begin{align}
 \Delta \mathbf{q} &amp;amp; = \mathbf{J}^+\Delta \mathbf{x} \\
  &amp;amp; = \mathbf{J}^\mathsf{T}(\mathbf{JJ}^\mathsf{T})^{-1}\Delta \mathbf{x}
 \end{align}&lt;/p&gt;
 
-&lt;p&gt;Warning: if the matrix is &lt;em&gt;nearly singular&lt;/em&gt;, it is possible that the factorization of \(\mathbf{JJ}^\mathsf{T}\) does not report that the matrix is singular  and yet \(\Delta \mathbf{q}\) is not be a descent direction.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Fast (quadratic) convergence to a solution (but requires expensive \(O(n^3)\) operations)&lt;/li&gt;
+&lt;li&gt;Numerical problems will occur near singularities in the Jacobian matrix; 
+if the matrix is &lt;em&gt;nearly singular&lt;/em&gt;, it is possible that the factorization of \(\mathbf{JJ}^\mathsf{T}\) does not report that the matrix is singular  and yet \(\Delta \mathbf{q}\) not be a descent direction.&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;&lt;strong&gt;(QR/SVD)-based least squares&lt;/strong&gt;:&lt;/p&gt;
 
 &lt;p&gt;Any standard numerical approach for solving least squares problems, including
 QR factorization and singular value decomposition (as described in the &lt;a href=&quot;../linear-algebra/&quot;&gt;linear algebra material&lt;/a&gt;) can be applied to this problem.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Fast (quadratic) convergence to a solution (but requires very expensive \(O(n^3)\) operations)&lt;/li&gt;
+&lt;li&gt;Numerical problems may occur near singularities in the Jacobian matrix, but
+failures will be less frequent than with unregularized least squares &lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;&lt;strong&gt;Least squares with nullspace&lt;/strong&gt;:&lt;/p&gt;
 
@@ -3125,7 +3138,7 @@ solution to \(||\mathbf{J}\Delta \mathbf{q} - \Delta \mathbf{x}||\), the nullspa
 &lt;p&gt;Similarly, when \(\mathbf{x}_{\textrm{des}}\) represents a target &lt;em&gt;2D&lt;/em&gt; orientation, \(\Delta \mathbf{x}\) can be computed using &lt;em&gt;nearly&lt;/em&gt; a simple scalar subtraction operation. Why &amp;quot;nearly&amp;quot;? Consider the example where the current orientation is \(\theta \equiv \frac{\pi}{15}\) and target orientation is \(\theta_{\textrm{des}} \equiv \frac{29\pi}{15}\). Why is the simple subtraction \(\theta_{\textrm{des}} - \theta\) not recommended?&lt;/p&gt;
 
 &lt;p&gt;When \(\mathbf{x}_{\textrm{des}}\) represents a target &lt;em&gt;3D&lt;/em&gt; orientation, 
-matters become more complicated. In this case, \(\mathbf{x}_{\textrm{des}}\) and \(\Delta \mathbf{x}\) will take a different form (why they must is a question for you to answer). We assume that \(\mathbf{x}_{\textrm{des}}\) is given as a \(3 \times 3\) rotation matrix and that \(\Delta \mathbf{x} \in \mathbb{R}^3\). &lt;/p&gt;
+matters become more complicated. In such acases, \(\mathbf{x}_{\textrm{des}}\) and \(\Delta \mathbf{x}\) will take a different form (why they must is a question for you to answer). We assume that \(\mathbf{x}_{\textrm{des}}\) is given as a \(3 \times 3\) rotation matrix and that \(\Delta \mathbf{x} \in \mathbb{R}^3\). &lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;../poses3&quot;&gt;Recall that&lt;/a&gt;:
 \begin{equation}
@@ -3143,9 +3156,9 @@ Assume that \(\Delta t = 1\)- it doesn&amp;#39;t matter what we set \(\Delta t\)
 \end{align}&lt;/p&gt;
 
 &lt;p&gt;Recall that we desire for \(\Delta \mathbf{x}\) to be a three dimensional vector, while \(\tilde{\mathbf{\omega}}\) is a \(3 \times 3\) matrix. In fact, 
-\(\tilde{\mathbf{\omega}}\) &lt;em&gt;should&lt;/em&gt; be a skew symmetric matrix (&lt;a href=&quot;../poses3&quot;&gt;as you hopefully recall&lt;/a&gt; but the
+\(\tilde{\mathbf{\omega}}\) &lt;em&gt;should&lt;/em&gt; be a skew symmetric matrix (&lt;a href=&quot;../poses3&quot;&gt;as you hopefully recall&lt;/a&gt;) but the
 first order approximation and lack of re-orthogonalization mean that it
-generally will not be. So, to get \(\omega\), we use the skew-symmetric form of \(\mathbf{\omega} \times\) (again, &lt;a href=&quot;../poses3&quot;&gt;as you should recall&lt;/a&gt; resulting in:
+generally will not be. So, to get \(\omega\), we use the skew-symmetric form of \(\mathbf{\omega} \times\) (again, &lt;a href=&quot;../poses3&quot;&gt;as you should recall&lt;/a&gt;) resulting in:
 \begin{equation}
 \Delta \mathbf{x} = \frac{1}{2} \begin{bmatrix}
 \tilde{\omega}_{32} - \tilde{\omega}_{23} \\
@@ -3181,7 +3194,8 @@ a (local) optimum \(\alpha\). This approach is computationally expensive.&lt;/li
 is adaptive, like (2), but much faster.&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;For your assignment, you will use the easiest option (1).&lt;/p&gt;
+&lt;p&gt;Use Option (1) when your problem does not vary much, and you need to prototype
+a solution quickly. Otherwise, use Option (3).&lt;/p&gt;
 
 &lt;h4 id=&quot;manipulability&quot;&gt;Manipulability&lt;/h4&gt;
 
@@ -3209,11 +3223,11 @@ computationally expensive singular value decomposition.&lt;/em&gt; &lt;/p&gt;
 
 &lt;h5 id=&quot;state-of-the-art-approaches-for-numerical-ik&quot;&gt;State of the art approaches for numerical IK&lt;/h5&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://www.researchgate.net/publication/282852814_TRAC-IK_An_Open-Source_Library_for_Improved_Solving_of_Generic_Inverse_Kinematics&quot;&gt;State of the art IK approaches&lt;/a&gt; use quasi-Newton methods for nonlinear programming
+&lt;p&gt;&lt;a href=&quot;https://www.researchgate.net/publication/282852814_TRAC-IK_An_Open-Source_Library_for_Improved_Solving_of_Generic_Inverse_Kinematics&quot;&gt;State of the art IK approaches&lt;/a&gt; use &lt;a href=&quot;https://en.wikipedia.org/wiki/Quasi-Newton_method&quot;&gt;quasi-Newton methods&lt;/a&gt; for nonlinear programming
 with inequality constraints to compute inverse kinematics with joint limits.
 These are generic (albeit carefully crafted) approaches applied to a standard
-nonlinear programming description of the problem. Like methods described above,
-the &lt;em&gt;convergence of numerical inverse kinematics approaches is heavily
+nonlinear programming description of the problem. With all numerical IK
+approaches, &lt;em&gt;convergence is heavily
 dependent upon the starting configuration&lt;/em&gt;.&lt;/p&gt;
 
 &lt;h3 id=&quot;computing-the-jacobian-matrix&quot;&gt;Computing the Jacobian matrix&lt;/h3&gt;

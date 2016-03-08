@@ -82,11 +82,12 @@ compute the Jacobian matrix of the double pendulum's endpoint. Stated another wa
 l\_1 c\_1 + l\_2 c\_{1+2} \\\\
 l\_1 s\_1 + l\_2 s\_{1+2}
 \end{bmatrix}
+\label{eqn:fkin-example}
 \end{equation}
 
-Before reading further, make sure you know (a) the dimension of \\(\mathbf{q}\\), (b) the dimension of \\(\mathbf{f}(.)\\), and the dimension of the Jacobian matrix that will be produced. 
+**Before reading further, make sure you know (a) the dimension of \\(\mathbf{q}\\), (b) the dimension of \\(\mathbf{f}(.)\\), and the dimension of the Jacobian matrix that will be produced.** 
 
-The Jacobian matrix for this equation will be:
+The Jacobian matrix for Equation \ref{eqn:fkin-example} will be:
 \begin{equation}
 \begin{bmatrix}
 \frac{\partial f\_1}{\partial q\_1} & \frac{\partial f\_1}{\partial q\_2} \\\\
@@ -147,14 +148,16 @@ I cannot overstate the importance of Equations \ref{eqn:Jacobians} and \ref{eqn:
 
 ### Numerical inverse kinematics
 
-State of the art numerical approaches for inverse kinematics use a [Newton-Raphson based process for finding roots of nonlinear systems of equations](https://en.wikipedia.org/wiki/Newton%27s_method). Such algorithms are susceptible to failing to find a solution,
+State of the art numerical approaches for inverse kinematics use a [Newton-Raphson based process for finding roots of nonlinear systems of equations](https://en.wikipedia.org/wiki/Newton%27s_method). These algorithms compute \\(\mathbf{f}^{-1}(\mathbf{x}) = \mathbf{q}\\) by finding the roots \\(\mathbf{q}\\) that satisfy \\(\mathbf{f}(\mathbf{q}) - \mathbf{x} = \mathbf{0}\\).
+
+Such algorithms are susceptible to failing to find a solution,
 even when one or more solutions is known to exist. I will give an overview
 of the basic approach, but extensions to this approach can yield significantly 
 greater solvability.  
 
-While we can't necessarily compute \\(\mathbf{f}^{-1}(.)\\), we _can invert \\(\mathbf{f}(.)\\) in a small neighborhood around a generalized configuration_. So 
-the idea behind the _resolved motion rate control (RMRC)_ Algorithm (to be described below) is this: repeatedly (1) invert \\(\mathbf{f}(.)\\) around a 
-generalized configuration and (2) use that inverse to determine how to alter 
+The idea behind these approaches follows. While we can't necessarily compute \\(\mathbf{f}^{-1}(.)\\), we _can invert \\(\mathbf{f}(.)\\) in a small neighborhood around a generalized configuration_. So 
+the _resolved motion rate control (RMRC)_ Algorithm (to be described below) repeatedly (1) inverts \\(\mathbf{f}(.)\\) around a 
+generalized configuration and (2) uses that inverse to determine how to alter 
 the generalized coordinates to move toward the goal. The hope is that the
 process converges to an answer.
 
@@ -182,7 +185,7 @@ Due to unit mixing (angular vs. metric), a least squares solution is not
 necessarily desirable when attempting to find
 joint angles that minimize residual error in desired position _and_
 orientation simultaneously. One can attempt to use scaling factors to bias
-the least squares solution, but I generally attempt to avoid such hacking.
+the least squares solution, but I work to avoid such hacking.
 
 I present the least squares options without further comment on this issue.
 
@@ -208,8 +211,8 @@ _Proof_: \\((\mathbf{JJ}^\mathsf{T}\Delta \mathbf{x})^\mathsf{T}\Delta \mathbf{x
 
 Properties of the Jacobian transpose method:
 
-* Slow convergence to a solution (but requires only a \\(O(n^2)\\) operation, in place of expensive \\(O(n^3)\\) operations)
-* No numerical problems; robust to singularities and near singularities
+* Slow (linear) convergence to a solution (but requires \\(O(n^2)\\) operations, in place of expensive \\(O(n^3)\\) operations)
+* No numerical problems; robust to singularities and near singularities in the Jacobian matrix
 
 {% comment %}
 Graduate student problem: derive the Jacobian transpose method using
@@ -218,14 +221,16 @@ least squares and gradient descent.
 
 __Unregularized pseudo-inverse-based least squares__:
 
-We can use the right pseudo inverse to solve the least squares problem.
+Alternatively, we can use the right pseudo inverse to solve the least squares problem.
 
 \begin{align}
 \Delta \mathbf{q} & = \mathbf{J}^+\Delta \mathbf{x} \\\\
  & = \mathbf{J}^\mathsf{T}(\mathbf{JJ}^\mathsf{T})^{-1}\Delta \mathbf{x}
 \end{align}
 
-Warning: if the matrix is _nearly singular_, it is possible that the factorization of \\(\mathbf{JJ}^\mathsf{T}\\) does not report that the matrix is singular  and yet \\(\Delta \mathbf{q}\\) is not be a descent direction.
+* Fast (quadratic) convergence to a solution (but requires expensive \\(O(n^3)\\) operations)
+* Numerical problems will occur near singularities in the Jacobian matrix; 
+if the matrix is _nearly singular_, it is possible that the factorization of \\(\mathbf{JJ}^\mathsf{T}\\) does not report that the matrix is singular  and yet \\(\Delta \mathbf{q}\\) not be a descent direction.
 
 {% comment %}
 1. What is the size of the square matrix in J*J'?
@@ -240,6 +245,10 @@ __(QR/SVD)-based least squares__:
 
 Any standard numerical approach for solving least squares problems, including
 QR factorization and singular value decomposition (as described in the [linear algebra material](../linear-algebra/)) can be applied to this problem.
+
+* Fast (quadratic) convergence to a solution (but requires very expensive \\(O(n^3)\\) operations)
+* Numerical problems may occur near singularities in the Jacobian matrix, but
+failures will be less frequent than with unregularized least squares 
 
 __Least squares with nullspace__:
 
@@ -276,13 +285,14 @@ Finally, satisfying a hierarchy of task goals is possible using multiple nullspa
 What happens when we compute numerical inverse kinematics without specifying a target position or orientation task?
 {% endcomment %}
 
+
 ##### Computing \\(\Delta \mathbf{x}\\)
 When \\(\mathbf{x}\_{\textrm{des}}\\) represents a target in Cartesian space (we do not care about \\(p\\)'s orientation), \\(\Delta \mathbf{x}\\) is computed using only a simple vector subtraction operation.
 
 Similarly, when \\(\mathbf{x}\_{\textrm{des}}\\) represents a target _2D_ orientation, \\(\Delta \mathbf{x}\\) can be computed using _nearly_ a simple scalar subtraction operation. Why "nearly"? Consider the example where the current orientation is \\(\theta \equiv \frac{\pi}{15}\\) and target orientation is \\(\theta\_{\textrm{des}} \equiv \frac{29\pi}{15}\\). Why is the simple subtraction \\(\theta\_{\textrm{des}} - \theta\\) not recommended?
 
 When \\(\mathbf{x}\_{\textrm{des}}\\) represents a target _3D_ orientation, 
-matters become more complicated. In this case, \\(\mathbf{x}\_{\textrm{des}}\\) and \\(\Delta \mathbf{x}\\) will take a different form (why they must is a question for you to answer). We assume that \\(\mathbf{x}\_{\textrm{des}}\\) is given as a \\(3 \times 3\\) rotation matrix and that \\(\Delta \mathbf{x} \in \mathbb{R}^3\\). 
+matters become more complicated. In such acases, \\(\mathbf{x}\_{\textrm{des}}\\) and \\(\Delta \mathbf{x}\\) will take a different form (why they must is a question for you to answer). We assume that \\(\mathbf{x}\_{\textrm{des}}\\) is given as a \\(3 \times 3\\) rotation matrix and that \\(\Delta \mathbf{x} \in \mathbb{R}^3\\). 
 
 [Recall that](../poses3):
 \begin{equation}
@@ -304,9 +314,9 @@ How can \tilde{\omega} above be simplified further?
 {% endcomment %}
 
 Recall that we desire for \\(\Delta \mathbf{x}\\) to be a three dimensional vector, while \\(\tilde{\mathbf{\omega}}\\) is a \\(3 \times 3\\) matrix. In fact, 
-\\(\tilde{\mathbf{\omega}}\\) _should_ be a skew symmetric matrix ([as you hopefully recall](../poses3) but the
+\\(\tilde{\mathbf{\omega}}\\) _should_ be a skew symmetric matrix ([as you hopefully recall](../poses3)) but the
 first order approximation and lack of re-orthogonalization mean that it
-generally will not be. So, to get \\(\omega\\), we use the skew-symmetric form of \\(\mathbf{\omega} \times\\) (again, [as you should recall](../poses3) resulting in:
+generally will not be. So, to get \\(\omega\\), we use the skew-symmetric form of \\(\mathbf{\omega} \times\\) (again, [as you should recall](../poses3)) resulting in:
 \begin{equation}
 \Delta \mathbf{x} = \frac{1}{2} \begin{bmatrix}
 \tilde{\omega}\_{32} - \tilde{\omega}\_{23} \\\\
@@ -340,7 +350,8 @@ There are a few options for the ray search:
 3. Use [backtracking line search](https://en.wikipedia.org/wiki/Backtracking_line_search), which requires a little information, but
    is adaptive, like (2), but much faster.
 
-For your assignment, you will use the easiest option (1).
+Use Option (1) when your problem does not vary much, and you need to prototype
+a solution quickly. Otherwise, use Option (3).
 
 #### Manipulability
 
@@ -365,11 +376,11 @@ is reduced, even though computing the condition number requires a (relatively)
 computationally expensive singular value decomposition._ 
 
 ##### State of the art approaches for numerical IK
-[State of the art IK approaches](https://www.researchgate.net/publication/282852814_TRAC-IK_An_Open-Source_Library_for_Improved_Solving_of_Generic_Inverse_Kinematics) use quasi-Newton methods for nonlinear programming
+[State of the art IK approaches](https://www.researchgate.net/publication/282852814_TRAC-IK_An_Open-Source_Library_for_Improved_Solving_of_Generic_Inverse_Kinematics) use [quasi-Newton methods](https://en.wikipedia.org/wiki/Quasi-Newton_method) for nonlinear programming
 with inequality constraints to compute inverse kinematics with joint limits.
 These are generic (albeit carefully crafted) approaches applied to a standard
-nonlinear programming description of the problem. Like methods described above,
-the _convergence of numerical inverse kinematics approaches is heavily
+nonlinear programming description of the problem. With all numerical IK
+approaches, _convergence is heavily
 dependent upon the starting configuration_.
 
 ### Computing the Jacobian matrix
