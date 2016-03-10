@@ -269,15 +269,21 @@ solution to \\(||\mathbf{J}\Delta \mathbf{q} - \Delta \mathbf{x}||\\), the nulls
 \mathbf{R} \equiv (\mathbf{I} - \mathbf{J}^+\mathbf{J})
 \end{equation}
 
-- if delta q + R y minimizes least squares problem
-- can optimize g(q), if g(q) is linear
-- 
+If \\(\Delta \mathbf{q}\\) minimizes the residual \\(||\mathbf{J\Delta q} = \mathbf{\Delta x}||\\), then \\(\mathbf{\Delta q} + \mathbf{Ry}\\), where \\(\mathbf{R} \in \mathbb{R}^{n \times m}, \mathbf{y} \in \mathbb{R}^m\\) also minimizes the residual.
+
+_Proof_:
+
+1. Let \\(\mathbf{e} \equiv \mathbf{J}\mathbf{\Delta}\mathbf{q} - \mathbf{\Delta x}\\)
+2. Then \\(\mathbf{J}(\Delta \mathbf{q} + \mathbf{Ry}) - \mathbf{\Delta x} = \mathbf{e}\\) because, by definition of the nullspace, \\(\mathbf{JRy} = \mathbf{0}\\).
+
+The secondary goal(s) is expressed as one or more objective functions \\(\mathbf{g}(\mathbf{q})\\) that attains its minimum at \\(\mathbf{g}(\mathbf{\Delta q} + \mathbf{Ry}) = \mathbf{0}\\).
+
 
 Typical objective functions:
 
 - Maximizing a manipulability measure: \\(g(\mathbf{q}) \equiv \sqrt{\textrm{det}(\mathbf{J(q)J}^\mathsf{T}(\mathbf{q})}\\). Moves the robot away from singular configurations.
-- Distance from joint limits: \\(g(\mathbf{q}) \equiv \\)
-- Distance from an objstacle: \\(g(\mathbf{q}) \equiv \min\_{\mathbf{p}, \mathbf{o}} ||\mathbf{p}(\mathbf{q}) - \mathbf{o}||\\)
+- Maximizing distance from joint limits: \\(g(\mathbf{q}) \equiv \sum_{i=1}^n (q^{i^u} - q^i)^2 + (q^i - q^{i^l})^2\\)
+- Maximizing distance to an objstacle: \\(g(\mathbf{q}) \equiv \min\_{\mathbf{p}, \mathbf{o}} ||\mathbf{p}(\mathbf{q}) - \mathbf{o}||\\)
 
 Finally, satisfying a hierarchy of task goals is possible using multiple nullspace projections.
 
@@ -384,17 +390,6 @@ approaches, _convergence is heavily
 dependent upon the starting configuration_.
 
 ### Computing the Jacobian matrix
-TODO: What is the frame that the Jacobian is computed in?
-Ans: frame 
-
-_One of the biggest challenges with programming robots that manipulate is
-that matrices (like Jacobians) lose their meaning_: they are simply a
-collection of numbers. If the matrix is computed incorrectly, the effect
-may not be obvious.
-
-**To help with this problem, you should always consider the frame of 
-reference in which you are computing such quantities.** 
-
 We will only consider computing the Jacobian matrix for revolute and prismatic
 joints, as these are the most common powered joints, and I will only discuss
 robots with bases affixed to their environment (like industrial robots). 
@@ -404,6 +399,15 @@ the numbering is arbitrary_.
 
 I will designate the axis of joint \\(i\\) to point along \\(\hat{\mathbf{z}}\_i\\) (the hat indicates that the vector is normalized) and the current
 location of joint \\(i\\) as \\(\mathbf{j}\_i\\).  
+
+_One of the biggest challenges with programming robots that manipulate is
+that matrices (like Jacobians) lose their meaning_: they are simply a
+collection of numbers. If the matrix is computed incorrectly, the effect
+may not be obvious.
+
+**To help with this problem, you should always consider the frame of 
+reference in which you are computing such quantities.** The frame of reference
+for the Jacobian matrix that we compute below is the global reference frame. 
 
 **Bonus question: how would the Jacobian matrix change for a robot with a floating base?**
 
@@ -424,7 +428,7 @@ p^o\_1 - j\_{i\_1}
 \end{bmatrix}
 \end{equation}
 
-This equation is a cross product operation, as will be seen when we compute the Jacobian matrix for translational motion in 3D. 
+This equation is a cross product operation, as will be seen when we compute the Jacobian matrix for translational motion in 3D. We denote \\(\mathbf{p}^o\\) as the point under consideration located on the robot, defined in the global frame. 
 
 A prismatic joint's contribution to translational motion is just the joint axis:
 
@@ -437,8 +441,6 @@ A prismatic joint's contribution to translational motion is just the joint axis:
 #### Computing the Jacobian matrix for translational motion only (3D)
 Translational motion in 3D will yield a Jacobian matrix with three rows.
  
-TODO: define p^o as origin of frame p in the global frame
-
 A column of the Jacobian matrix takes the following form for translational motion with a revolute joint:
 
 \begin{equation}

@@ -5,8 +5,8 @@
     <description>Robotics</description>
     <link>/robotics-course-materials/robotics-course-materials/</link>
     <atom:link href="/robotics-course-materials/robotics-course-materials/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 07 Mar 2016 22:07:57 -0500</pubDate>
-    <lastBuildDate>Mon, 07 Mar 2016 22:07:57 -0500</lastBuildDate>
+    <pubDate>Wed, 09 Mar 2016 12:49:30 -0500</pubDate>
+    <lastBuildDate>Wed, 09 Mar 2016 12:49:30 -0500</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       
@@ -3115,18 +3115,23 @@ solution to \(||\mathbf{J}\Delta \mathbf{q} - \Delta \mathbf{x}||\), the nullspa
 \mathbf{R} \equiv (\mathbf{I} - \mathbf{J}^+\mathbf{J})
 \end{equation}&lt;/p&gt;
 
-&lt;ul&gt;
-&lt;li&gt;if delta q + R y minimizes least squares problem&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;If \(\Delta \mathbf{q}\) minimizes the residual \(||\mathbf{J\Delta q} = \mathbf{\Delta x}||\), then \(\mathbf{\Delta q} + \mathbf{Ry}\), where \(\mathbf{R} \in \mathbb{R}^{n \times m}, \mathbf{y} \in \mathbb{R}^m\) also minimizes the residual.&lt;/p&gt;
 
-&lt;h2 id=&quot;can-optimize-g-q-if-g-q-is-linear&quot;&gt;- can optimize g(q), if g(q) is linear&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Proof&lt;/em&gt;:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Let \(\mathbf{e} \equiv \mathbf{J}\mathbf{\Delta}\mathbf{q} - \mathbf{\Delta x}\)&lt;/li&gt;
+&lt;li&gt;Then \(\mathbf{J}(\Delta \mathbf{q} + \mathbf{Ry}) - \mathbf{\Delta x} = \mathbf{e}\) because, by definition of the nullspace, \(\mathbf{JRy} = \mathbf{0}\).&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The secondary goal(s) is expressed as one or more objective functions \(\mathbf{g}(\mathbf{q})\) that attains its minimum at \(\mathbf{g}(\mathbf{\Delta q} + \mathbf{Ry}) = \mathbf{0}\).&lt;/p&gt;
 
 &lt;p&gt;Typical objective functions:&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Maximizing a manipulability measure: \(g(\mathbf{q}) \equiv \sqrt{\textrm{det}(\mathbf{J(q)J}^\mathsf{T}(\mathbf{q})}\). Moves the robot away from singular configurations.&lt;/li&gt;
-&lt;li&gt;Distance from joint limits: \(g(\mathbf{q}) \equiv \)&lt;/li&gt;
-&lt;li&gt;Distance from an objstacle: \(g(\mathbf{q}) \equiv \min_{\mathbf{p}, \mathbf{o}} ||\mathbf{p}(\mathbf{q}) - \mathbf{o}||\)&lt;/li&gt;
+&lt;li&gt;Maximizing distance from joint limits: \(g(\mathbf{q}) \equiv \sum_{i=1}^n (q^{i^u} - q^i)^2 + (q^i - q^{i^l})^2\)&lt;/li&gt;
+&lt;li&gt;Maximizing distance to an objstacle: \(g(\mathbf{q}) \equiv \min_{\mathbf{p}, \mathbf{o}} ||\mathbf{p}(\mathbf{q}) - \mathbf{o}||\)&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Finally, satisfying a hierarchy of task goals is possible using multiple nullspace projections.&lt;/p&gt;
@@ -3232,17 +3237,6 @@ dependent upon the starting configuration&lt;/em&gt;.&lt;/p&gt;
 
 &lt;h3 id=&quot;computing-the-jacobian-matrix&quot;&gt;Computing the Jacobian matrix&lt;/h3&gt;
 
-&lt;p&gt;TODO: What is the frame that the Jacobian is computed in?
-Ans: frame &lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;One of the biggest challenges with programming robots that manipulate is
-that matrices (like Jacobians) lose their meaning&lt;/em&gt;: they are simply a
-collection of numbers. If the matrix is computed incorrectly, the effect
-may not be obvious.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;To help with this problem, you should always consider the frame of 
-reference in which you are computing such quantities.&lt;/strong&gt; &lt;/p&gt;
-
 &lt;p&gt;We will only consider computing the Jacobian matrix for revolute and prismatic
 joints, as these are the most common powered joints, and I will only discuss
 robots with bases affixed to their environment (like industrial robots). 
@@ -3252,6 +3246,15 @@ the numbering is arbitrary&lt;/em&gt;.&lt;/p&gt;
 
 &lt;p&gt;I will designate the axis of joint \(i\) to point along \(\hat{\mathbf{z}}_i\) (the hat indicates that the vector is normalized) and the current
 location of joint \(i\) as \(\mathbf{j}_i\).  &lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;One of the biggest challenges with programming robots that manipulate is
+that matrices (like Jacobians) lose their meaning&lt;/em&gt;: they are simply a
+collection of numbers. If the matrix is computed incorrectly, the effect
+may not be obvious.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;To help with this problem, you should always consider the frame of 
+reference in which you are computing such quantities.&lt;/strong&gt; The frame of reference
+for the Jacobian matrix that we compute below is the global reference frame. &lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Bonus question: how would the Jacobian matrix change for a robot with a floating base?&lt;/strong&gt;&lt;/p&gt;
 
@@ -3268,7 +3271,7 @@ p^o_1 - j_{i_1}
 \end{bmatrix}
 \end{equation}&lt;/p&gt;
 
-&lt;p&gt;This equation is a cross product operation, as will be seen when we compute the Jacobian matrix for translational motion in 3D. &lt;/p&gt;
+&lt;p&gt;This equation is a cross product operation, as will be seen when we compute the Jacobian matrix for translational motion in 3D. We denote \(\mathbf{p}^o\) as the point under consideration located on the robot, defined in the global frame. &lt;/p&gt;
 
 &lt;p&gt;A prismatic joint&amp;#39;s contribution to translational motion is just the joint axis:&lt;/p&gt;
 
@@ -3281,8 +3284,6 @@ p^o_1 - j_{i_1}
 &lt;h4 id=&quot;computing-the-jacobian-matrix-for-translational-motion-only-3d&quot;&gt;Computing the Jacobian matrix for translational motion only (3D)&lt;/h4&gt;
 
 &lt;p&gt;Translational motion in 3D will yield a Jacobian matrix with three rows.&lt;/p&gt;
-
-&lt;p&gt;TODO: define p^o as origin of frame p in the global frame&lt;/p&gt;
 
 &lt;p&gt;A column of the Jacobian matrix takes the following form for translational motion with a revolute joint:&lt;/p&gt;
 
