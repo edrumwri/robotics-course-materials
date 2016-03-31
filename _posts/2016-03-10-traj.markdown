@@ -270,7 +270,7 @@ adds a necessary eighth equation:
 \end{align}
 {% endcomment %}
 
-{% comment }
+{% comment %}
 TODO: ensure that student knows how to evaluate the spline / feed the value into the controller
 {% endcomment %}
 
