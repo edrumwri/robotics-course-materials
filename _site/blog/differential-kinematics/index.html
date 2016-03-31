@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title>Differential kinematics and inverse kinematics</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/robotics-course-materials/assets/img/favicon.ico" />
+
+    <!-- Come and get me RSS readers -->
+    <link rel="alternate" type="application/rss+xml" title="Robotics" href="/robotics-course-materials/robotics-course-materials/feed.xml" />
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/robotics-course-materials/assets/css/style.css">
+    <!--[if IE 8]><link rel="stylesheet" href="/robotics-course-materials/assets/css/ie.css"><![endif]-->
+    <link rel="canonical" href="/robotics-course-materials/robotics-course-materials/blog/differential-kinematics/">
+
+    <!-- Modernizr -->
+    <script src="/robotics-course-materials/assets/js/modernizr.custom.15390.js" type="text/javascript"></script>
+
+    
+</head>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" >
+</script>
+
+<body>
+
+    <div class="header">
+     <div class="container">
+         <h1 class="logo"><a href="/robotics-course-materials/">Robotics</a></h1>
+         <nav class="nav-collapse">
+             <ul class="noList">
+                 
+             </ul>
+         </nav>
+     </div>
+ </div><!-- end .header -->
+
+
+   <div class="content">
+      <div class="container">
+         <div class="post">
+  
+  <h1 class="postTitle">Differential kinematics and inverse kinematics</h1>
+  <p class="meta">December 11, 2015 | <span class="time">23</span> Minute Read</p>
+  
+  <p>This learning module covers the relationship between movement in the 
+generalized coordinates
+and corresponding movement at a designated point on the robot. You may find
+it helpful to consider an industrial robot, in which case you can substitute
+the term “joint positions” or “joint angles” for “generalized coordinates and
+the term “joint velocities” for “generalized velocities”, 
+rather than more general robots (like humanoids).</p>
+
+<h3 id="analytical-inverse-kinematics">Analytical inverse kinematics</h3>
+
+<p>Recall that the forward kinematics equation is:</p>
+
+<p>\begin{equation}
+\mathbf{x} = \mathbf{f}^p(\mathbf{q})
+\end{equation}</p>
+
+<p>where \(p\) is a frame attached to a rigid link of the robot,
+\(\mathbf{q}\) are the \(n\) generalized coordinates of the robot, and \(\mathbf{x}\) is the pose of \(p\) in another frame (typically the world frame). If \(\mathbf{x}\) is represented by \(m\) real numbers, then \(\mathbf{f} : \mathbb{R}^n \to \mathbb{R}^m \).</p>
+
+<p><strong>We will use \(p\) throughout this learning module to refer to
+a pose attached to a rigid link on the robot.</strong></p>
+
+<p>
+<table class="image">
+<caption align="bottom">Depiction of Frame p, which is defined with respect to one of the robot's links. While forward kinematics seeks to determine how p is positioned and oriented with respect to the global frame, differential kinematics seek to determine how quickly p changes as a function of the robot's current configuration.</caption>
+<img src="../../assets/img/frame-p-on-robot.png" alt="Depiction of Frame p, which is defined with respect to one of the robot's links. While forward kinematics seeks to determine how p is positioned and oriented with respect to the global frame, differential kinematics seek to determine how quickly p changes as a function of the robot's current configuration." width="" />
+</table>
+</p>
+
+<h4 id="inverting-mathbff">Inverting \(\mathbf{f}(.)\)</h4>
+
+<p>Inverting \(\mathbf{f}(.)\) means determining \(\mathbf{f}^{-1}(\mathbf{x}) = \mathbf{q}\), where \(\mathbf{x}\) is one of the possible outputs of the forward kinematics function (SO(2), SO(3), \(\mathbb{R}^2, \mathbb{R}^3\), SE(2), SE(3)). This inversion is generally challenging because \(\mathbf{f}(.)\) is a nonlinear function. Additional challenges are that:</p>
+
+<ul>
+  <li>\(\mathbf{f}^{-1}(\mathbf{x})\) may have no solutions</li>
+  <li>\(\mathbf{f}^{-1}(\mathbf{x}\)) may have multiple solutions</li>
+  <li>Computation of \(\mathbf{f}^{-1}(.)\) generally recommends the use of a symbolic mathematics package (like <a href="http://maxima.sourceforge.net">Macsyma</a>), which means that changing the kinematics of the robot means re-derivation of the inverse kinematics function</li>
+</ul>
+
+<p>Analytical inverse kinematics requires that the number of constraints be
+equal to the robot’s number of generalized coordinates. Artificial constraints
+may be introduced to satisfy this requirement. For example, a “typical”
+anthropomorphic arm provides seven degrees of freedom, while controlling
+position and orientation in 3D presents six constraints. Analytical inverse
+kinematics solutions for such arms typically leave the elbow position as
+an open parameter for the user to adjust, reducing the controllable degrees
+of freedom of the arm to six.</p>
+
+<p>
+<table class="image">
+<caption align="bottom">An example of analytical inverse kinematics, using a two link planar arm. Image cribbed from Stefan Schaal's course notes.</caption>
+<img src="../../assets/img/ik.png" alt="An example of analytical inverse kinematics, using a two link planar arm. Image cribbed from Stefan Schaal's course notes." width="" />
+</table>
+</p>
+
+<h3 id="differential-kinematics">Differential kinematics</h3>
+
+<p>Another way to do inverse kinematics is using <em>differential kinematics</em>. Differential kinematics examines the change in \(\mathbf{x}\) given small
+changes in \(\mathbf{q}\). <a href="../forward-kinematics">Recall that \(\mathbf{x}\) can represent position and/or orientation in 2D or 3D</a>, so the aforementioned “small changes” refer to small changes in position and/or orientation.</p>
+
+<p>\begin{equation}
+\dot{\mathbf{x}} = \begin{bmatrix} 
+\frac{\partial f_1}{\partial q_1} &amp; \ldots &amp; \frac{\partial f_1}{\partial q_n} \<br />
+&amp; \vdots &amp; \<br />
+\frac{\partial f_m}{\partial q_1} &amp; \ldots &amp; \frac{\partial f_m}{\partial q_n}
+\end{bmatrix}
+\begin{bmatrix}
+\dot{q}_1 \<br />
+\vdots \<br />
+\dot{q}_n
+\end{bmatrix} \label{eqn:Jacobians-full}
+\end{equation}</p>
+
+<p>The first matrix is the <em>Jacobian of pose \(\mathbf{p}\) with respect to
+the generalized configuration</em>. Refer back to the <a href="../linear-algebra/">material on linear algebra</a> if you need a refresher on Jacobian matrices. The second matrix is just the generalized
+velocity, \(\dot{\mathbf{q}}\). So, we can write Equation \ref{eqn:Jacobians-full} as:
+\begin{equation}
+\dot{\mathbf{x}} = \mathbf{J}\dot{\mathbf{q}} \label{eqn:Jacobians}
+\end{equation}
+<em>You will frequently see this equation in robotic manipulation</em>.</p>
+
+<h4 id="an-example-analytically-computing-the-jacobian-of-a-double-pendulum">An example: analytically computing the Jacobian of a double pendulum</h4>
+
+<p>Consider the <a href="../forward-kinematics">double pendulum from the learning module on forward kinematics</a>. At this point in time, assume that we wish only to
+compute the Jacobian matrix of the double pendulum’s endpoint. Stated another way, \(\mathbf{f}(\mathbf{q}) \to \mathbb{R}^2\) and is defined as:
+\begin{equation}
+\begin{bmatrix}
+l_1 c_1 + l_2 c_{1+2} \<br />
+l_1 s_1 + l_2 s_{1+2}
+\end{bmatrix}
+\label{eqn:fkin-example}
+\end{equation}</p>
+
+<p><strong>Before reading further, make sure you know (a) the dimension of \(\mathbf{q}\), (b) the dimension of \(\mathbf{f}(.)\), and the dimension of the Jacobian matrix that will be produced.</strong></p>
+
+<p>The Jacobian matrix for Equation \ref{eqn:fkin-example} will be:
+\begin{equation}
+\begin{bmatrix}
+\frac{\partial f_1}{\partial q_1} &amp; \frac{\partial f_1}{\partial q_2} \<br />
+\frac{\partial f_2}{\partial q_1} &amp; \frac{\partial f_2}{\partial q_2}
+\end{bmatrix}
+\end{equation}</p>
+
+<p>When I determine the derivatives, I get this:
+\begin{equation}
+\begin{bmatrix}
+-l_1 s_1 - l_2 s_{1+2} &amp; -l_2 s_{1+2} \<br />
+l_1 c_1  + l_2 c_{1+2} &amp; l_2 c_{1+2}
+\end{bmatrix}
+\end{equation}</p>
+
+<h4 id="consideration-for-orientation">Consideration for orientation</h4>
+
+<p>What about when the \(\mathbf{f}(.)\) mapping contains orientation components (i.e., SO(2), SO(3), SE(2), SE(3))? If we use the \(3 \times 3\) homogeneous 
+transformation matrix from <a href="../forward-kinematics">the forard kinematics module</a>, then the size of the Jacobian matrix will be \(3 \times 3 \times 2\).
+Such higher dimensional matrices are not fun to deal with! So it makes sense
+for us to use a non-matrix representation of orientation in this case. The orientation of the endpoint (or any point, for that matter) of the second link in the double pendulum is:
+\begin{equation}
+\theta_1 + \theta_2 \label{eqn:dp-orientation}
+\end{equation}</p>
+
+<p><strong>Practice computing the Jacobian matrix for Equation \ref{eqn:dp-orientation}. Then make sure you know what relationship this Jacobian is computing in Equation \ref{eqn:Jacobians}.</strong></p>
+
+<h4 id="what-does-the-jacobian-tell-us">What does the Jacobian tell us?</h4>
+<p>Column \(i\) of the Jacobian gives us the scale of joint \(i\)’s 
+instantaneous contribution to the 
+movement in all dimensions of operational space. Row \(j\) of the Jacobian 
+gives us instantaneous contribution of all joints to dimension \(j\) of
+operational space.</p>
+
+<p><strong>Note that the contribution of joint \(i\) to \(\mathbf{p}\) is zero if joint \(i\) does not affect \(\mathbf{p}\)’s movement</strong> (and therefore, column \(i\) of the Jacobian will be a zero vector).</p>
+
+<p>
+<table class="image">
+<caption align="bottom">Axis six does not contribute to movement of Frame p. The column of the Jacobian matrix corresponding to Axis six should therefore be zero.</caption>
+<img src="../../assets/img/frame-p-on-robot.png" alt="Axis six does not contribute to movement of Frame p. The column of the Jacobian matrix corresponding to Axis six should therefore be zero." width="" />
+</table>
+</p>
+
+<h4 id="jacobians-and-statics">Jacobians and statics</h4>
+
+<p>The velocity of a point \(\mathbf{p}\) on a rigid body due to angular velocity is:
+\begin{equation}
+\dot{\mathbf{p}} = \dot{\mathbf{x}} + \mathbf{\omega} \times (\mathbf{p} - \mathbf{x})
+\end{equation}
+where \(\mathbf{x}\) and \(\dot{\mathbf{x}}\) are the position and velocity of the center of mass of the body and \(\mathbf{\omega}\) is the body’s angular velocity.</p>
+
+<p>Note the similarity with the relationship with the <a href="https://www.quora.com/What-is-the-difference-between-torque-and-moment-3">couple</a> \(\hat{\mathbf{\tau}}\) that results from the addition of a torque, \(\mathbf{\tau}\), and a <a href="https://www.quora.com/What-is-the-difference-between-torque-and-moment-3">moment</a> that results from applying a force \(\mathbf{f}\) on the body at point \(\mathbf{p}\):
+\begin{equation}
+\hat{\mathbf{\tau}} = \mathbf{\tau} + (\mathbf{p} - \mathbf{x}) \times \mathbf{f}
+\end{equation}</p>
+
+<p><strong>These equations represent a key relationship in mechanics and robotics, between force and motion</strong>. <em>Moving from single rigid bodies to robots now</em>, we can add the following rule in addition to Equation \ref{eqn:Jacobians}:<br />
+\begin{equation}
+\hat{\mathbf{\tau}} = \mathbf{J}^{\mathsf{T}}\begin{bmatrix} \mathbf{f} \\ \mathbf{\tau} \end{bmatrix} \label{eqn:Jacobians-torque}
+\end{equation}</p>
+
+<p>I cannot overstate the importance of Equations \ref{eqn:Jacobians} and \ref{eqn:Jacobians-torque}. These equations tell us how fast a point on the robot is moving in operational space as a function of its joint speeds (Equation \ref{eqn:Jacobians}) and how much torque acts at a robot’s joints as a function of a force applied to a point on the robot (Equation \ref{eqn:Jacobians-torque}).</p>
+
+<h3 id="numerical-inverse-kinematics">Numerical inverse kinematics</h3>
+
+<p>State of the art numerical approaches for inverse kinematics use a <a href="https://en.wikipedia.org/wiki/Newton%27s_method">Newton-Raphson based process for finding roots of nonlinear systems of equations</a>. These algorithms compute \(\mathbf{f}^{-1}(\mathbf{x}) = \mathbf{q}\) by finding the roots \(\mathbf{q}\) that satisfy \(\mathbf{f}(\mathbf{q}) - \mathbf{x} = \mathbf{0}\).</p>
+
+<p>Such algorithms are susceptible to failing to find a solution,
+even when one or more solutions is known to exist. I will give an overview
+of the basic approach, but extensions to this approach can yield significantly 
+greater solvability.</p>
+
+<p>The idea behind these approaches follows. While we can’t necessarily compute \(\mathbf{f}^{-1}(.)\), we <em>can invert \(\mathbf{f}(.)\) in a small neighborhood around a generalized configuration</em>. So 
+the <em>resolved motion rate control (RMRC)</em> Algorithm (to be described below) repeatedly (1) inverts \(\mathbf{f}(.)\) around a 
+generalized configuration and (2) uses that inverse to determine how to alter 
+the generalized coordinates to move toward the goal. The hope is that the
+process converges to an answer.</p>
+
+<h4 id="the-resolved-motion-rate-control-rmrc-algorithm">The resolved motion rate control (RMRC) algorithm</h4>
+
+<p>Given \(\mathbf{q}_{\textrm{init}}\), do:</p>
+
+<ol>
+  <li>\(\mathbf{q} \leftarrow \mathbf{q}_{\textrm{init}}\)</li>
+  <li>Compute \(\Delta\mathbf{x} = \mathbf{x}_{\textrm{des}} - f(\mathbf{q}\))</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>If \(</td>
+          <td> </td>
+          <td>\Delta \mathbf{x}</td>
+          <td> </td>
+          <td>&lt; \epsilon \) <strong>return</strong> <em>success</em></td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>Compute Jacobian (\(\mathbf{J}\)), evaluated at \(\mathbf{q}\)</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>Solve least squares problem, \(\min_{\mathbf{q}}</td>
+          <td> </td>
+          <td>\mathbf{J}\Delta \mathbf{q} - \Delta \mathbf{x}</td>
+          <td> </td>
+          <td>\)</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>Determine \(t \le 1\) such that \(</td>
+          <td> </td>
+          <td>\mathbf{x}_{\textrm{des}} - \mathbf{f}(\mathbf{q + t\Delta \mathbf{q}}\)) is minimized</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>Update \(\mathbf{q}\): \(\mathbf{q} \leftarrow \mathbf{q} + t\Delta \mathbf{q}\)</li>
+  <li>Repeat (2) until maximum iterations exceeded</li>
+  <li><strong>return</strong> <em>failure</em></li>
+</ol>
+
+<h5 id="minimizing--mathbfjdelta-mathbfq---delta-mathbfx">Minimizing  \(||\mathbf{J}\Delta \mathbf{q} - \Delta \mathbf{x}||\)</h5>
+<p>Due to unit mixing (angular vs. metric), a least squares solution is not 
+necessarily desirable when attempting to find
+joint angles that minimize residual error in desired position <em>and</em>
+orientation simultaneously. One can attempt to use scaling factors to bias
+the least squares solution, but I work to avoid such hacking.</p>
+
+<p>I present the least squares options without further comment on this issue.</p>
+
+<p><strong>Jacobian transpose</strong>:</p>
+
+<p>Least squares problems cannot usually be approached using a matrix transpose
+approach: \(\mathbf{A}^\mathsf{T}\mathbf{b}\) does not generally yield a 
+<em>descent direction</em> (a change in \(\mathbf{x}\)) that reduces \(||\mathbf{Ax} - \mathbf{b}||\). The Jacobian transpose method is able to leverage rigid body dynamics’ duality between force and
+velocity:</p>
+
+<p>\begin{align<em>}
+\mathbf{J}\dot{\mathbf{q}} &amp; = \dot{\mathbf{x}} \<br />
+\mathbf{J}^\mathsf{T}\mathbf{f} &amp; = \mathbf{\tau}
+\end{align</em>}</p>
+
+<p>The Jacobian transpose approach functions as if there were a spring attached 
+between frame \(p\) and \(\mathbf{x}_{\textrm{des}}\). Proof
+that the Jacobian transpose approach yields a descent direction follows.</p>
+
+<p><strong>Theorem</strong>: \((\mathbf{JJ}^\mathsf{T}\Delta \mathbf{x})^\mathsf{T}\Delta \mathbf{x} \ge 0\)</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><em>Proof</em>: \((\mathbf{JJ}^\mathsf{T}\Delta \mathbf{x})^\mathsf{T}\Delta \mathbf{x} = (\mathbf{J}^\textsf{T}\Delta \mathbf{x})^\mathsf{T}(\mathbf{J}^\textsf{T}\Delta \mathbf{x}) =</td>
+      <td> </td>
+      <td>\mathbf{J}^\textsf{T}\Delta \mathbf{x}</td>
+      <td> </td>
+      <td>^2\)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Properties of the Jacobian transpose method:</p>
+
+<ul>
+  <li>Slow (linear) convergence to a solution (but requires \(O(n^2)\) operations, in place of expensive \(O(n^3)\) operations)</li>
+  <li>No numerical problems; robust to singularities and near singularities in the Jacobian matrix</li>
+</ul>
+
+<p><strong>Unregularized pseudo-inverse-based least squares</strong>:</p>
+
+<p>Alternatively, we can use the right pseudo inverse to solve the least squares problem.</p>
+
+<p>\begin{align}
+\Delta \mathbf{q} &amp; = \mathbf{J}^+\Delta \mathbf{x} \<br />
+ &amp; = \mathbf{J}^\mathsf{T}(\mathbf{JJ}^\mathsf{T})^{-1}\Delta \mathbf{x}
+\end{align}</p>
+
+<ul>
+  <li>Fast (quadratic) convergence to a solution (but requires expensive \(O(n^3)\) operations)</li>
+  <li>Numerical problems will occur near singularities in the Jacobian matrix; 
+if the matrix is <em>nearly singular</em>, it is possible that the factorization of \(\mathbf{JJ}^\mathsf{T}\) does not report that the matrix is singular  and yet \(\Delta \mathbf{q}\) not be a descent direction.</li>
+</ul>
+
+<p><strong>(QR/SVD)-based least squares</strong>:</p>
+
+<p>Any standard numerical approach for solving least squares problems, including
+QR factorization and singular value decomposition (as described in the <a href="../linear-algebra/">linear algebra material</a>) can be applied to this problem.</p>
+
+<ul>
+  <li>Fast (quadratic) convergence to a solution (but requires very expensive \(O(n^3)\) operations)</li>
+  <li>Numerical problems may occur near singularities in the Jacobian matrix, but
+failures will be less frequent than with unregularized least squares</li>
+</ul>
+
+<p><strong>Least squares with nullspace</strong>:</p>
+
+<p>If the robot has more degrees of freedom available than there are position
+and orientation constraints, we say that the kinematics are <em>redundant</em>.
+Redundancy can be exploited when the number of linearly independent columns 
+in the Jacobian matrix is greater than the number of linearly dependent rows.
+The nullspace of the Jacobian matrix can then be used to find a solution \(\Delta \mathbf{q}\) that reduces the residual error in the least squares problem <em>while
+simultaneously satisfying secondary goals</em>. Such secondary goals have included
+selecting (1) the solution that minimizes distance from a desired joint 
+configuration, (2) the solution that maximizes distance from obstacles, and
+(3) the solution that maximizes manipulability (minimizes the new Jacobian’s condition number).</p>
+
+<p>If the singular value decomposition is used to compute the least squares
+solution to \(||\mathbf{J}\Delta \mathbf{q} - \Delta \mathbf{x}||\), the nullspace of the Jacobian is provided <a href="../linear-algebra/">as a free byproduct</a>. Otherwise, <a href="http://www.springer.com/us/book/9781846286414">the nullspace of the Jacobian is given by the matrix</a> (page 125):</p>
+
+<p>\begin{equation}
+\mathbf{R} \equiv (\mathbf{I} - \mathbf{J}^+\mathbf{J})
+\end{equation}</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>If \(\Delta \mathbf{q}\) minimizes the residual \(</td>
+      <td> </td>
+      <td>\mathbf{J\Delta q} = \mathbf{\Delta x}</td>
+      <td> </td>
+      <td>\), then \(\mathbf{\Delta q} + \mathbf{Ry}\), where \(\mathbf{R} \in \mathbb{R}^{n \times m}, \mathbf{y} \in \mathbb{R}^m\) also minimizes the residual.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>Proof</em>:</p>
+
+<ol>
+  <li>Let \(\mathbf{e} \equiv \mathbf{J}\mathbf{\Delta}\mathbf{q} - \mathbf{\Delta x}\)</li>
+  <li>Then \(\mathbf{J}(\Delta \mathbf{q} + \mathbf{Ry}) - \mathbf{\Delta x} = \mathbf{e}\) because, by definition of the nullspace, \(\mathbf{JRy} = \mathbf{0}\).</li>
+</ol>
+
+<p>The secondary goal(s) is expressed as one or more objective functions \(\mathbf{g}(\mathbf{q})\) that attains its minimum at \(\mathbf{g}(\mathbf{\Delta q} + \mathbf{Ry}) = \mathbf{0}\).</p>
+
+<p>Typical objective functions:</p>
+
+<ul>
+  <li>Maximizing a manipulability measure: \(g(\mathbf{q}) \equiv \sqrt{\textrm{det}(\mathbf{J(q)J}^\mathsf{T}(\mathbf{q})}\). Moves the robot away from singular configurations.</li>
+  <li>Maximizing distance from joint limits: \(g(\mathbf{q}) \equiv \sum_{i=1}^n (q^{i^u} - q^i)^2 + (q^i - q^{i^l})^2\)</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>Maximizing distance to an objstacle: \(g(\mathbf{q}) \equiv \min_{\mathbf{p}, \mathbf{o}}</td>
+          <td> </td>
+          <td>\mathbf{p}(\mathbf{q}) - \mathbf{o}</td>
+          <td> </td>
+          <td>\)</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ul>
+
+<p>Finally, satisfying a hierarchy of task goals is possible using multiple nullspace projections.</p>
+
+<h5 id="computing-delta-mathbfx">Computing \(\Delta \mathbf{x}\)</h5>
+<p>When \(\mathbf{x}_{\textrm{des}}\) represents a target in Cartesian space (we do not care about \(p\)’s orientation), \(\Delta \mathbf{x}\) is computed using only a simple vector subtraction operation.</p>
+
+<p>Similarly, when \(\mathbf{x}_{\textrm{des}}\) represents a target <em>2D</em> orientation, \(\Delta \mathbf{x}\) can be computed using <em>nearly</em> a simple scalar subtraction operation. Why “nearly”? Consider the example where the current orientation is \(\theta \equiv \frac{\pi}{15}\) and target orientation is \(\theta_{\textrm{des}} \equiv \frac{29\pi}{15}\). Why is the simple subtraction \(\theta_{\textrm{des}} - \theta\) not recommended?</p>
+
+<p>When \(\mathbf{x}_{\textrm{des}}\) represents a target <em>3D</em> orientation, 
+matters become more complicated. In such acases, \(\mathbf{x}_{\textrm{des}}\) and \(\Delta \mathbf{x}\) will take a different form (why they must is a question for you to answer). We assume that \(\mathbf{x}_{\textrm{des}}\) is given as a \(3 \times 3\) rotation matrix and that \(\Delta \mathbf{x} \in \mathbb{R}^3\).</p>
+
+<p><a href="../poses3">Recall that</a>:
+\begin{equation}
+_w\dot{\mathbf{R}}_i\cdot\ _w{\mathbf{R}_i}^{\mathsf{T}} = \tilde{\mathbf{\omega}}_w
+\end{equation}</p>
+
+<p>We can use <a href="../dynamical-systems">Euler integration </a> and this equation to solve for \(\tilde{\mathbf{\omega}}\) given (1) the current orientation of the body and (2) the desired orientation of the body:
+\begin{equation}
+_w\mathbf{R}_i + \Delta t \tilde{\mathbf{\omega}}\ _w\mathbf{R}_i = \mathbf{x}_{\textrm{des}}
+\end{equation}
+Assume that \(\Delta t = 1\)- it doesn’t matter what we set \(\Delta t\) to since we will not be considering how much time it requires to move between the two orientations. We want \(\mathbf{\omega}\): 
+\begin{align}
+\tilde{\mathbf{\omega}}\ _w\mathbf{R}_i &amp; = \mathbf{x}_{\textrm{des}} - \ _w\mathbf{R}_i \<br />
+\tilde{\mathbf{\omega}} &amp; = (\mathbf{x}_{\textrm{des}} - \ _w\mathbf{R}_i)\ _w\mathbf{R}_i^\mathsf{T}
+\end{align}</p>
+
+<p>Recall that we desire for \(\Delta \mathbf{x}\) to be a three dimensional vector, while \(\tilde{\mathbf{\omega}}\) is a \(3 \times 3\) matrix. In fact, 
+\(\tilde{\mathbf{\omega}}\) <em>should</em> be a skew symmetric matrix (<a href="../poses3">as you hopefully recall</a>) but the
+first order approximation and lack of re-orthogonalization mean that it
+generally will not be. So, to get \(\omega\), we use the skew-symmetric form of \(\mathbf{\omega} \times\) (again, <a href="../poses3">as you should recall</a>) resulting in:
+\begin{equation}
+\Delta \mathbf{x} = \frac{1}{2} \begin{bmatrix}
+\tilde{\omega}_{32} - \tilde{\omega}_{23} \<br />
+\tilde{\omega}_{13} - \tilde{\omega}_{31} \<br />
+\tilde{\omega}_{21} - \tilde{\omega}_{12}
+\end{bmatrix}
+\end{equation}</p>
+
+<h5 id="ray-search">Ray search</h5>
+
+<p>As with any linearization, the approximation of \(\dot{\mathbf{f}}(.)\) using \(\mathbf{J}\dot{\mathbf{q}}\) becomes less accurate the farther we move
+from the generalized coordinates where \(\mathbf{J}\) is evaluated. This means that we do not generally want to update the generalized configuration using:
+\begin{equation}
+\mathbf{q}_{i+1} \leftarrow \mathbf{q}_i + \Delta \mathbf{q}
+\end{equation}
+because \(\mathbf{q}_{i+1}\) might be farther from the goal! Instead, we do the update like this:
+\begin{equation}
+\mathbf{q}_{i+1} \leftarrow \mathbf{q}_i + \alpha \Delta \mathbf{q}
+\end{equation}
+This is called a <em>ray search</em> or (less accurately) a line search, because we search along the ray \( 0 &lt; \alpha &lt; \infty \). Best practice is to constrain the search to \(\alpha &lt; 1\).</p>
+
+<p><strong>As an aside, the ray/line search process is used in optimization, and therefore in machine learning, so you may see these formulas in the future.</strong></p>
+
+<p>There are a few options for the ray search:</p>
+
+<ol>
+  <li>Set \(\alpha\) to some small value (say 0.001), that you have found
+works well empirically for the robot and task. This approach is clearly
+not adaptive- it takes small steps even when big stops might be possible.</li>
+  <li>Use a univariate optimization method like <a href="http://fedc.wiwi.hu-berlin.de/xplore/tutorials/xegbohtmlnode62.html">Brent’s Method</a> to establish
+a (local) optimum \(\alpha\). This approach is computationally expensive.</li>
+  <li>Use <a href="https://en.wikipedia.org/wiki/Backtracking_line_search">backtracking line search</a>, which requires a little information, but
+is adaptive, like (2), but much faster.</li>
+</ol>
+
+<p>Use Option (1) when your problem does not vary much, and you need to prototype
+a solution quickly. Otherwise, use Option (3).</p>
+
+<h4 id="manipulability">Manipulability</h4>
+
+<p>In most cases in robotics, the <em>rank</em> of the Jacobian matrix will be determined
+by the number of independent rows, as this number is usually much smaller than 
+the number of independent columns. If the Jacobian does not have full row
+rank (meaning that one or more rows of the Jacobian matrix are linearly
+dependent), the robot will lack the ability to move frame \(p\)
+in every possible direction (for example, the robot may be unable to move \(p\) vertically).</p>
+
+<p>This loss of rank can occur for the following reasons:</p>
+
+<ul>
+  <li><em>workspace singularity</em>: the robot’s arm is fully outstretched. There is no joint movement that could cause the arm to move further in the outstretched direction. Workspace singularities often occur on anthropomorphic robots when effecting pointing or when a leg is fully extended (as when standing with ``knees’’ locked).</li>
+  <li><em>internal singularity</em>: two or more rotational degrees of freedom have aligned such that movement in one is equivalent to movement in the other. This phenomenon is known as <a href="https://www.youtube.com/watch?v=zc8b2Jo7mno">Gimbal lock</a>.</li>
+</ul>
+
+<p>Manipulability can be determined by examining the condition number of the
+Jacobian matrix at configuration \(\mathbf{q}\). Recall from the <a href="../linear-algebra/">lecture material on linear algebra</a> that the condition number of a matrix is the ratio of the largest
+to the smallest singular values. The closer the condition number is to infinity, the less manipulability that the robot possesses at configuration \(\mathbf{q}\).</p>
+
+<p><em>It is wise to avoid moving the robot to a configuration where manipulability
+is reduced, even though computing the condition number requires a (relatively)
+computationally expensive singular value decomposition.</em></p>
+
+<h5 id="state-of-the-art-approaches-for-numerical-ik">State of the art approaches for numerical IK</h5>
+<p><a href="https://www.researchgate.net/publication/282852814_TRAC-IK_An_Open-Source_Library_for_Improved_Solving_of_Generic_Inverse_Kinematics">State of the art IK approaches</a> use <a href="https://en.wikipedia.org/wiki/Quasi-Newton_method">quasi-Newton methods</a> for nonlinear programming
+with inequality constraints to compute inverse kinematics with joint limits.
+These are generic (albeit carefully crafted) approaches applied to a standard
+nonlinear programming description of the problem. With all numerical IK
+approaches, <em>convergence is heavily
+dependent upon the starting configuration</em>.</p>
+
+<h3 id="computing-the-jacobian-matrix">Computing the Jacobian matrix</h3>
+<p>We will only consider computing the Jacobian matrix for revolute and prismatic
+joints, as these are the most common powered joints, and I will only discuss
+robots with bases affixed to their environment (like industrial robots). 
+Therefore, we can assume that column \(i\) of the
+Jacobian matrix will correspond to joint \(i\) of the robot, <em>where
+the numbering is arbitrary</em>.</p>
+
+<p>I will designate the axis of joint \(i\) to point along \(\hat{\mathbf{z}}_i\) (the hat indicates that the vector is normalized) and the current
+location of joint \(i\) as \(\mathbf{j}_i\).</p>
+
+<p><em>One of the biggest challenges with programming robots that manipulate is
+that matrices (like Jacobians) lose their meaning</em>: they are simply a
+collection of numbers. If the matrix is computed incorrectly, the effect
+may not be obvious.</p>
+
+<p><strong>To help with this problem, you should always consider the frame of 
+reference in which you are computing such quantities.</strong> The frame of reference
+for the Jacobian matrix that we compute below is the global reference frame.</p>
+
+<p><strong>Bonus question: how would the Jacobian matrix change for a robot with a floating base?</strong></p>
+
+<h4 id="computing-the-jacobian-matrix-for-translational-motion-only-2d">Computing the Jacobian matrix for translational motion only (2D)</h4>
+<p>Translational motion in 2D will yield a Jacobian matrix with two rows. For a revolute joint, we assume that the joint’s rotation is about the positive <em>z</em>-axis.</p>
+
+<p>Therefore, a column of the Jacobian matrix takes the following form for translational motion with a revolute joint:</p>
+
+<p>\begin{equation}
+\begin{bmatrix}
+j_{i_2} - p^o_2\<br />
+p^o_1 - j_{i_1}
+\end{bmatrix}
+\end{equation}</p>
+
+<p>This equation is a cross product operation, as will be seen when we compute the Jacobian matrix for translational motion in 3D. We denote \(\mathbf{p}^o\) as the point under consideration located on the robot, defined in the global frame.</p>
+
+<p>A prismatic joint’s contribution to translational motion is just the joint axis:</p>
+
+<p>\begin{equation}
+\begin{bmatrix}
+\hat{\mathbf{z}}_i
+\end{bmatrix}
+\end{equation}</p>
+
+<h4 id="computing-the-jacobian-matrix-for-translational-motion-only-3d">Computing the Jacobian matrix for translational motion only (3D)</h4>
+<p>Translational motion in 3D will yield a Jacobian matrix with three rows.</p>
+
+<p>A column of the Jacobian matrix takes the following form for translational motion with a revolute joint:</p>
+
+<p>\begin{equation}
+\begin{bmatrix}
+\hat{\mathbf{z}}_i \times (\mathbf{p}^o - \mathbf{j}_i)
+\end{bmatrix}
+\end{equation}</p>
+
+<p>This equation can be intuited using the figure below:</p>
+<p>
+<table class="image">
+<caption align="bottom">Intuition behind the translational motion due to a revolute joint. As the link turns counter-clockwise about the joint, the linear contribution to the motion will be proportional to the rate of movement and the distance between p and the joint.</caption>
+<img src="../../assets/img/geometric-Jacobian.png" alt="Intuition behind the translational motion due to a revolute joint. As the link turns counter-clockwise about the joint, the linear contribution to the motion will be proportional to the rate of movement and the distance between p and the joint." width="" />
+</table>
+</p>
+
+<p>As in 2D, a prismatic joint’s contribution to translational motion is just the joint axis:</p>
+
+<p>\begin{equation}
+\begin{bmatrix}
+\hat{\mathbf{z}}_i
+\end{bmatrix}
+\end{equation}</p>
+
+<h4 id="computing-the-jacobian-matrix-for-rotational-motion-only-2d">Computing the Jacobian matrix for rotational motion only (2D)</h4>
+<p>Rotational motion in 2D will yield a Jacobian matrix with a single row. For rotational motion with a revolute joint, a column of the Jacobian matrix takes the form:</p>
+
+<p>\begin{equation}
+\begin{bmatrix}
+1
+\end{bmatrix}
+\end{equation}</p>
+
+<p>For rotational motion, a prismatic joint makes no contribution, so the column of the Jacobian matrix takes the form:</p>
+
+<p>\begin{equation}
+\begin{bmatrix}
+0
+\end{bmatrix}
+\end{equation}</p>
+
+<h4 id="computing-the-jacobian-matrix-for-rotational-motion-only-3d">Computing the Jacobian matrix for rotational motion only (3D)</h4>
+<p>Rotational motion in 3D will yield a Jacobian matrix with three rows. For rotational motion with a revolute joint, a column of the Jacobian matrix takes the form:</p>
+
+<p>\begin{equation}
+\begin{bmatrix}
+\hat{\mathbf{z}}_i
+\end{bmatrix}
+\end{equation}</p>
+
+<p>For rotational motion, a prismatic joint makes no contribution, so the column of the Jacobian matrix takes the form:</p>
+
+<p>\begin{equation}
+\begin{bmatrix}
+\mathbf{0}
+\end{bmatrix}
+\end{equation}</p>
+
+<h4 id="computing-the-jacobian-matrix-for-translational-and-rotational-motion">Computing the Jacobian matrix for translational and rotational motion</h4>
+
+<p>Combining translational and rotational motion entails simply stacking the
+Jacobian rows corresponding to translation on top of the rows corresponding
+to rotation. The ordering- linear components on top, angular on bottom, for
+example- is arbitrary, but must be consistent: \(\Delta \mathbf{x}\)
+must follow the same convention. You can see why the ordering is arbitrary
+in the equation below:</p>
+
+<p>\begin{equation}
+\begin{bmatrix}
+\dot{\overrightarrow{\mathbf{x}}} \<br />
+\mathbf{\omega}
+\end{bmatrix} = 
+\begin{bmatrix}
+\mathbf{J}_{\overrightarrow{\mathbf{x}}} \<br />
+\mathbf{J}_{\mathbf{\omega}}
+\end{bmatrix}
+\dot{\mathbf{q}}
+\end{equation}</p>
+
+<p>where \(\dot{\overrightarrow{\mathbf{x}}}\) is the linear motion of a point
+on the robot, \(\mathbf{J}_{\overrightarrow{\mathbf{x}}}\) represents the
+components of the Jacobian matrix that contribute to linear motion, and \(\mathbf{J}_{\mathbf{\omega}}\) represents the components of the Jacobian that contribute to angular motion.</p>
+
+<p><strong>Verify that, if I permute rows of the Jacobian, I will get the same output for \(\dot{\mathbf{x}}\) (under the same permutation).</strong></p>
+
+<p>Similarly, I can permute columns of the Jacobian as long as I permute the
+same entries in \(\dot{\mathbf{q}}\).</p>
+
+<h4 id="an-example-computing-the-jacobian-matrix-for-the-double-pendulum">An example: computing the Jacobian matrix for the double pendulum</h4>
+
+<p>We again use the double pendulum example from <a href="../forward-kinematics">the forward kinematics module</a>. We need the following pieces of information:</p>
+
+<ol>
+  <li>The endpoint of the mechanism (<a href="../forward-kinematics">already determined</a>)</li>
+  <li>The location of each joint (\(\mathbf{j}_i)\)</li>
+  <li>Each joint’s axis: this always points along the \(z\)-axis, since this example is in 2D</li>
+</ol>
+
+<p>Finally, we also have to determine the form of the Jacobian that we want: I’ll say that we want a \(3 \times 2\) Jacobian matrix so that \(\dot{\mathbf{x}}\) corresponds to:
+\begin{equation}
+\begin{bmatrix}
+\dot{x}\<br />
+\dot{y}\<br />
+\dot{\theta}
+\end{bmatrix}
+\end{equation}</p>
+
+<p>The only piece of information that we lack is the locations of the joints.<br />
+The first joint is located at the origin (0,0). The origin of the
+second joint is located at Frame 1’ <a href="../forward-kinematics">in the example</a>, which
+is:</p>
+
+<p>\begin{align}
+_w\mathbf{T}_1 \cdot\ _1\mathbf{T}_{1’} = 
+\begin{bmatrix} 
+c_1 &amp; -s_1 &amp; 0 \<br />
+s_1 &amp; c_1 &amp; 0 \<br />
+0 &amp; 0 &amp; 1
+\end{bmatrix} \cdot
+\begin{bmatrix} 
+1 &amp; 0 &amp; \ell_1 \<br />
+0 &amp; 1 &amp; 0 \<br />
+0 &amp; 0 &amp; 1
+\end{bmatrix} = 
+\begin{bmatrix} 
+c_1 &amp; -s_1 &amp; l_1 c_1 \<br />
+s_1 &amp; c_1 &amp; l_1 s_1 \<br />
+0 &amp; 0 &amp; 1
+\end{bmatrix}
+\end{align}</p>
+
+<p>Summarizing:
+\begin{align}
+\mathbf{j}_1 &amp; = \begin{bmatrix} 0 \\ 0 \end{bmatrix} \<br />
+\mathbf{j}_2 &amp; = \begin{bmatrix} l_1 c_1 \\ l_1 s_1 \end{bmatrix}
+\end{align}</p>
+
+<p>\begin{equation}
+\begin{bmatrix}
+-(l_1 s_1 + l_2 s_{1+2}) &amp; -l_2 s_{12}  \<br />
+l_1 c_1 + l_2 c_{1+2} &amp; l_2 c_{12} \<br />
+1 &amp; 1
+\end{bmatrix}
+\end{equation}</p>
+
+<p>Note that this is equivalent to the 3D Jacobian:
+\begin{equation}
+\begin{bmatrix}
+-(l_1 s_1 + l_2 s_{1+2}) &amp; -l_2 s_{12}  \<br />
+l_1 c_1 + l_2 c_{1+2} &amp; l_2 c_{12} \<br />
+0 &amp; 0 \<br />
+0 &amp; 0 \<br />
+0 &amp; 0 \<br />
+1 &amp; 1
+\end{bmatrix}
+\end{equation}</p>
+
+<p>where I have designated the top three components to be linear motion and
+the bottom three components to be angular motion.</p>
+
+<h4 id="computing-the-jacobian-matrix-numerically-using-a-finite-difference-approach">Computing the Jacobian matrix numerically (using a finite difference approach)</h4>
+
+<p>Recall that the Jacobian matrix is computed at a generalized configuration, \(\mathbf{q} \in \mathbb{R}^n\).</p>
+
+<ol>
+  <li>Compute \(\mathbf{x} \leftarrow f(\mathbf{q})\)</li>
+  <li><strong>for</strong> \(i=1,\ldots,n\):
+    <ol>
+      <li>Set \(q_i \leftarrow q_i + \epsilon\)</li>
+      <li>Compute \(\mathbf{x}’ \leftarrow f(\mathbf{q})\)</li>
+      <li>Set column i of the Jacobian matrix to \((\mathbf{x}’ - \mathbf{x})/\epsilon\)</li>
+      <li>Set \(q_i \leftarrow q_i - \epsilon\)</li>
+    </ol>
+  </li>
+</ol>
+
+<p>Step 2.3 requires computing the differential between two operational
+space configurations (i.e., positions, orientations, or mixed position and 
+orientation), as described above.</p>
+
+
+
+  <!-- POST NAVIGATION -->
+  <div class="postNav clearfix">
+     
+      <a class="prev" href="/robotics-course-materials/blog/traj/"><span>&laquo;&nbsp;Trajectory formation</span>
+      
+    </a>
+      
+      
+      <a class="next" href="/robotics-course-materials/blog/forward-kinematics/"><span>Forward kinematics&nbsp;&raquo;</span>
+       
+      </a>
+     
+  </div>
+</div>
+
+      </div>
+   </div><!-- end .content -->
+
+   <div class="footer">
+   <div class="container">
+
+      <div class="footer-links"> 
+         <ul class="noList"> 
+            
+            
+             
+            
+         </ul>
+      </div>
+   </div>
+</div><!-- end .footer -->
+
+
+   <!-- Add jQuery and other scripts -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/robotics-course-materials"><\/script>')</script>
+<script src="/robotics-course-materials/assets/js/dropcap.min.js"></script>
+<script src="/robotics-course-materials/assets/js/responsive-nav.min.js"></script>
+<script src="/robotics-course-materials/assets/js/scripts.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title>Controlling robot motion</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/robotics-course-materials/assets/img/favicon.ico" />
+
+    <!-- Come and get me RSS readers -->
+    <link rel="alternate" type="application/rss+xml" title="Robotics" href="/robotics-course-materials/robotics-course-materials/feed.xml" />
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/robotics-course-materials/assets/css/style.css">
+    <!--[if IE 8]><link rel="stylesheet" href="/robotics-course-materials/assets/css/ie.css"><![endif]-->
+    <link rel="canonical" href="/robotics-course-materials/robotics-course-materials/blog/motion-control/">
+
+    <!-- Modernizr -->
+    <script src="/robotics-course-materials/assets/js/modernizr.custom.15390.js" type="text/javascript"></script>
+
+    
+</head>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" >
+</script>
+
+<body>
+
+    <div class="header">
+     <div class="container">
+         <h1 class="logo"><a href="/robotics-course-materials/">Robotics</a></h1>
+         <nav class="nav-collapse">
+             <ul class="noList">
+                 
+             </ul>
+         </nav>
+     </div>
+ </div><!-- end .header -->
+
+
+   <div class="content">
+      <div class="container">
+         <div class="post">
+  
+  <h1 class="postTitle">Controlling robot motion</h1>
+  <p class="meta">December 09, 2015 | <span class="time">12</span> Minute Read</p>
+  
+  <p>This learning module focuses on approaches for regulating the <em>motion</em> of a 
+robot. Concepts covered include model-based (feedforward) and model-free (error feedback) approaches, composite approaches, and stability.</p>
+
+<p>A caveat: even if we could control the motion of a robot with perfect accuracy
+does not mean that it’s a good idea. A robot that moves exactly as commanded, minimizing 
+the effects of all disturbances on its motion, is a robot that will crush
+humans, damage the environment, or destroy itself. To avoid those problems, 
+one should consider alternative schemes like <a href="http://users.softlab.ntua.gr/~ktzaf/Courses/literature/07_Force_Control.pdf">force control</a>, which regulates
+the force applied to the environment, and
+<a href="https://en.wikipedia.org/wiki/Impedance_control">impedance control</a>, which regulates 
+the relationship between force and motion. Such schemes should be 
+considered for uncontrolled environments or when the accuracy necessary
+to perform a task is higher than the accuracy of motion and/or modeling.</p>
+
+<p>Some definitions of basic concepts in control:</p>
+
+<ul>
+  <li><strong>Controller</strong>: sends inputs to the dynamical system that may change its state</li>
+  <li><strong>Plant</strong>: another name for the dynamical system that the controller can change</li>
+  <li><strong>Reference signal</strong>: the value (state or a function of state) that the system is to attain. The reference signal may be fixed (a thermostat setting is effectively fixed) or changing over time</li>
+  <li><strong>Error signal</strong>: the difference between the reference signal and the system’s output</li>
+</ul>
+
+<p>An example that we will use for illustrative purposes is a cruise control
+system in a car. In this example, the car is the plant, the cruise control
+is the controller, the driver’s set speed is the reference signal, and the
+control input is the throttle (the gas pedal).</p>
+
+<p>
+<table class="image">
+<caption align="bottom">A depiction of a negative feedback controller for controlling a robot. Where do the desireds (qd and dqd/dt) come from?</caption>
+<img src="../../assets/img/nfb.png" alt="A depiction of a negative feedback controller for controlling a robot. Where do the desireds (qd and dqd/dt) come from?" width="" />
+</table>
+</p>
+
+<h2 id="inverse-dynamics-control">Inverse dynamics control</h2>
+
+<p>Without loss of generality, let’s consider the <em>linear</em> dynamical system:</p>
+
+<p>\begin{equation}
+\dot{\mathbf{x}} = \mathbf{A}\mathbf{x} + \mathbf{B}\mathbf{u}
+\end{equation}</p>
+
+<p>where \(\mathbf{u}\) are the controls that we can apply. Assume
+that \(\mathbf{A}, \mathbf{B} \in \mathbb{R}^{n \times n}\) and that
+\(\mathbf{B}\) is a full rank matrix. Then if we want to determine
+controls \(\mathbf{u}\) to drive the system to change in state \(\dot{\mathbf{x}}_{\textrm{des}}\), algebra yields:</p>
+
+<p>\begin{equation}
+\mathbf{u} = \mathbf{B}^{-1}(\dot{\mathbf{x}}_{\textrm{des}} - \mathbf{A}\mathbf{x})
+\end{equation}</p>
+
+<p>Controlling a dynamical system in this way is termed <em>inverse dynamics 
+control</em>. This is straightforward- so why is this a full learning module?</p>
+
+<ul>
+  <li>The control system designer may not possess a mathematical model (\(\dot{\mathbf{x}} = \mathbf{A}\mathbf{x} + \mathbf{Bu}\) in the case above) of the dynamical system, so alternative control techniques may be necessary. With respect to robotics, obtaining accurate and rapidly computable mathematical models of robots with compliant elements is challenging.</li>
+  <li><em>A mathematical model is just a model</em>. There will usually be 
+effects- <a href="https://en.wikipedia.org/wiki/Backlash_(engineering)">transmission backlash</a>, imperfectly rigid links, <a href="https://en.wikipedia.org/wiki/Counter-electromotive_force">counter-electromotive forces</a>, joint friction, and other
+influences- that the model will not account for, so the inverse dynamics 
+control will generally not influence the system exactly as desired. Some form
+of error feedback control is usually necessary as well.</li>
+  <li>In tandem with the previous point, <a href="https://en.wikipedia.org/wiki/System_identification">system identification</a> is necessary to identify modeling parameters. For example, if our dynamics model incorporates Coulomb and viscous friction models at the joints, then both Coulomb and viscous friction parameters must be determined. Determining these parameters is often a tedious process that requires extensive physical experimentation and can change as the robot is operated (as it enters its normal operating temperature, leaks hydraulic fluid, etc.) or manipulates or carries objects.</li>
+  <li>Even if we possess a perfect mathematical model, we generally<br />
+do not know the contact forces acting on the robot, which implies that we cannot
+invert the model.</li>
+</ul>
+
+<p>Inverse dynamics control is a <em>feedforward</em> control scheme, which is 
+distinguished from an <em>open loop</em> control scheme in that the latter does
+not use a mathematical model of the system.</p>
+
+<p>
+<table class="image">
+<caption align="bottom">The Three types of Control System (a) Open Loop (b) Feed-forward (c) Feedback (Closed Loop) (image and description from Wikipedia)</caption>
+<img src="https://upload.wikimedia.org/wikipedia/en/c/c7/Control_Systems.png" alt="The Three types of Control System (a) Open Loop (b) Feed-forward (c) Feedback (Closed Loop) (image and description from Wikipedia)" width="" />
+</table>
+</p>
+
+<h2 id="error-feedback-control">Error feedback control</h2>
+
+<p>Error feedback control is a simple alternative that uses the error signal
+to determine controls. Error feedback control requires no mathematical
+model of the system, which is a double edged sword: error feedback control
+does not anticipate the system’s behavior (if there is no error, no controls
+are applied).</p>
+
+<p>The main challenges with error feedback control are (1) setting the rate
+at which error is corrected (this process is called <em>tuning controller gains</em>)
+and (2) ensuring that there is little lag from changes in the system
+state to actuation.</p>
+
+<p>The latter <em>control lag</em> problem can occur because the sensing device has
+low bandwidth relative to the speed with which the robot can move or because
+filtering (by averaging) is necessary to combat sensory noise. Some plumbing
+systems can exhibit significant control lag, for example: water temperature
+may lag five to ten seconds behind adjustments to the taps.</p>
+
+<p>
+<table class="image">
+<caption align="bottom">The concept of the feedback loop to control the dynamic behavior of the system: this is negative feedback, because the sensed value is subtracted from the desired value to create the error signal, which is amplified by the controller (image and description from Wikipedia)</caption>
+<img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Feedback_loop_with_descriptions.svg" alt="The concept of the feedback loop to control the dynamic behavior of the system: this is negative feedback, because the sensed value is subtracted from the desired value to create the error signal, which is amplified by the controller (image and description from Wikipedia)" width="" />
+</table>
+</p>
+
+<h3 id="proportional-control">Proportional control</h3>
+
+<p>One of the simplest error feedback controllers is the <em>proportional controller</em>, which applies the control signal proportionally to the error signal. The
+cruise control system in many cars uses proportional control (also called “P control”): the throttle is applied proportionally to the difference between the current speed and the set speed.</p>
+
+<p>The control for a P-controller is computed using the following function.</p>
+
+<p>\begin{equation}
+u = k_p (x_{\textrm{des}} - x)
+\end{equation}</p>
+
+<p>\(u\) is the control, \(x_{\textrm{des}}\) is the desired state, and
+\(x\) is the system state. \(k_p \ge 0\) is known as the “proportional
+gain” or “P gain”.</p>
+
+<h3 id="proportional-derivative-control">Proportional-derivative control</h3>
+<p>If many cars operated using cruise control were to suddenly begin climbing a large hill, the speed will drop precipitously, causing the accelerator to be
+applied abruptly. Alternatively, the accelerator may be applied as the car is
+at the top of a steep grade, causing the car to greatly exceed the desired
+speed.</p>
+
+<p>A <em>derivative</em> controller can help solve this problem by accounting for the
+rate at which error is changing: control is modified depending on whether
+error is increasing or decreasing.</p>
+
+<p>\begin{equation}
+u = k_d (\dot{x}_{\textrm{des}} - \dot{x})
+\end{equation}</p>
+
+<p>As in the case above, \(k_d \ge 0\) is the “derivative gain” or “D gain”.
+It is generally the case that proportional and derivative control are combined
+to make a “proportional-derivative” or “PD controller”. This controller is
+represented by the equation below:</p>
+
+<p>\begin{equation}
+u = k_p (x_{\textrm{des}} - x) + k_d (\dot{x}_{\textrm{des}} - \dot{x})
+\end{equation}</p>
+
+<p>In the cruise control example, adding derivative control would add <em>more</em> throttle (compared to just a proportional control)
+if the car is decelerating when it is below speed and would decrease (or would limit the increase) the amount of throttle if
+the car is accelerating when it is above speed.</p>
+
+<h3 id="proportional-integrative-derivative-control">Proportional-integrative-derivative control</h3>
+
+<p>PD control is not proficient at addressing <em>steady state error</em>, which (informally) is error that remains after the system’s behavior has settled. Steady
+state error is relevant for only fixed reference signals. A PD controller is 
+often unable to eliminate steady state error without excessively large gains.</p>
+
+<p>Continuing with our cruise control example, imagine that our 
+car is driving along the highway while towing a large trailor. The cruise
+control will stay at some speed \(y\) below the set speed. If the speed
+falls below \(y\), the positional error will be sufficiently large such 
+that the proportional control component can increase the speed back to \(y\).
+The combination of the proportional gain and positional error are insufficient to further decrease error for speeds above \(y\).</p>
+
+<p>Steady state error can be eliminated using even a small gain by accumulating 
+(integrating) the error over time. This <em>integrative</em> term results in a
+proportional-integrative-derivative (PID) controller.</p>
+
+<p>\begin{equation}
+u = k_p (x_{\textrm{des}} - x) + k_d (\dot{x}_{\textrm{des}} - \dot{x}) + k_i \int_{t_0}^{t_c} (x_{\textrm{des}}(t) - x(t))\textrm{ d}t
+\end{equation}</p>
+
+<p>where \(t_0\) and \(t_c\) are the initial and current system times,
+respectively.</p>
+
+<p><strong>Disadvantages of PID control</strong> are that the controller can saturate the 
+actuators when error is not reduced, <a href="https://en.wikipedia.org/wiki/Integral_windup">integral windup</a>- which causes the integral term to rapidly accumulate 
+when the setpoint is changed- can occur, and another \(k\) term must be
+tuned.</p>
+
+<h3 id="pidd-control">PIDD control</h3>
+
+<p>PIDD or PID\(^2\) control, which incorporates a second derivative, is
+not commonly used in robotics applications: few sensors are able to provide
+clean acceleration signals.</p>
+
+<h2 id="decentralized-control">Decentralized control</h2>
+
+<p>PD and PID schemes are commonly used to control robots, in which case a
+separate controller is applied at each joint: \(2n\) or \(3n\) gains
+must then be tuned. This is known as <em>decentralized control</em>, because each joint
+is controlled as if it is independent of the others. A torque applied to
+one joint creates dynamic effects on the other joints; these dynamic effects
+are treated as disturbances to be eliminated. A centralized control scheme
+(like inverse dynamics control) computes controls for each joint 
+simultaneously and anticipating effects.</p>
+
+<h2 id="combining-feedforward-and-feedback-control">Combining feedforward and feedback control</h2>
+
+<p>The best of both worlds is a hybrid control scheme that combines the
+best aspects of feedforward and feedback control. Two options are to
+sum the outputs from the two control schemes and feed the output from the<br />
+error feedback controller into the feedforward controller; only the latter
+is truly a centralized controller.</p>
+
+<p>Inverse dynamics is the most obvious option for feedforward control. Another
+possibility for feedforward control is use a gravity compensation block.</p>
+
+<p>
+<table class="image">
+<caption align="bottom">A control block diagram of a composite (negative feedback + inverse dynamics controller) for controlling a robot. A good inverse dynamics model will allow error feedback gains to be really small.</caption>
+<img src="../../assets/img/composite.png" alt="A control block diagram of a composite (negative feedback + inverse dynamics controller) for controlling a robot. A good inverse dynamics model will allow error feedback gains to be really small." width="" />
+</table>
+</p>
+
+<p>
+<table class="image">
+<caption align="bottom">A control block diagram of an error feedback plus gravity compensation scheme for controlling a robot. Gravity compensation is less dependent on having a good model than inverse dynamics and also requires less computation, but tracking accuracy is potentially much lower.</caption>
+<img src="../../assets/img/gravity.png" alt="A control block diagram of an error feedback plus gravity compensation scheme for controlling a robot. Gravity compensation is less dependent on having a good model than inverse dynamics and also requires less computation, but tracking accuracy is potentially much lower." width="" />
+</table>
+</p>
+
+<h2 id="stability-of-a-control-system">Stability of a control system</h2>
+
+<p><a href="../dynamical-systems">We have already looked at stability of dynamical systems</a>. Simplifying the issue, there we sought to find whether a dynamical system
+would converge to an equilibrium point from points in the neighborhood of the
+equilibrium point. For controlled systems (like robots), we seek guarantees 
+that applying the controller to the system will result in bounded errors
+(recall the definition of the error signal above), <em>even if the uncontrolled 
+system is unstable</em>.</p>
+
+<p>For example, if a controller causes a system’s error to be describable by the linear 
+differential equation</p>
+
+<p>\begin{equation}
+\dot{\mathbf{e}} = -\mathbf{K}\mathbf{e}
+\end{equation}</p>
+
+<p>where \(\mathbf{K} \in \mathbb{R}^n\), then the controlled system is stable
+if all real eigenvalue components of \(-\mathbf{K}\) are negative (and
+marginally stable if all real eigenvalue components are non-positive).</p>
+
+<p>Unfortunately, the combined differential equations of the plant and the 
+controller are usually nonlinear and not generally amenable to such simple
+analysis. Lyapunov stability analysis is often the go-to approach.</p>
+
+<h3 id="system-response">System response</h3>
+
+<p>
+<table class="image">
+<caption align="bottom">Figure depicting rise time, overshoot, delay time, and peak time. Image from Wikipedia.</caption>
+<img src="https://upload.wikimedia.org/wikipedia/commons/7/71/Second_order_under-damped_response.svg" alt="Figure depicting rise time, overshoot, delay time, and peak time. Image from Wikipedia." width="" />
+</table>
+</p>
+
+<p>In the figure above, \(t_d\) is the delay time, \(t_r\) is the rise
+time, \(t_p\) is the peak time, and \(M_p\) is the overshoot. Settling
+time and steady state error are not depicted.</p>
+
+<p>These definitions are adapted from <a href="https://en.wikipedia.org/wiki/Transient_response">here</a>.</p>
+
+<ul>
+  <li><strong>rise time</strong>: the time required for the system to move from a specified low value to a specified high value</li>
+  <li><strong>overshoot</strong>: occurs when the system exceeds its set point (followed by a period of oscillation if the system is <a href="../dynamical-systems">underdamped</a></li>
+  <li><strong>settling time</strong>: the time that the system enters and remains within a specified error band around the set point</li>
+  <li><strong>delay time</strong>: the time required for the system to move halfway from the
+specified low value to the specified high value</li>
+  <li><strong>peak time</strong>: the time required for the system to hit the first overshoot peak</li>
+</ul>
+
+<p>
+<table class="image">
+<caption align="bottom">Animation depicting effect of different PID gains on rise time, overshoot, and settling time. Image from Wikipedia.</caption>
+<img src="http://upload.wikimedia.org/wikipedia/commons/3/33/PID_Compensation_Animated.gif" alt="Animation depicting effect of different PID gains on rise time, overshoot, and settling time. Image from Wikipedia." width="" />
+</table>
+</p>
+
+
+
+  <!-- POST NAVIGATION -->
+  <div class="postNav clearfix">
+      
+      
+      <a class="next" href="/robotics-course-materials/blog/traj/"><span>Trajectory formation&nbsp;&raquo;</span>
+       
+      </a>
+     
+  </div>
+</div>
+
+      </div>
+   </div><!-- end .content -->
+
+   <div class="footer">
+   <div class="container">
+
+      <div class="footer-links"> 
+         <ul class="noList"> 
+            
+            
+             
+            
+         </ul>
+      </div>
+   </div>
+</div><!-- end .footer -->
+
+
+   <!-- Add jQuery and other scripts -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/robotics-course-materials"><\/script>')</script>
+<script src="/robotics-course-materials/assets/js/dropcap.min.js"></script>
+<script src="/robotics-course-materials/assets/js/responsive-nav.min.js"></script>
+<script src="/robotics-course-materials/assets/js/scripts.js"></script>
+
+
+</body>
+
+</html>

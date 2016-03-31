@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title>Forward kinematics</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/robotics-course-materials/assets/img/favicon.ico" />
+
+    <!-- Come and get me RSS readers -->
+    <link rel="alternate" type="application/rss+xml" title="Robotics" href="/robotics-course-materials/robotics-course-materials/feed.xml" />
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/robotics-course-materials/assets/css/style.css">
+    <!--[if IE 8]><link rel="stylesheet" href="/robotics-course-materials/assets/css/ie.css"><![endif]-->
+    <link rel="canonical" href="/robotics-course-materials/robotics-course-materials/blog/forward-kinematics/">
+
+    <!-- Modernizr -->
+    <script src="/robotics-course-materials/assets/js/modernizr.custom.15390.js" type="text/javascript"></script>
+
+    
+</head>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" >
+</script>
+
+<body>
+
+    <div class="header">
+     <div class="container">
+         <h1 class="logo"><a href="/robotics-course-materials/">Robotics</a></h1>
+         <nav class="nav-collapse">
+             <ul class="noList">
+                 
+             </ul>
+         </nav>
+     </div>
+ </div><!-- end .header -->
+
+
+   <div class="content">
+      <div class="container">
+         <div class="post">
+  
+  <h1 class="postTitle">Forward kinematics</h1>
+  <p class="meta">December 12, 2015 | <span class="time">8</span> Minute Read</p>
+  
+  <p class="intro">
+Forward kinematics is the process of determining the location and orientation of a designated point on a robot as a function of the robot's configuration.
+</p>
+
+<h2 id="constraining-the-movement-of-rigid-bodies">Constraining the movement of rigid bodies</h2>
+
+<p>In a previous learning module, we learned that rigid bodies have six
+degrees of freedom: three for translation and three for rotation. Rigid
+robots are composed of a number of these rigid bodies (which we call “links”)
+and some constraints on the links’ motion (called “joints”). Some common joints are depicted below:</p>
+
+<p>
+<table class="image">
+<caption align="bottom">A weld (or 'fixed joint') prevents both relative linear and angular motion between two rigid bodies.</caption>
+<img src="https://www.accessiblesystems.com/images/bul/weld.jpg" alt="A weld (or 'fixed joint') prevents both relative linear and angular motion between two rigid bodies." width="600" />
+</table>
+</p>
+
+<p>
+<table class="image">
+<caption align="bottom">A ball and socket joint prevents relative linear motion between two bodies.</caption>
+<img src="https://sjeyr7pe.wikispaces.com/file/view/BALLSOCK.JPG.jpeg/240766305/BALLSOCK.JPG.jpeg" alt="A ball and socket joint prevents relative linear motion between two bodies." width="600" />
+</table>
+</p>
+
+<p>
+<table class="image">
+<caption align="bottom">Revolute joints prevents relative linear motion between two bodies (like a ball and socket joint) and allow relative rotational motion around only one axis. Revolute joints are common in robotics applications, particularly for robots that emulate biological organisms.</caption>
+<img src="http://200.126.14.82/web/help/toolbox/physmod/mech/mech_building18.gif" alt="Revolute joints prevents relative linear motion between two bodies (like a ball and socket joint) and allow relative rotational motion around only one axis. Revolute joints are common in robotics applications, particularly for robots that emulate biological organisms." width="600" />
+</table>
+</p>
+
+<p>
+<table class="image">
+<caption align="bottom">Universal joints prevent relative linear motion between two bodies (like a ball and socket joint) and allow relative rotational motion around two axes.</caption>
+<img src="http://www.flamingriver.com/sysimg/34-dd-x-34-dd-forged-u-joint-fr2644.jpg" alt="Universal joints prevent relative linear motion between two bodies (like a ball and socket joint) and allow relative rotational motion around two axes." width="600" />
+</table>
+</p>
+
+<p>
+<table class="image">
+<caption align="bottom">Prismatic joints eliminate relative rotational motion between two bodies and allow relative linear motion along one axis between the two bodies. Prismatic joints are particularly common in industrial robots.</caption>
+<img src="http://ode-wiki.org/wiki/images/5/5f/PistonJoint.jpg" alt="Prismatic joints eliminate relative rotational motion between two bodies and allow relative linear motion along one axis between the two bodies. Prismatic joints are particularly common in industrial robots." width="600" />
+</table>
+</p>
+
+<h3 id="an-example-of-constrained-motion">An example of constrained motion</h3>
+
+<p><a href="https://en.wikipedia.org/wiki/Foucault_pendulum">The Foucault pendulum</a> was
+devised as an experiment to demonstrate the rotation of the Earth. It consists
+of a bob suspended from the ceiling by a long wire.</p>
+
+<p>
+<table class="image">
+<caption align="bottom">Animation of the Foucault pendulum. The Earth's rotation causes the trajectory of the pendulum to change over time, causing a spiral pattern to emerge on the floor.</caption>
+<img src="http://i.imgur.com/2UoaPJe.gif" alt="Animation of the Foucault pendulum. The Earth's rotation causes the trajectory of the pendulum to change over time, causing a spiral pattern to emerge on the floor." width="" />
+</table>
+</p>
+
+<p>If we assume that the wire is massless, then the only rigid body is the
+pendulum bob (since the ceiling is massive and effectively still, we do not
+consider it). If the ceiling is located at the origin of the world \(\begin{bmatrix}0 &amp; 0 &amp; 0\end{bmatrix}^\mathsf{T}\), then the pendulum must satisfy the <a href="https://en.wikipedia.org/wiki/Implicit_function">implicit equation</a>:</p>
+
+<p>\begin{equation}
+\mathbf{x} + \ _w\mathbf{R}_i \mathbf{u}_i = \mathbf{0} \label{eqn:ball-and-socket}
+\end{equation}</p>
+
+<p>where \(\mathbf{x}\) is the center-of-mass of the bob, \(_w\mathbf{R}_i\) is the orientation of the bob, and \(\mathbf{u}_i\) is a vector from the center-of-mass of the bob to the origin of the world. These variables are depicted in the figure below.</p>
+
+<p><img src="../../assets/img/foucault-diagram.png" alt="Depiction of variables for Foucault pendulum" /></p>
+
+<h2 id="precise-definition-of-forward-kinematics">Precise definition of forward kinematics</h2>
+
+<p>Forward kinematics can take multiple forms, depending on the output sought:</p>
+
+<p>\begin{equation}
+\mathbf{f}(\mathbf{q}) \to \begin{cases} 
+\mathbb{R}^2 &amp; \textrm{ for Cartesian position in 2D} \<br />
+\mathbb{R}^3 &amp; \textrm{ for Cartesian position in 3D} \<br />
+SO(2) &amp; \textrm{ for planar orientation in 2D} \<br />
+SO(3) &amp; \textrm{ for 3D orientation} \<br />
+SE(2) &amp; \textrm{ for Cartesian position in 2D and planar orientation} \<br />
+SE(3) &amp; \textrm{ for Cartesian position in 2D and 3D orientation}
+\end{cases}
+\end{equation}</p>
+
+<p>The output of this function is in what is known as <em>operational space</em>: we
+use this generic term because of all of the possible mappings described above.
+To make these mappings more concrete, the planar orientation SO(2) is just an angle.
+Similarly, SE(2) is two real numbers plus an angle. These numbers are generally stacked into a vector like this:</p>
+
+<p>\begin{equation}
+\begin{bmatrix}
+x\<br />
+y\<br />
+\theta
+\end{bmatrix}
+\end{equation}</p>
+
+<p><em>though they are equally valid stacked like this</em>:</p>
+
+<p>\begin{equation<em>}
+\begin{bmatrix}
+\theta\<br />
+x\<br />
+y
+\end{bmatrix}
+\end{equation</em>}</p>
+
+<p><em>or even like this</em>:</p>
+
+<p>\begin{equation<em>}
+\begin{bmatrix}
+x\<br />
+\theta\<br />
+y
+\end{bmatrix}
+\end{equation</em>}</p>
+
+<p>Another possibility is using a \(3 \times 3\) homogeneous transformation
+matrix:</p>
+
+<p>\begin{equation}
+\begin{bmatrix}
+c_{\theta} &amp; -s_{\theta} &amp; x \<br />
+s_{\theta} &amp; c_{\theta} &amp; y \<br />
+0 &amp; 0 &amp; 1
+\end{bmatrix}
+\end{equation}</p>
+
+<p>where \(c_{\theta}\) means \(\cos{\theta}\) and \(s_{\theta}\) means \(\sin{\theta}\).</p>
+
+<p>We will see shortly how this representation can be useful.</p>
+
+<p>3D orientation can be described using any of the representations in <a href="../poses3">the learning module on 3D poses</a>, include Euler angles, axis-angle, unit quaternions, or rotation matrices. The \(4 \times 4\) homogeneous transformation 
+matrix is common:</p>
+
+<p>\begin{equation}
+\begin{bmatrix}
+r_{11} &amp; r_{12} &amp; r_{13} &amp; x \<br />
+r_{21} &amp; r_{22} &amp; r_{23} &amp; y \<br />
+r_{31} &amp; r_{32} &amp; r_{33} &amp; z \<br />
+0 &amp; 0 &amp; 0 &amp; 1
+\end{bmatrix}
+\end{equation}</p>
+
+<h3 id="an-example">An example</h3>
+
+<p>Consider a double pendulum in 2D with two joint angles, \(q_1\) and \(q_2\), and link lengths \(\ell_1\) and \(\ell_2\). We will focus on the pendulum’s endpoint location and orientation. Because the pendulum is in 2D, its forward kinematics function maps to SE(2).</p>
+
+<p>The configuration of the pendulum in SE(2), using a \(3 \times 3\)
+homogeneous transformation matrix, when \(q_1 = 0, q_2 = 0\) is:</p>
+
+<p>\begin{equation<em>} 
+\begin{bmatrix}
+1 &amp; 0 &amp; \ell_1 + \ell_2 \<br />
+0 &amp; 1 &amp; 0 \<br />
+0 &amp; 0 &amp; 1
+\end{bmatrix}
+\end{equation</em>}</p>
+
+<p>What is the operational space configuration of the endpoint at generalized configuration \(q_1 = \frac{\pi}{2}, q_2 = \frac{-\pi}{2}\)?</p>
+
+<p>We will use the following reference frames.</p>
+
+<p>\begin{align}
+_w\mathbf{T}_1 &amp; \equiv 
+\begin{bmatrix} 
+c_1 &amp; -s_1 &amp; 0 \<br />
+s_1 &amp; c_1 &amp; 0 \<br />
+0 &amp; 0 &amp; 1
+\end{bmatrix}\\ 
+_1\mathbf{T}_{1’} &amp; \equiv
+\begin{bmatrix} 
+1 &amp; 0 &amp; \ell_1 \<br />
+0 &amp; 1 &amp; 0 \<br />
+0 &amp; 0 &amp; 1
+\end{bmatrix}\<br />
+_{1’}\mathbf{T}_{2} &amp; \equiv
+\begin{bmatrix} 
+c_2 &amp; -s_2 &amp; 0 \<br />
+s_2 &amp; c_2 &amp; 0 \<br />
+0 &amp; 0 &amp; 1
+\end{bmatrix}\\ 
+_2\mathbf{T}_{2’} &amp; \equiv
+\begin{bmatrix} 
+1 &amp; 0 &amp; \ell_2 \<br />
+0 &amp; 1 &amp; 0 \<br />
+0 &amp; 0 &amp; 1
+\end{bmatrix}
+\end{align}</p>
+
+<p>where \(c_1, s_1, c_2, s_2\) denote \(\cos{q_1}, \sin{q_1}, \cos{q_2}, \sin{q_2}\), respectively.</p>
+
+<p>When we substitute \(q_1 = \frac{\pi}{2}, q_2 = \frac{-\pi}{2}\) and multiply \(_w\mathbf{T}_1 \cdot\ _1\mathbf{T}_{1’} \cdot _{1’}\mathbf{T}_2 \cdot _{2}\mathbf{T}_{2’}\), we arrive at:</p>
+
+<p>\begin{equation}
+_w\mathbf{T}_{2’} = \begin{bmatrix}
+c_{1}c_2 - s_1s_2 &amp; -c_2s_1 - c_1s_2 &amp; l_1 c_1 + l_2 (c_{1}c_2 - s_1s_2) \<br />
+c_2s_1 + c_1s_2 &amp; c_1 c_2 - s_1s_2 &amp; l_1 s_1 + l_2 (c_2s_1 + c_1s_2) \<br />
+0 &amp; 0 &amp; 1
+\end{bmatrix}
+\end{equation}</p>
+
+<p>which simplifies to (I used Macsyma to do the simplification):</p>
+
+<p>\begin{equation}
+_w\mathbf{T}_{2’} = \begin{bmatrix}
+c_{1+2} &amp; -s_{1+2} &amp; l_1 c_1 + l_2 c_{1+2} \<br />
+s_{1+2} &amp; c_{1+2} &amp; l_1 s_1 + l_2 s_{1+2} \<br />
+0 &amp; 0 &amp; 1
+\end{bmatrix}
+\end{equation}</p>
+
+<p>The upper left \(2 \times 2\) part of this matrix gives the orientation of the second link. The upper right \(2 \times 1\) part of this matrix gives the position of the end point of the second link.</p>
+
+<p>
+<table class="image">
+<caption align="bottom">Depiction of the various frames in the example above for q1 = pi/4, q2 = -pi/4.</caption>
+<img src="../../assets/img/two-link-frames.png" alt="Depiction of the various frames in the example above for q1 = pi/4, q2 = -pi/4." width="" />
+</table>
+</p>
+
+<h3 id="denavit-hartenberg-parameters">Denavit-Hartenberg parameters</h3>
+
+<p>If a robot manufacturer draws a figure providing the data above, you might
+make a mistake computing the forward kinematics function (particularly as
+we move from two joints to, say, seven). The <a href="https://en.wikipedia.org/wiki/Denavit–Hartenberg_parameters">Denavit-Hartenberg parameters</a> provide a more
+compact, less error prone encoding using four parameters per reference frame.</p>
+
+<p><a href="https://www.youtube.com/watch?v=rA9tm0gTln8">Here</a> is a nice video depicting
+Denavit-Hartenberg.</p>
+
+<p><em>The nice part of D-H parameters</em> is that a simple algorithm can compute
+the forward kinematics for a robot given a small table of parameters. <em>I
+personally skip using D-H parameters</em> because I find that determining them is
+error prone. D-H parameters transfer the likelihood of making an error from 
+the forward kinematics programmer to the robotics manufacturer.</p>
+
+<h2 id="determining-a-robots-number-of-degrees-of-freedom">Determining a robot’s number of degrees-of-freedom</h2>
+
+<p>For a robot affixed to its environment, the robot’s degrees of freedom (DoF) is
+equal to its number of joint variables (if the robot has kinematic loops, its
+DOF is equal to its <em>independent</em> joint variables).</p>
+
+<p>
+<table class="image">
+<caption align="bottom">A robot with kinematic loops.</caption>
+<img src="../../assets/img/veloce-frontal.jpg" alt="A robot with kinematic loops." width="600" />
+</table>
+</p>
+
+<p>
+<table class="image">
+<caption align="bottom">A graph depicting the kinematic structure of the veloce robot depicted previously.</caption>
+<img src="../../assets/img/veloce.png" alt="A graph depicting the kinematic structure of the veloce robot depicted previously." width="600" />
+</table>
+</p>
+
+<p>
+<table class="image">
+<caption align="bottom">A graph depicting the kinematic structure of a human. Note that the graph is a tree.</caption>
+<img src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Modele_cinematique_corps_humain.svg" alt="A graph depicting the kinematic structure of a human. Note that the graph is a tree." width="400" />
+</table>
+</p>
+
+<p>If a robot is not affixed to its environment, we say that its base is
+“floating”, and that robot has six degrees of freedom plus its number of
+independent joint variables. In fact, a minimum (there may be more than one) 
+set of variables used to specify a robot’s configuration is known as
+<em>minimum coordinates</em> or <em>independent coordinates</em>.</p>
+
+<p>As a quick aside, there may not be an actuator at every joint. If the number
+of actuators is fewer than the robot’s DoF, we say that the robot is
+<em>underactuated</em>. Such robots are particularly challenging to control.
+Legged robots, for instance, are underactuated, as are quadrotors.</p>
+
+<h3 id="an-alternative-approach-to-determining-the-number-of-degrees-of-freedom">An alternative approach to determining the number of degrees of freedom</h3>
+
+<p>Each rigid body in three dimensions has six degrees of freedom (three translation, three rotation). So, multiply the number of robot links by six, and then subtract the total number of constraint equations.</p>
+
+<p>For the example of the Foucault pendulum, there is one rigid body (the body) and three constraint equations (Equation \ref{eqn:ball-and-socket}; note the vector form of the equation). The total number of degrees-of-freedom is therefore \(6 - 3 = 3\).</p>
+
+
+
+  <!-- POST NAVIGATION -->
+  <div class="postNav clearfix">
+     
+      <a class="prev" href="/robotics-course-materials/blog/differential-kinematics/"><span>&laquo;&nbsp;Differential kinematics and inverse kinematics</span>
+      
+    </a>
+      
+      
+      <a class="next" href="/robotics-course-materials/blog/C++/"><span>C++ overview and OpenSceneGraph introduction&nbsp;&raquo;</span>
+       
+      </a>
+     
+  </div>
+</div>
+
+      </div>
+   </div><!-- end .content -->
+
+   <div class="footer">
+   <div class="container">
+
+      <div class="footer-links"> 
+         <ul class="noList"> 
+            
+            
+             
+            
+         </ul>
+      </div>
+   </div>
+</div><!-- end .footer -->
+
+
+   <!-- Add jQuery and other scripts -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/robotics-course-materials"><\/script>')</script>
+<script src="/robotics-course-materials/assets/js/dropcap.min.js"></script>
+<script src="/robotics-course-materials/assets/js/responsive-nav.min.js"></script>
+<script src="/robotics-course-materials/assets/js/scripts.js"></script>
+
+
+</body>
+
+</html>
