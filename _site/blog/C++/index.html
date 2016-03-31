@@ -60,406 +60,401 @@ MathJax.Hub.Config({
   <h1 class="postTitle">C++ overview and OpenSceneGraph introduction</h1>
   <p class="meta">December 18, 2015 | <span class="time">16</span> Minute Read</p>
   
-  <p><p class="intro"><span class="dropcap"></span>
+  <p class="intro"><span class="dropcap"></span>
 This learning module will provide an overview of C++, targeted toward
-those with some background in Java or C.  </p>
+those with some background in Java or C.  
 
-<h2 id="overview-of-c">Overview of C++</h2>
+## Overview of C++
 
-<h3 id="c-data-types">C++ data types</h3>
-
-<p>See <a href="http://en.cppreference.com/w/cpp/language/types">this page</a> for a
+### C++ data types
+See [this page](http://en.cppreference.com/w/cpp/language/types) for a
 description of all C++ primitive data types, including concepts like minimum and maximum numbers, not-a-number,
 and infinity.  The most commonly used types are
-<code>void</code>, <code>bool</code>, <code>char</code>, <code>int</code>, <code>unsigned</code>, <code>long</code>, <code>float</code>, and <code>double</code>.
-Since C++ is &quot;close to the metal&quot;, like C, it can help you to know the
-number of bits used for each representation, <em>which can change depending on
-machine architecture</em>.</p>
+`void`, `bool`, `char`, `int`, `unsigned`, `long`, `float`, and `double`.
+Since C++ is "close to the metal", like C, it can help you to know the
+number of bits used for each representation, _which can change depending on
+machine architecture_.
 
-<h3 id="some-differences-between-c-and-java">Some differences between C++ and Java</h3>
 
-<p>Notes below will be useful even to those programmers without a background in
-Java.</p>
+### Some differences between C++ and Java
+Notes below will be useful even to those programmers without a background in
+Java.
 
-<ul>
-<li>C++ uses <code>bool</code> for a Boolean type (Java calls this <code>boolean</code>)</li>
-<li>Java uses <code>System.out.println</code> for output to <code>stdout</code>. C++ uses <code>std::cout</code>, the <code>&lt;&lt;</code> operator, and <code>std::endl</code>. The Java statement <code>System.out.println(&quot;Hello world!&quot;);</code> would be <code>std::cout &lt;&lt; &quot;Hello world!&quot; &lt;&lt; std::endl;</code> in C++.</li>
-<li>Java forces you to allocate non-primitive types on the heap, where C++ allows you to allocate non-primitive types on the stack (the latter is faster and more amenable to real-time performance). </li>
-<li>Java automatically de-allocates memory (using relatively slow garbage collection).</li>
-<li>Array allocation is slightly different. Arrays are allocated in Java like <code>int[] array = new int[20]</code>. Arrays are allocated in C++ like <code>int* array = new int[20]</code>. </li>
-<li>In Java, a member function is defined like <code>public void tabulateScores()</code> while the function would be declared in C++ like <code>public: void tabulateScores()</code></li>
-<li>All primitive types (<code>int</code>, <code>float</code>, etc.) are <a href="http://courses.washington.edu/css342/zander/css332/passby.html">passed by value</a> to functions and all non-primitive types are <a href="http://courses.washington.edu/css342/zander/css332/passby.html">passed by reference</a>. C++ gives the option to pass any type by reference or by value to a function.</li>
-<li>C++ requires you to <a href="http://stackoverflow.com/questions/4757565/c-forward-declaration">declare</a> function prototypes and classes when you refer to them (before they have been <em>defined</em>- fleshed out). If you refer to a class before it has been defined, C++ requires you to do a <a href="http://stackoverflow.com/questions/4757565/c-forward-declaration">forward declaration</a>. Java was smart to avoid declarations, in my opinion. </li>
-<li>C++ does not have <em>interfaces</em> but it does have <a href="https://en.wikipedia.org/wiki/Virtual_function">pure virtual functions</a>,
-which serve an identical purpose.</li>
-</ul>
+ + C++ uses ``bool`` for a Boolean type (Java calls this ``boolean``)
+ + Java uses `System.out.println` for output to `stdout`. C++ uses `std::cout`, the `&lt;&lt;` operator, and `std::endl`. The Java statement `System.out.println("Hello world!");` would be `std::cout &lt;&lt; "Hello world!" &lt;&lt; std::endl;` in C++.
+ + Java forces you to allocate non-primitive types on the heap, where C++ allows you to allocate non-primitive types on the stack (the latter is faster and more amenable to real-time performance). 
+ + Java automatically de-allocates memory (using relatively slow garbage collection).
+ + Array allocation is slightly different. Arrays are allocated in Java like ``int[] array = new int[20]``. Arrays are allocated in C++ like ``int* array = new int[20]``. 
+ + In Java, a member function is defined like ``public void tabulateScores()`` while the function would be declared in C++ like ``public: void tabulateScores()``
+ + All primitive types (``int``, ``float``, etc.) are [passed by value](http://courses.washington.edu/css342/zander/css332/passby.html) to functions and all non-primitive types are [passed by reference](http://courses.washington.edu/css342/zander/css332/passby.html). C++ gives the option to pass any type by reference or by value to a function.
+ + C++ requires you to [declare](http://stackoverflow.com/questions/4757565/c-forward-declaration) function prototypes and classes when you refer to them (before they have been _defined_- fleshed out). If you refer to a class before it has been defined, C++ requires you to do a [forward declaration](http://stackoverflow.com/questions/4757565/c-forward-declaration). Java was smart to avoid declarations, in my opinion. 
+ + C++ does not have _interfaces_ but it does have [pure virtual functions](https://en.wikipedia.org/wiki/Virtual_function),
+which serve an identical purpose.
 
-<p>Some resources for Java programmers to learn C++:</p>
+Some resources for Java programmers to learn C++:
 
-<ul>
-<li><a href="http://www.horstmann.com/ccj2/ccjapp3.html">Moving from Java to C++</a></li>
-<li><a href="http://cs.brown.edu/courses/cs123/docs/java_to_cpp.shtml">Java to C++ Transition</a></li>
-</ul>
++ [Moving from Java to C++](http://www.horstmann.com/ccj2/ccjapp3.html)
++ [Java to C++ Transition](http://cs.brown.edu/courses/cs123/docs/java_to_cpp.shtml)
 
-<h3 id="object-oriented-programming-in-c">Object-oriented programming in C++</h3>
+### Object-oriented programming in C++
 
-<p>Object oriented programming (OOP) is a programming model centered around data and
-the functions used to operate on that data rather than <em>procedural programming languages</em> (like C) that focus on decomposing a task into subroutines (procedures). A tutorial to OOP in C++ can be found <a href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-088-introduction-to-c-memory-management-and-c-object-oriented-programming-january-iap-2010/lecture-notes/MIT6_088IAP10_lec04.pdf">here</a>.</p>
+Object oriented programming (OOP) is a programming model centered around data and
+the functions used to operate on that data rather than _procedural programming languages_ (like C) that focus on decomposing a task into subroutines (procedures). A tutorial to OOP in C++ can be found [here](http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-088-introduction-to-c-memory-management-and-c-object-oriented-programming-january-iap-2010/lecture-notes/MIT6_088IAP10_lec04.pdf).
 
-<h3 id="memory-allocation-and-shared-pointers">Memory allocation and shared pointers</h3>
-
-<p>One price you pay for the additional speed and control that C++ offers is
+### Memory allocation and shared pointers
+One price you pay for the additional speed and control that C++ offers is
 the need to manage heap memory allocation and deallocation. Memory is allocated
-from the heap using the <code>new</code> operator:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">int* x;       // x is a pointer
-x = new int;  // allocated memory for x on the heap
-</code></pre></div>
-<p>and memory must be deallocated from the heap using the <code>delete</code> operator:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">delete [] x;
-</code></pre></div>
-<p>For every <code>new</code> in your code, there should be a matching <code>delete</code>.</p>
+from the heap using the ``new`` operator:
 
-<h4 id="shared-pointers">Shared pointers</h4>
+    int* x;       // x is a pointer
+    x = new int;  // allocated memory for x on the heap
 
-<p>Shared pointers provide automatic memory deallocation. <em>I suggest using them
-instead of regular pointers for memory allocation/deallocation.</em> The idea
+and memory must be deallocated from the heap using the ``delete`` operator:
+
+    delete [] x;
+
+For every ``new`` in your code, there should be a matching ``delete``.
+
+#### Shared pointers
+
+Shared pointers provide automatic memory deallocation. _I suggest using them
+instead of regular pointers for memory allocation/deallocation._ The idea
 is simple- when no more references point to a block of memory, the block 
-is deallocated- though a few caveats exist. Shared pointers work like this:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">shared_ptr&lt;int&gt; x;              // x is a shared pointer to an int
-x = shared_ptr&lt;int&gt;(new int);   // allocated memory
-</code></pre></div>
-<p>There no longer needs to be a matching <code>delete</code> statement. The advantages
+is deallocated- though a few caveats exist. Shared pointers work like this:
+
+    shared_ptr<int> x;              // x is a shared pointer to an int
+    x = shared_ptr<int>(new int);   // allocated memory
+
+There no longer needs to be a matching ``delete`` statement. The advantages
 of shared pointers over garbage collection are that the former is considerably
 faster and that memory is reclaimed as soon as possible. The disadvantage is
 that circular pointer references must be explicitly managed by the programmer
-or memory leaks will occur.</p>
+or memory leaks will occur.
 
-<p><strong>Using the following example class definitions will result in a memory leak</strong>:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">class B; // the forward reference is necessary
+**Using the following example class definitions will result in a memory leak**:
 
-class A
-{
-  shared_ptr&lt;B&gt; b;
-};
+    class B; // the forward reference is necessary
 
-class B
-{
-  shared_ptr&lt;A&gt; a;
-};
-</code></pre></div>
-<p>This situation is fixable using a <a href="http://www.boost.org/doc/libs/1_58_0/libs/smart_ptr/weak_ptr.htm">weak pointer</a>:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">class B; // the forward reference is necessary
+    class A
+    {
+      shared_ptr<b> b;
+    };
 
-class A
-{
-  shared_ptr&lt;B&gt; b;
-};
+    class B
+    {
+      shared_ptr<a> a;
+    };
 
-class B
-{
-  weak_ptr&lt;A&gt; a;  // the weak pointer breaks the circular reference
-};
-</code></pre></div>
-<h3 id="passing-by-reference-and-passing-by-value">Passing by reference and passing by value</h3>
+This situation is fixable using a [weak pointer](http://www.boost.org/doc/libs/1_58_0/libs/smart_ptr/weak_ptr.htm):
 
-<p>(<em>ED: I have seen this advice somewhere but cannot locate it at the present moment. I will cite my source when I find it again.</em>)</p>
+    class B; // the forward reference is necessary
 
-<ul>
-<li>Pass variables by reference when the function is to modify the variable. 
+    class A
+    {
+      shared_ptr<b> b;
+    };
+
+    class B
+    {
+      weak_ptr<a> a;  // the weak pointer breaks the circular reference
+    };
+
+
+### Passing by reference and passing by value
+
+(_ED: I have seen this advice somewhere but cannot locate it at the present moment. I will cite my source when I find it again._)
+
+* Pass variables by reference when the function is to modify the variable. 
 As a matter of fact, indicating that the variable is passed by reference
-<em>and without the <code>const</code></em> keyword indicates to the caller that the function is <em>expected</em> to modify the variable.</li>
-<li>Else, for primitive types, pass by value </li>
-<li>Pass objects by reference and use the <code>const</code> modifier when the object uses more memory than a pointer (64-bits on most systems) and the function is not expected to change the object (e.g., <code>void sum_inertias(const SpatialRBInertiad&amp; J)</code>).</li>
-<li>Pass objects by value when the object uses less memory than a pointer and the function is not expected to modify the object </li>
-</ul>
+_and without the `const`_ keyword indicates to the caller that the function is _expected_ to modify the variable.
+* Else, for primitive types, pass by value 
+* Pass objects by reference and use the `const` modifier when the object uses more memory than a pointer (64-bits on most systems) and the function is not expected to change the object (e.g., `void sum_inertias(const SpatialRBInertiad&amp; J)`).
+* Pass objects by value when the object uses less memory than a pointer and the function is not expected to modify the object 
 
-<h3 id="compiling-linking-c-on-unix-type-systems">Compiling/linking C++ on Unix-type systems</h3>
+### Compiling/linking C++ on Unix-type systems
 
-<p>Whether producing an executable file or a software library, C++ requires
-two processes: <em>compiling</em> the C++ source code into machine code 
-(&quot;object files&quot;) and <em>linking</em> the object files together (which resolves 
+Whether producing an executable file or a software library, C++ requires
+two processes: _compiling_ the C++ source code into machine code 
+("object files") and _linking_ the object files together (which resolves 
 symbolic references to functions and data). A description of the compilation
-and linking processes is <a href="http://stackoverflow.com/questions/6264249/how-does-the-compilation-linking-process-work">here</a>.</p>
+and linking processes is [here](http://stackoverflow.com/questions/6264249/how-does-the-compilation-linking-process-work).
 
-<p>As a very simple example,</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">g++ -c hello.cpp -o hello.o
-</code></pre></div>
-<p>compiles <code>hello.cpp</code> to produce <code>hello.o</code> and</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">g++ hello.o -o hello
-</code></pre></div>
-<p>links <code>hello.o</code> with the C++ standard libraries to produce the executable <code>hello</code>.</p>
+As a very simple example,
 
-<p>I recommend getting and learning <a href="http://cmake.org">CMake</a> to build your projects, which can take care of the compiling and linking process for you automatically. Otherwise, you have to compile your source files manually, forcing you to remember all of the arcane command line options, and then manually link your objects together. One warning: <a href="http://stackoverflow.com/questions/45135/why-does-the-order-in-which-libraries-are-linked-sometimes-cause-errors-in-gcc">the linker (g++) is sensitive to the order that libraries and object files are specified on the command line on Linux systems</a>.</p>
+    g++ -c hello.cpp -o hello.o
 
-<h3 id="newer-language-features">Newer language features</h3>
+compiles `hello.cpp` to produce `hello.o` and
 
-<p>C++ continues to support more and more features over time. The language&#39;s evolution reminds me of this:</p>
+    g++ hello.o -o hello
 
-<p><img src="http://images.knifecenter.com/knifecenter/wenger/images/WR16999a.jpg" alt="Big swiss army knife"></p>
+links `hello.o` with the C++ standard libraries to produce the executable `hello`.
 
-<p>because few language features are ever removed. The 
-<a href="http://www.cplusplus.com/reference/stl/">C++ standard template library</a> contains a number of useful data structures- including vectors, linked lists, queues, stacks, sets, and maps- and algorithms (finding maximum elements, binary search, sorting, and more). You will be able to increase your programming proficiency in C++ many fold when you understand the concept of <a href="http://www.cs.northwestern.edu/%7Eriesbeck/programming/c++/stl-iterators.html">iterators</a>.</p>
+I recommend getting and learning [CMake](http://cmake.org) to build your projects, which can take care of the compiling and linking process for you automatically. Otherwise, you have to compile your source files manually, forcing you to remember all of the arcane command line options, and then manually link your objects together. One warning: [the linker (g++) is sensitive to the order that libraries and object files are specified on the command line on Linux systems](http://stackoverflow.com/questions/45135/why-does-the-order-in-which-libraries-are-linked-sometimes-cause-errors-in-gcc).
 
-<p>A staging ground for many C++ algorithms that often make their way into
-the language is <a href="http://www.boost.org">Boost</a>. This functionality goes part
-of the way toward replicating the utility of other languages&#39; standard 
-libraries (Python and Java in particular). </p>
+### Newer language features
 
-<h3 id="templates">Templates</h3>
+C++ continues to support more and more features over time. The language's evolution reminds me of this:
 
-<p>Templates allow us to avoid code like this:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">void swap(int&amp; x, int&amp; y)
-{
-  int tmp = x;
-  x = y;
-  y = tmp;
-}
+![Big swiss army knife](http://images.knifecenter.com/knifecenter/wenger/images/WR16999a.jpg)
 
-void swap(float&amp; x, float&amp; y)
-{
-  float tmp = x;
-  x = y;
-  y = tmp;
-}
+because few language features are ever removed. The 
+[C++ standard template library](http://www.cplusplus.com/reference/stl/) contains a number of useful data structures- including vectors, linked lists, queues, stacks, sets, and maps- and algorithms (finding maximum elements, binary search, sorting, and more). You will be able to increase your programming proficiency in C++ many fold when you understand the concept of [iterators](http://www.cs.northwestern.edu/~riesbeck/programming/c++/stl-iterators.html).
 
-.
-.
-.
-</code></pre></div>
-<p>We can do this instead:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">template &lt;typename T&gt;
-void swap(T&amp; x, T&amp; y)
-{
-  T tmp = x;
-  x = y;
-  y = tmp;
-}
-</code></pre></div>
-<p>This saves typing and, more importantly, reduces possibility of bugs from
+A staging ground for many C++ algorithms that often make their way into
+the language is [Boost](http://www.boost.org). This functionality goes part
+of the way toward replicating the utility of other languages' standard 
+libraries (Python and Java in particular). 
+
+### Templates
+
+Templates allow us to avoid code like this:
+
+    void swap(int&amp; x, int&amp; y)
+    {
+      int tmp = x;
+      x = y;
+      y = tmp;
+    }
+
+    void swap(float&amp; x, float&amp; y)
+    {
+      float tmp = x;
+      x = y;
+      y = tmp;
+    }
+
+    .
+    .
+    .
+
+We can do this instead:
+
+    template <typename t="">
+    void swap(T&amp; x, T&amp; y)
+    {
+      T tmp = x;
+      x = y;
+      y = tmp;
+    }
+
+This saves typing and, more importantly, reduces possibility of bugs from
 copy and paste (a great way to introduce bugs in programming). On the downside,
 templates make code a little harder to read, make it slower to compile,
-and tends to generate really hard to read compiler error messages for syntax errors (<a href="https://isocpp.org/wiki/faq/templates#template-error-msgs">see this part of the C++ FAQ for a fix</a>). Learning templates well will help you understand the
-Boost, the STL, and will give you the ability to read the majority of C++ code.</p>
+and tends to generate really hard to read compiler error messages for syntax errors ([see this part of the C++ FAQ for a fix](https://isocpp.org/wiki/faq/templates#template-error-msgs)). Learning templates well will help you understand the
+Boost, the STL, and will give you the ability to read the majority of C++ code.
 
-<h3 id="exceptions">Exceptions</h3>
+### Exceptions
 
-<p>Before exceptions, programmers would check for errors like this:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">FILE* fp = fopen(&quot;/tmp/dat&quot;, &quot;w&quot;);
-if (!fp)
-{
-  std::cerr &lt;&lt; &quot;Unable to open file!&quot; &lt;&lt; std::endl;
-  return false;
-}
+Before exceptions, programmers would check for errors like this:
 
-...
-</code></pre></div>
-<p>Using exceptions we check for errors like this:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">try
-{
-  fp = open(&quot;/tmp/dat&quot;);
-}
-catch (IOException e)
-{
-  std::cerr &lt;&lt; &quot;Unable to open file!&quot; &lt;&lt; std::endl;
-  return false;
-}
-</code></pre></div>
-<p>One advantage is that if we don&#39;t care about the error at this level- it&#39;s
+    FILE* fp = fopen("/tmp/dat", "w");
+    if (!fp)
+    {
+      std::cerr &lt;&lt; "Unable to open file!" &lt;&lt; std::endl;
+      return false;
+    }
+
+    ...
+
+Using exceptions we check for errors like this:
+
+    try
+    {
+      fp = open("/tmp/dat");
+    }
+    catch (IOException e)
+    {
+      std::cerr &lt;&lt; "Unable to open file!" &lt;&lt; std::endl;
+      return false;
+    }
+
+One advantage is that if we don't care about the error at this level- it's
 apparent that we already signal to the calling function that there was a 
 problem by 
-the <code>return false</code> statement- then we can keep our code very neat by doing
-this instead:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">fp = open(&quot;/tmp/dat&quot;);
-</code></pre></div>
-<p>Now if we do not &quot;catch&quot; the exception, the function above is responsible
-for catching it, on up the <a href="https://en.wikipedia.org/wiki/Call_stack">call stack</a>, until- if the <code>main</code> function does not catch it- the exception will cause
-the program to terminate with an error.</p>
+the `return false` statement- then we can keep our code very neat by doing
+this instead:
 
-<p>A commentor on <a href="http://stackoverflow.com/questions/196522/in-c-what-are-the-benefits-of-using-exceptions-and-try-catch-instead-of-just">Stack overflow</a> indicates two benefits:</p>
+    fp = open("/tmp/dat");
 
-<ol>
-<li>They can&#39;t be ignored: you must deal with them at some level or they will terminate your program. If you do not explicitly check for the error code, it is lost.</li>
-<li>They <em>can</em> be ignored: if you explicitly wish to ignore an exception, it
-will propagate up to higher levels until some piece of code does handle it.</li>
-</ol>
+Now if we do not "catch" the exception, the function above is responsible
+for catching it, on up the [call stack](https://en.wikipedia.org/wiki/Call_stack), until- if the `main` function does not catch it- the exception will cause
+the program to terminate with an error.
 
-<p>This same Stack overflow thread has many more viewpoints on why exceptions are useful. No commentor argues that checking for error codes is a better solution.</p>
+A commentor on [Stack overflow](http://stackoverflow.com/questions/196522/in-c-what-are-the-benefits-of-using-exceptions-and-try-catch-instead-of-just) indicates two benefits:
 
-<h3 id="programming-debugging-advice">Programming / debugging advice</h3>
+1. They can't be ignored: you must deal with them at some level or they will terminate your program. If you do not explicitly check for the error code, it is lost.
+2. They _can_ be ignored: if you explicitly wish to ignore an exception, it
+will propagate up to higher levels until some piece of code does handle it.
 
-<p>Some general programming advice (beyond C++):</p>
+ This same Stack overflow thread has many more viewpoints on why exceptions are useful. No commentor argues that checking for error codes is a better solution.
 
-<ul>
-<li><strong>readability</strong>: One of your primary goals when programming is to carefully 
+### Programming / debugging advice
+
+Some general programming advice (beyond C++):
+
+- **readability**: One of your primary goals when programming is to carefully 
 guide another programmer through your code. Even if you expect to be the
-only person to ever see your code, you will be that other programmer in six months.</li>
-<li><strong>minimize cognitive load</strong>: Toward keeping your code readable, minimize the
-cognitive load. Name variables and functions descriptively (<code>num_iterations</code> instead of <code>n</code>, <code>calc_inertias(.)</code> instead of <code>compute(.)</code>).</li>
-<li><strong>use STL containers instead of arrays</strong>: Arrays do no range checking and
+only person to ever see your code, you will be that other programmer in six months.
+- **minimize cognitive load**: Toward keeping your code readable, minimize the
+cognitive load. Name variables and functions descriptively (``num_iterations`` instead of ``n``, ``calc_inertias(.)`` instead of ``compute(.)``).
+- **use STL containers instead of arrays**: Arrays do no range checking and
 the correct size must be allocated at runtime; accidentally overwriting memory
-outside of the array is a common bug <a href="https://en.wikipedia.org/wiki/Buffer_overflow">and is a common vector for security attacks</a>. I prefer the <a href="http://www.cplusplus.com/reference/vector/vector/">STL vector</a>, which can be accessed like an array (e.g., <code>x[5] = 3</code>), can be queried for its size, automatically deallocates memory when the variable goes out of scope, performs range checking, and can increase its capacity automatically. <a href="http://cs.brown.edu/%7Ejak/proglang/cpp/stltut/tut.html">Here</a> is a nice tutorial on the STL (Standard Template Library). </li>
-<li><strong>put reusable code in functions and keep functions small</strong>: longer
-functions are more likely to have defects (see a dissenting viewpoint plus several that backup my point of view <a href="http://c2.com/cgi/wiki?LongFunctionHeresy">here</a>). The longer your function is, than say 50 lines of code, the more you should consider breaking it into multiple functions.</li>
-<li><strong><a href="http://stackoverflow.com/questions/14041453/why-are-preprocessor-macros-evil-and-what-are-the-alternatives">beware of macros</a></strong> </li>
-<li><strong>write the comments first</strong>: This is a strategy I use when programming. Writing the comments first helps you focus on organizing the logic. Filling in the code from the comments is pretty easy when you know the language syntax.</li>
-<li><strong>address the first compiler errors first</strong>: Many errors found by the C++ compiler will disappear after you correct the first in a list of errors.<br></li>
-<li><strong>fix all compiler warnings</strong>: C++ compilers tend to generate warnings in places where compilers for other languages would generate errors. Take compiler warnings seriously- treat them as errors. </li>
-<li><strong>write <a href="https://en.wikipedia.org/wiki/Unit_testing">unit tests</a></strong>: Unit tests allow you to catch problems in a function while you remember the ins and outs of that function as opposed to six months down the road when you locate a bug in the function.</li>
-<li><strong>use a debugger</strong>: see below</li>
-</ul>
+outside of the array is a common bug [and is a common vector for security attacks](https://en.wikipedia.org/wiki/Buffer_overflow). I prefer the [STL vector](http://www.cplusplus.com/reference/vector/vector/), which can be accessed like an array (e.g., ``x[5] = 3``), can be queried for its size, automatically deallocates memory when the variable goes out of scope, performs range checking, and can increase its capacity automatically. [Here](http://cs.brown.edu/~jak/proglang/cpp/stltut/tut.html) is a nice tutorial on the STL (Standard Template Library). 
+- **put reusable code in functions and keep functions small**: longer
+functions are more likely to have defects (see a dissenting viewpoint plus several that backup my point of view [here](http://c2.com/cgi/wiki?LongFunctionHeresy)). The longer your function is, than say 50 lines of code, the more you should consider breaking it into multiple functions.
+- **[beware of macros](http://stackoverflow.com/questions/14041453/why-are-preprocessor-macros-evil-and-what-are-the-alternatives)** 
+- **write the comments first**: This is a strategy I use when programming. Writing the comments first helps you focus on organizing the logic. Filling in the code from the comments is pretty easy when you know the language syntax.
+- **address the first compiler errors first**: Many errors found by the C++ compiler will disappear after you correct the first in a list of errors.  
+- **fix all compiler warnings**: C++ compilers tend to generate warnings in places where compilers for other languages would generate errors. Take compiler warnings seriously- treat them as errors. 
+- **write [unit tests](https://en.wikipedia.org/wiki/Unit_testing)**: Unit tests allow you to catch problems in a function while you remember the ins and outs of that function as opposed to six months down the road when you locate a bug in the function.
+- **use a debugger**: see below
 
-<h3 id="c-tools">C++ tools</h3>
+### C++ tools
 
-<ul>
-<li><strong>git / version control</strong>: While not a C++ tool <em>per se</em>, use version control to track your changes. Advanced features of version control even allow you to, as examples: run unit tests, run regression tests, and build binary releases
-upon committing code.</li>
-<li><strong>gdb / lldb</strong>: Debugging using <code>printf</code> (or its variants among programming languages) is usually an order of magnitude faster than using a debugger. Learn at least the main features of a debugger. A good tutorial on gdb is found <a href="http://www.unknownroad.com/rtfm/gdbtut/">here</a>. </li>
-<li><strong>valgrind</strong>: If you have a bug that you are having difficulty locating using gdb, <a href="http://valgrind.org">valgrind</a> should be your next stop. Valgrind can locate problems like illegal memory reads and writes that gdb will not catch. </li>
-<li><strong>performance tools</strong>: Do not <a href="https://shreevatsa.wordpress.com/2008/05/16/premature-optimization-is-the-root-of-all-evil/">prematurely optimize</a>: you will find that your intuition about the time sinks in your software are often wrong anyway. Use a <em>profiler</em>, my favorite on Linux is currently <a href="https://github.com/gperftools/gperftools">google-perftools</a>.</li>
-</ul>
+- **git / version control**: While not a C++ tool _per se_, use version control to track your changes. Advanced features of version control even allow you to, as examples: run unit tests, run regression tests, and build binary releases
+upon committing code.
+- **gdb / lldb**: Debugging using ``printf`` (or its variants among programming languages) is usually an order of magnitude faster than using a debugger. Learn at least the main features of a debugger. A good tutorial on gdb is found [here](http://www.unknownroad.com/rtfm/gdbtut/). 
+- **valgrind**: If you have a bug that you are having difficulty locating using gdb, [valgrind](http://valgrind.org) should be your next stop. Valgrind can locate problems like illegal memory reads and writes that gdb will not catch. 
+- **performance tools**: Do not [prematurely optimize](https://shreevatsa.wordpress.com/2008/05/16/premature-optimization-is-the-root-of-all-evil/): you will find that your intuition about the time sinks in your software are often wrong anyway. Use a _profiler_, my favorite on Linux is currently [google-perftools](https://github.com/gperftools/gperftools).
 
-<h3 id="additional-reference-materials">Additional reference materials</h3>
+### Additional reference materials
 
-<ul>
-<li><a href="http://www.parashift.com/c++-faq/">C++ FAQ</a></li>
-<li>Google</li>
-</ul>
+- [C++ FAQ](http://www.parashift.com/c++-faq/)
+- Google
 
-<hr>
+---
 
-<h2 id="overview-of-openscenegraph">Overview of OpenSceneGraph</h2>
+## Overview of OpenSceneGraph
 
-<p>You have two clear options to program in 3D: <a href="https://en.wikipedia.org/wiki/OpenGL">OpenGL</a>, which is a <em>state system</em> (the rendering is completed determined
-by state variables), and <a href="https://en.wikipedia.org/wiki/Scene_graph">scene graph-based systems</a>, like <a href="https://en.wikipedia.org/wiki/OpenSceneGraph">OpenSceneGraph</a>, <a href="https://en.wikipedia.org/wiki/Open_Inventor">Open Inventor</a>, and <a href="http://www.oracle.com/technetwork/articles/javase/index-jsp-138252.html">Java 3D</a>. The
-earliest technology for viewing 3D content on the web, <a href="https://en.wikipedia.org/wiki/VRML97">VRML</a>, is based on a scene graph representation (and this is a pretty good file format too).</p>
+You have two clear options to program in 3D: [OpenGL](https://en.wikipedia.org/wiki/OpenGL), which is a _state system_ (the rendering is completed determined
+by state variables), and [scene graph-based systems](https://en.wikipedia.org/wiki/Scene_graph), like [OpenSceneGraph](https://en.wikipedia.org/wiki/OpenSceneGraph), [Open Inventor](https://en.wikipedia.org/wiki/Open_Inventor), and [Java 3D](http://www.oracle.com/technetwork/articles/javase/index-jsp-138252.html). The
+earliest technology for viewing 3D content on the web, [VRML](https://en.wikipedia.org/wiki/VRML97), is based on a scene graph representation (and this is a pretty good file format too).
 
-<p>I will discuss the scene graph representation because it is intuitive to
+I will discuss the scene graph representation because it is intuitive to
 understand- it fits well into the object-oriented paradigm, in particular-
-and 3D rendering can be achieved with very little code. For example, this tiny bit of code renders many 3D models that you can view using mouse controls:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">// simple.cpp (Evan Drumwright)
-#include &lt;osgDB/ReadFile&gt;
-#include &lt;osgViewer/Viewer&gt;
+and 3D rendering can be achieved with very little code. For example, this tiny bit of code renders many 3D models that you can view using mouse controls:
 
-int main(int argc, char** argv)
-{
-  if (argc &lt; 2)
-  {
-    std::cerr &lt;&lt; &quot;syntax: simple &lt;filename&gt;&quot; &lt;&lt; std::endl;
-    return -1;
-  }
-  osgViewer::Viewer viewer;
-  viewer.setSceneData(osgDB::readNodeFile(argv[1]));
-  return viewer.run();
-}
-</code></pre></div>
-<p>You can build this program using <a href="../../assets/other/simpleosg/CMakeLists.txt">this</a> CMake build file. You can then run the program on many 3D files. One example is this <a href="http://scv.bu.edu/documentation/software-help/graphics-programming/osg_examples/materials/cessna.osg">cessna airplane</a>. Once you build the program, you run it like this: <code>simple cessna.osg</code>.</p>
+    // simple.cpp (Evan Drumwright)
+    #include &lt;osgDB/ReadFile&gt;
+    #include &lt;osgViewer/Viewer&gt;
 
-<h3 id="the-scene-graph">The scene graph</h3>
+    int main(int argc, char** argv)
+    {
+      if (argc &lt; 2)
+      {
+        std::cerr &lt;&lt; "syntax: simple <filename>" &lt;&lt; std::endl;
+        return -1;
+      }
+      osgViewer::Viewer viewer;
+      viewer.setSceneData(osgDB::readNodeFile(argv[1]));
+      return viewer.run();
+    }
 
-<p>A scene graph is a collection of nodes in a tree (or, more generally, a graph) structure. A node in the tree may have many children but only a single parent, with the effect of a parent applied to all its child nodes. An operation performed on a group automatically propagates its effect to all of its members. </p>
+You can build this program using [this](../../assets/other/simpleosg/CMakeLists.txt) CMake build file. You can then run the program on many 3D files. One example is this [cessna airplane](http://scv.bu.edu/documentation/software-help/graphics-programming/osg_examples/materials/cessna.osg). Once you build the program, you run it like this: `simple cessna.osg`.
 
-<p>Associating a geometrical transformation matrix (which I will describe in a future learning module) at a node will apply the transformation (rotation, translation, scaling) to all nodes below it. Materials are applied The scene graph paradigm is 
-particularly good for rendering and animating animals, humans, and robots.</p>
+### The scene graph
+A scene graph is a collection of nodes in a tree (or, more generally, a graph) structure. A node in the tree may have many children but only a single parent, with the effect of a parent applied to all its child nodes. An operation performed on a group automatically propagates its effect to all of its members. 
 
-<p>(Adapted from <a href="https://en.wikipedia.org/wiki/Scene_graph">this page</a>). </p>
+Associating a geometrical transformation matrix (which I will describe in a future learning module) at a node will apply the transformation (rotation, translation, scaling) to all nodes below it. Materials are applied The scene graph paradigm is 
+particularly good for rendering and animating animals, humans, and robots.
 
-<p>An example scene graph for a virtual human is depicted below:</p>
+(Adapted from [this page](https://en.wikipedia.org/wiki/Scene_graph)). 
 
-<p><img src="../../assets/img/scene_graph.png" alt="example virtual human scene graph"></p>
+An example scene graph for a virtual human is depicted below:
 
-<p>The types of nodes in the graph are described below:</p>
+![example virtual human scene graph](../../assets/img/scene_graph.png)
 
-<ul>
-<li><a href="http://trac.openscenegraph.org/documentation/OpenSceneGraphReferenceDocs/a00910.html">Transform</a>: A group node for which all children are transformed by a 4x4 (homogeneous) <a href="https://en.wikipedia.org/wiki/Transformation_matrix">transformation matrix</a>- again, I will discuss this in a future learning module.</li>
-<li><a href="http://trac.openscenegraph.org/documentation/OpenSceneGraphReferenceDocs/a00357.html">Group</a>: A generic node for grouping children together</li>
-<li><a href="http://trac.openscenegraph.org/documentation/OpenSceneGraphReferenceDocs/a00775.html">Sphere</a>: A geometric primitive node for rendering a sphere</li>
-<li><a href="http://trac.openscenegraph.org/documentation/OpenSceneGraphReferenceDocs/a00479.html">Material</a>: An object for setting the color properties (color, shininess, transparency) of an object</li>
-</ul>
+The types of nodes in the graph are described below:
 
-<h3 id="simple-animation">Simple animation</h3>
-<div class="highlight"><pre><code class="language-text" data-lang="text">#include &lt;osgDB/ReadFile&gt;
-#include &lt;osgViewer/Viewer&gt;
-#include &lt;osg/MatrixTransform&gt;
-#include &lt;osgGA/TrackballManipulator&gt;
-#include &lt;osgGA/StateSetManipulator&gt;
-#include &lt;unistd.h&gt;
+* [Transform](http://trac.openscenegraph.org/documentation/OpenSceneGraphReferenceDocs/a00910.html): A group node for which all children are transformed by a 4x4 (homogeneous) [transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)- again, I will discuss this in a future learning module.
+* [Group](http://trac.openscenegraph.org/documentation/OpenSceneGraphReferenceDocs/a00357.html): A generic node for grouping children together
+* [Sphere](http://trac.openscenegraph.org/documentation/OpenSceneGraphReferenceDocs/a00775.html): A geometric primitive node for rendering a sphere
+* [Material](http://trac.openscenegraph.org/documentation/OpenSceneGraphReferenceDocs/a00479.html): An object for setting the color properties (color, shininess, transparency) of an object
 
-int main(int argc, char** argv)
-{
-  if (argc &lt; 2)
-  {
-    std::cerr &lt;&lt; &quot;syntax: anim &lt;filename&gt;&quot; &lt;&lt; std::endl;
-    return -1;
-  }
+### Simple animation
 
-  // create the viewer, as before, but now we need to add 
-  // a trackball manipulator
-  osgViewer::Viewer viewer;
+    #include &lt;osgDB/ReadFile&gt;
+    #include &lt;osgViewer/Viewer&gt;
+    #include &lt;osg/MatrixTransform&gt;
+    #include &lt;osgGA/TrackballManipulator&gt;
+    #include &lt;osgGA/StateSetManipulator&gt;
+    #include <unistd.h>
 
-  // create a transform
-  osg::MatrixTransform* group = new osg::MatrixTransform;
-  viewer.setCameraManipulator(new osgGA::TrackballManipulator());
+    int main(int argc, char** argv)
+    {
+      if (argc &lt; 2)
+      {
+        std::cerr &lt;&lt; "syntax: anim <filename>" &lt;&lt; std::endl;
+        return -1;
+      }
 
-  // read the file and add it to the transform group
-  group-&gt;addChild(osgDB::readNodeFile(argv[1]));
+      // create the viewer, as before, but now we need to add 
+      // a trackball manipulator
+      osgViewer::Viewer viewer;
 
-  // point the viewer to the scene graph
-  viewer.setSceneData(group);
-  viewer.realize();
+      // create a transform
+      osg::MatrixTransform* group = new osg::MatrixTransform;
+      viewer.setCameraManipulator(new osgGA::TrackballManipulator());
 
-  // set the angle (in radians)
-  const double ANGLE = M_PI/180.0;
-  unsigned i = 0;
+      // read the file and add it to the transform group
+      group-&gt;addChild(osgDB::readNodeFile(argv[1]));
 
-  // loop until done
-  while (true)
-  {
-    if (viewer.done()) break;
+      // point the viewer to the scene graph
+      viewer.setSceneData(group);
+      viewer.realize();
 
-    // render a frame
-    viewer.frame();
+      // set the angle (in radians)
+      const double ANGLE = M_PI/180.0;
+      unsigned i = 0;
 
-    // update the transform to do a rotation around axis .577 .577 .577
-    osg::Matrixd T;
-    T.makeRotate(ANGLE*i, 0.57735, 0.57735, 0.57735);
-    group-&gt;setMatrix(T);
-    i++;
+      // loop until done
+      while (true)
+      {
+        if (viewer.done()) break;
 
-    // sleep a little (10000 microseconds = 10ms = 100 frames per second)
-    usleep(10000);
-  }
+        // render a frame
+        viewer.frame();
 
-  return 0;
-}
-</code></pre></div>
-<p>This code fragment covers 90% of animation cases: simply update a matrix transform
-and then render a frame (using <code>frame()</code>).</p>
+        // update the transform to do a rotation around axis .577 .577 .577
+        osg::Matrixd T;
+        T.makeRotate(ANGLE*i, 0.57735, 0.57735, 0.57735);
+        group-&gt;setMatrix(T);
+        i++;
 
-<p>You can build this program using <a href="../../assets/other/animosg/CMakeLists.txt">this</a> CMake build file. Again, you can then run the program on many 3D files. Once you build the program, you run it like this: <code>anim cessna.osg</code>.</p>
+        // sleep a little (10000 microseconds = 10ms = 100 frames per second)
+        usleep(10000);
+      }
 
-<p><strong>One important note about animation</strong>: if your code between calls to <code>frame()</code> takes too long, then the frame rate will naturally suffer.</p>
+      return 0;
+    }
 
-<h3 id="3d-file-formats-and-tools">3D file formats and tools</h3>
+This code fragment covers 90% of animation cases: simply update a matrix transform
+and then render a frame (using `frame()`).
 
-<p>To do anything cool with 3D, you need models, and models require considerable
+You can build this program using [this](../../assets/other/animosg/CMakeLists.txt) CMake build file. Again, you can then run the program on many 3D files. Once you build the program, you run it like this: `anim cessna.osg`.
+
+**One important note about animation**: if your code between calls to `frame()` takes too long, then the frame rate will naturally suffer.
+
+### 3D file formats and tools
+
+To do anything cool with 3D, you need models, and models require considerable
 time and expertise to create. You can search for models using Google (try
-&quot;3D model spaceship&quot;, for example), convert between models using tools, or
-even try building your own or modifying someone else&#39;s. Some useful tools are linked to below: </p>
+"3D model spaceship", for example), convert between models using tools, or
+even try building your own or modifying someone else's. Some useful tools are linked to below: 
 
-<ul>
-<li><a href="https://en.wikipedia.org/wiki/Wavefront_.obj_file">Wavefont OBJ</a> is a file format that is extremely simple both to parse and to write. I prefer it less
-than other file formats when colors should be applied, because these &quot;materials&quot; are stored outside of the file (all data cannot be stored in a single file). The file extension is &quot;.obj&quot;.</li>
-<li><a href="https://en.wikipedia.org/wiki/VRML">VRML</a> comes in two formats, both still
-popular, <a href="http://www.martinreddy.net/gfx/3d/VRML.spec">VRML 1.0</a> and <a href="http://gun.teipir.gr/VRML-amgem/spec/index.html">VRML 97 (also known as VRML 2.0)</a>. The VRML 1.0 file extension is &quot;.iv&quot;; the VRML 2.0 file extensions are &quot;.wrl&quot; and
-&quot;.vrml&quot; (less common). VRML 1.0 is easy to parse and write to; VRML 2.0 is
-easier to write to. There exist tools for converting between VRML 1.0 and 2.0, but your mileage will vary.</li>
-<li><a href="https://www.blender.org">Blender</a> is free, professional (or near professional grade) 3D modeling and rendering software. It can help you edit 3D models
-and convert between various representations. The only problems: its interface is not very intuitive, the interface has changed multiple times in the 10+ years that I&#39;ve used it, and the documentation has historically been poor.</li>
-</ul>
 
-<h3 id="learning-more">Learning more</h3>
+* [Wavefont OBJ](https://en.wikipedia.org/wiki/Wavefront_.obj_file) is a file format that is extremely simple both to parse and to write. I prefer it less
+than other file formats when colors should be applied, because these "materials" are stored outside of the file (all data cannot be stored in a single file). The file extension is ".obj".
+* [VRML](https://en.wikipedia.org/wiki/VRML) comes in two formats, both still
+popular, [VRML 1.0](http://www.martinreddy.net/gfx/3d/VRML.spec) and [VRML 97 (also known as VRML 2.0)](http://gun.teipir.gr/VRML-amgem/spec/index.html). The VRML 1.0 file extension is ".iv"; the VRML 2.0 file extensions are ".wrl" and
+".vrml" (less common). VRML 1.0 is easy to parse and write to; VRML 2.0 is
+easier to write to. There exist tools for converting between VRML 1.0 and 2.0, but your mileage will vary.
+* [Blender](https://www.blender.org) is free, professional (or near professional grade) 3D modeling and rendering software. It can help you edit 3D models
+and convert between various representations. The only problems: its interface is not very intuitive, the interface has changed multiple times in the 10+ years that I've used it, and the documentation has historically been poor.
 
-<p>There are a number of tutorials available for OpenSceneGraph <a href="http://trac.openscenegraph.org/projects/osg//wiki/Support/Tutorials">here</a>. API documentation for OpenSceneGraph is located <a href="http://trac.openscenegraph.org/documentation/OpenSceneGraphReferenceDocs/">here</a>. </p>
+### Learning more
+There are a number of tutorials available for OpenSceneGraph [here](http://trac.openscenegraph.org/projects/osg//wiki/Support/Tutorials). API documentation for OpenSceneGraph is located [here](http://trac.openscenegraph.org/documentation/OpenSceneGraphReferenceDocs/). 
+</filename></unistd.h></filename></typename></a></b></a></b></int></int></p>
 
 
   <!-- POST NAVIGATION -->

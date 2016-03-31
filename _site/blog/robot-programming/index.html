@@ -61,7 +61,7 @@ MathJax.Hub.Config({
   <p class="meta">January 07, 2016 | <span class="time">10</span> Minute Read</p>
   
   <p>This module will discuss some topics for those new to robot programming. 
-I&#39;ll start with programming general real-time systems, talk next about
+I’ll start with programming general real-time systems, talk next about
 an architecture for a typical robot system- including <em>planners</em> and 
 <em>controllers</em>, and conclude with many thoughts on the open problem of 
 combining reactive and deliberative behaviors for dextrous robots.</p>
@@ -76,52 +76,52 @@ predictability.</p>
 <p>For controlling robots, the user selects a control frequency (e.g., 100 Hz),
 and the real time operating system ensures that this process is run 
 regularly- every 10 ms (plus or minus some small amount of error). <em>It is the
-programmer&#39;s responsibility to ensure that their process does not overrun the
-process&#39; allotted time</em> (10 ms in the example above). If such an overrun
+programmer’s responsibility to ensure that their process does not overrun the
+process’ allotted time</em> (10 ms in the example above). If such an overrun
 occurs, the real time operating system will typically generate an exception.
 Programmers typically avoid I/O and memory allocation in real-time control
-loops, as these procedures are often unpredictable. </p>
+loops, as these procedures are often unpredictable.</p>
 
 <h2 id="architecture-of-a-robotic-system">Architecture of a robotic system</h2>
 
 <p><em>Autonomous</em> robotic systems- as opposed to those robots situated in controlled
 environments (like factories)- are typically driven using a small number of 
 <em>behaviors</em>, modular components that focus on getting the robot to perform a single task (like avoiding obstacles, homing to a light source, or following a
-wall). Many robot architectures are built on the <a href="https://en.wikipedia.org/wiki/Finite-state_machine">finite state machine</a> model, with behaviors representing the states and transitions between behaviors occuring in response to events. </p>
+wall). Many robot architectures are built on the <a href="https://en.wikipedia.org/wiki/Finite-state_machine">finite state machine</a> model, with behaviors representing the states and transitions between behaviors occuring in response to events.</p>
 
 <p>The reason these interacting behaviors are used, instead of the previously
 dominant <em>sense-plan-act</em> approach, is depicted in <a href="https://www.youtube.com/watch?v=qXdn6ynwpiI">this video of an early robot, Shakey</a>: the robot moves too
 slowly to act and react in uncontrolled environments.</p>
 
-<P>
+<p>
 <table class="image">
 <caption align="bottom">Data flow and computation using the sense-plan-act approach to robot architecture.</caption>
-<img src="../../assets/img/SPA.png" alt="Data flow and computation using the sense-plan-act approach to robot architecture." width=""/>
+<img src="../../assets/img/SPA.png" alt="Data flow and computation using the sense-plan-act approach to robot architecture." width="" />
 </table>
-</P>
+</p>
 
 <p>For example, here is a finite state machine-based architecture for a simple
 foraging robot:</p>
 
-<P>
+<p>
 <table class="image">
 <caption align="bottom">Architecture for a simple foraging robot. Graph nodes represent machine states and transitions represent events and sensory signals. Image from Bristol Robotics Laboratory.</caption>
-<img src="http://www.brl.ac.uk/images/finite-state-machine.png" alt="Architecture for a simple foraging robot. Graph nodes represent machine states and transitions represent events and sensory signals. Image from Bristol Robotics Laboratory." width=""/>
+<img src="http://www.brl.ac.uk/images/finite-state-machine.png" alt="Architecture for a simple foraging robot. Graph nodes represent machine states and transitions represent events and sensory signals. Image from Bristol Robotics Laboratory." width="" />
 </table>
-</P>
+</p>
 
 <p>The figure below shows the architecture of a more sophisticated autonomous 
 robot capable of manipulating its environment. The depicted architecture does 
-not represent a single task, but rather depicts the<br>
+not represent a single task, but rather depicts the<br />
 flow of data between software and hardware and real-time and non-real-time
-software components. </p>
+software components.</p>
 
-<P>
+<p>
 <table class="image">
 <caption align="bottom">An example of a software architecture for an autonomous robot, the Willow Garage PR2 mobile manipulator.</caption>
-<img src="../../assets/img/robot-software-architecture.png" alt="An example of a software architecture for an autonomous robot, the Willow Garage PR2 mobile manipulator." width=""/>
+<img src="../../assets/img/robot-software-architecture.png" alt="An example of a software architecture for an autonomous robot, the Willow Garage PR2 mobile manipulator." width="" />
 </table>
-</P>
+</p>
 
 <h3 id="important-components">Important components</h3>
 
@@ -139,45 +139,43 @@ necessarily friendly to program with, but is quite fast.</p>
 <p>The robot depicted in this example possesses several types of sensors:</p>
 
 <ul>
-<li><strong>LIDAR</strong>: a time of flight sensing system that operates in the same manner as police using lasers to catch speeding motorists. LIDAR sensors for robots use a rotating laser beam to capture a two-dimensional or three-dimensional depth scan of a surface. </li>
-<li><strong>RGB</strong>: a camera that captures a color (red-green-blue) image from its viewpoint for processing using computer vision algorithms. Computer vision is not a current mainstay of robotic sensing for manipulation, likely because of the significant processing time required, imperfect identification (see Google image search), and susceptibility to sensory noise and artifacts. </li>
-<li><strong>Kinect</strong>: a single hardware unit that combines both depth sensing and RGB</li>
-<li><strong>IMU</strong>: an <em>inertial measurement unit</em> that combines accelerometers, gyroscopic sensors, magnetometers, and (often) GPS measurements. The accelerometers give linear acceleration. The gyroscopic sensors yield angular acceleration. 
+  <li><strong>LIDAR</strong>: a time of flight sensing system that operates in the same manner as police using lasers to catch speeding motorists. LIDAR sensors for robots use a rotating laser beam to capture a two-dimensional or three-dimensional depth scan of a surface.</li>
+  <li><strong>RGB</strong>: a camera that captures a color (red-green-blue) image from its viewpoint for processing using computer vision algorithms. Computer vision is not a current mainstay of robotic sensing for manipulation, likely because of the significant processing time required, imperfect identification (see Google image search), and susceptibility to sensory noise and artifacts.</li>
+  <li><strong>Kinect</strong>: a single hardware unit that combines both depth sensing and RGB</li>
+  <li><strong>IMU</strong>: an <em>inertial measurement unit</em> that combines accelerometers, gyroscopic sensors, magnetometers, and (often) GPS measurements. The accelerometers give linear acceleration. The gyroscopic sensors yield angular acceleration. 
 Magnetometers can help determine orientation.</li>
 </ul>
 
-<P>
+<p>
 <table class="image">
 <caption align="bottom">A point cloud, as might be produced by LIDAR or the Kinect sensor.</caption>
-<img src="https://upload.wikimedia.org/wikipedia/commons/4/4c/Point_cloud_torus.gif" alt="A point cloud, as might be produced by LIDAR or the Kinect sensor." width=""/>
+<img src="https://upload.wikimedia.org/wikipedia/commons/4/4c/Point_cloud_torus.gif" alt="A point cloud, as might be produced by LIDAR or the Kinect sensor." width="" />
 </table>
-</P>
+</p>
 
 <h4 id="controller">Controller</h4>
-
 <p>A <em>controller</em> is a real-time process that runs at a specified frequency
 (commonly between 100 Hz and 10,000 Hz for robots). Controllers attempt to
 regulate a dynamical system using a model of the system and/or error
 between the desired state of the system and its current state.</p>
 
-<P>
+<p>
 <table class="image">
 <caption align="bottom">Extremely simple controller (thermostat), actuators (A/C unit and furnace), and sensor (thermometer). The dynamical system is the temperature in the dwelling. The controller operates using a simple _error feedback_ mechanism: a voltage signal is sent to the furnace or A/C unit to increase/decrease temperature until the desired setpoint is reached.</caption>
-<img src="../../assets/img/thermostat.png" alt="Extremely simple controller (thermostat), actuators (A/C unit and furnace), and sensor (thermometer). The dynamical system is the temperature in the dwelling. The controller operates using a simple _error feedback_ mechanism: a voltage signal is sent to the furnace or A/C unit to increase/decrease temperature until the desired setpoint is reached." width=""/>
+<img src="../../assets/img/thermostat.png" alt="Extremely simple controller (thermostat), actuators (A/C unit and furnace), and sensor (thermometer). The dynamical system is the temperature in the dwelling. The controller operates using a simple _error feedback_ mechanism: a voltage signal is sent to the furnace or A/C unit to increase/decrease temperature until the desired setpoint is reached." width="" />
 </table>
-</P>
+</p>
 
-<p>One of the earliest controllers is the centrifugal governor. A video depiction of the centrifugal governor is shown <a href="https://www.youtube.com/watch?v=iO0CxOTe4Uk">here</a>. An engine causes the governor to rotate, and centrifugal force on the governor- caused by its faster rotation- closes the throttle valve. When the engine slows, the centrifugal force attenuates, and the throttle re-opens. </p>
+<p>One of the earliest controllers is the centrifugal governor. A video depiction of the centrifugal governor is shown <a href="https://www.youtube.com/watch?v=iO0CxOTe4Uk">here</a>. An engine causes the governor to rotate, and centrifugal force on the governor- caused by its faster rotation- closes the throttle valve. When the engine slows, the centrifugal force attenuates, and the throttle re-opens.</p>
 
-<P>
+<p>
 <table class="image">
 <caption align="bottom">A depiction of a centrifugal governor.</caption>
-<img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Centrifugal_governor.png" alt="A depiction of a centrifugal governor." width="500"/>
+<img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Centrifugal_governor.png" alt="A depiction of a centrifugal governor." width="500" />
 </table>
-</P>
+</p>
 
 <h4 id="motor-servos">Motor servos</h4>
-
 <p>A motor servo is the electronic interface between the robot software and
 the hardware. We can communicate with this interface using low level commands
 over the serial port, USB, or CAN bus or using higher level driver software.
@@ -187,44 +185,43 @@ The interface will typically output some data, including joint position and-
 sometimes- speed, and torque.</p>
 
 <h4 id="planning-modules">Planning modules</h4>
-
 <p>Many computational processes require more time to compute than the control 
 loop frequency would allow. For example, determining viable foot placements
 for a humanoid robot can require on the order of a second. Planning modules
-are non-real-time processes that run &quot;in the background&quot;. When a planning
+are non-real-time processes that run “in the background”. When a planning
 module has completed its computation, it is able to begin feeding inputs
-to the controller. </p>
+to the controller.</p>
 
 <h4 id="perceptual-modules">Perceptual modules</h4>
 
 <p>Raw sensory data from robots is generally not usuable without further 
 processing. We may wish to remove outlier points from range data, to
-&quot;self filter&quot; the robot from RGB or range data, and fuse measurements from
+“self filter” the robot from RGB or range data, and fuse measurements from
 inertial measurement units with other sensors to combat drift.</p>
 
 <h3 id="mixing-real-time-reactivity-and-planning">Mixing real-time reactivity and planning</h3>
 
 <p>Control strategies for highly dextrous (dynamic) robots, like walking robots,
-humanoid robots, and mobile manipulators are still an active area of research. The researchers must usually be focused on basic functionality (standing, walking, opening a door), causing issues like providing near autonomy in dynamic environments (like those populated by humans) to be ignored.  </p>
+humanoid robots, and mobile manipulators are still an active area of research. The researchers must usually be focused on basic functionality (standing, walking, opening a door), causing issues like providing near autonomy in dynamic environments (like those populated by humans) to be ignored.</p>
 
 <p>Researchers <em>have</em> investigated <a href="http://ieeexplore.ieee.org/xpl/login.jsp?tp=&amp;arnumber=219995&amp;url=http%3A%2F%2Fieeexplore.ieee.org%2Fxpls%2Fabs_all.jsp%3Farnumber%3D219995">getting wheeled robots to move rapidly through
-such environments</a>, for example. The strategy allowing such autonomy has been a <a href="https://en.wikipedia.org/wiki/Three-layer_architecture">three layer (hybrid reactive/deliberative) architecture</a>. Consider the problem of having a robot navigate amongst furniture to reach a corner of a room. In a three layer architecture, a planner finds a path through the furniture, a reactive component avoids humans and other unforeseen obstacles, and an arbitration layer decides whether to follow the command from the planner or from the reactive component. </p>
+such environments</a>, for example. The strategy allowing such autonomy has been a <a href="https://en.wikipedia.org/wiki/Three-layer_architecture">three layer (hybrid reactive/deliberative) architecture</a>. Consider the problem of having a robot navigate amongst furniture to reach a corner of a room. In a three layer architecture, a planner finds a path through the furniture, a reactive component avoids humans and other unforeseen obstacles, and an arbitration layer decides whether to follow the command from the planner or from the reactive component.</p>
 
-<P>
+<p>
 <table class="image">
 <caption align="bottom">The planner generates a sequence of desired state configurations, which the controller transforms into commands.</caption>
-<img src="../../assets/img/plannercontroller.png" alt="The planner generates a sequence of desired state configurations, which the controller transforms into commands." width=""/>
+<img src="../../assets/img/plannercontroller.png" alt="The planner generates a sequence of desired state configurations, which the controller transforms into commands." width="" />
 </table>
-</P>
+</p>
 
 <p>In the case of wheeled robots, stopping movement is usually an option (though moving away from the human might be best). There is not usually such a good default command available for walking robots, however. Failing to give a good enough command to a walking robot may cause a multi-hundred pound machine to fall over, breaking itself or hurting or
 killing a human.</p>
 
-<h4 id="doesn-39-t-the-passage-of-time-invalidate-plans-consisting-of-long-command-sequences">Doesn&#39;t the passage of time invalidate plans consisting of long command sequences?</h4>
+<h4 id="doesnt-the-passage-of-time-invalidate-plans-consisting-of-long-command-sequences">Doesn’t the passage of time invalidate plans consisting of long command sequences?</h4>
 
-<p><em>(This question is relevant to current questions in AI.)</em> </p>
+<p><em>(This question is relevant to current questions in AI.)</em></p>
 
-<p>Autonomous robots are expected to execute in dynamic, human populated environments. The right level of abstraction is important: &quot;go to the grocery&quot; is likely a safe action for timespans of years, while &quot;pickup the hundred dollar bill from the sidewalk&quot; may be valid for only seconds. </p>
+<p>Autonomous robots are expected to execute in dynamic, human populated environments. The right level of abstraction is important: “go to the grocery” is likely a safe action for timespans of years, while “pickup the hundred dollar bill from the sidewalk” may be valid for only seconds.</p>
 
 <h4 id="how-can-plans-be-adapted-as-a-robot-deviates-from-its-plan">How can plans be adapted as a robot deviates from its plan?</h4>
 
@@ -233,62 +230,64 @@ nearly guaranteed. Depending on the dynamic characteristics of the system and
 the commands sent to the robot, deviation may become magnified or attenuated.
 The conditions under which a dynamical system <em>stabilizes</em> to a equilibrium
 point or under which deviations do not tend to grow is studied under the
-theory of stability of dynamical systems. </p>
+theory of stability of dynamical systems.</p>
 
 <h4 id="what-happens-if-a-plan-does-not-consider-effects-sufficiently-far-into-the-future">What happens if a plan does not consider effects sufficiently far into the future?</h4>
-
 <p>An engine can be controlled using a simple error feedback strategy: make
-throttle closure proportional to speed above the designated setpoint (the greater the speed above the setpoint, the faster the throttle closure). Many robotic systems- particularly underactuated robots- do not admit such a straightforward control strategy. Russ Tedrake, an MIT roboticist, has an entire <a href="http://underactuated.csail.mit.edu/underactuated.html">online course</a> dedicated to this topic. </p>
+throttle closure proportional to speed above the designated setpoint (the greater the speed above the setpoint, the faster the throttle closure). Many robotic systems- particularly underactuated robots- do not admit such a straightforward control strategy. Russ Tedrake, an MIT roboticist, has an entire <a href="http://underactuated.csail.mit.edu/underactuated.html">online course</a> dedicated to this topic.</p>
 
 <p>If a control strategy does not consider likely next effects of actions, the
 control strategy is a <em>Horizon-One</em> strategy. If the control stategy considers the (long-term) effect, \(n\) steps into the future, of an action, the
 control strategy is a <em>Horizon-\(n\)</em> strategy (\(n = \infty\) is commonly considered).</p>
 
-<P>
+<p>
 <table class="image">
 <caption align="bottom">If Black greedily captures the pawn at F3, White can move the rook from D1 to F1, capturing Black's knight, and likely winning the game. Like playing Chess, robots in dynamic environments must consider longer term consequences of actions.</caption>
-<img src="http://www.expert-chess-strategies.com/images/poisoned-pawn.jpg" alt="If Black greedily captures the pawn at F3, White can move the rook from D1 to F1, capturing Black's knight, and likely winning the game. Like playing Chess, robots in dynamic environments must consider longer term consequences of actions." width=""/>
+<img src="http://www.expert-chess-strategies.com/images/poisoned-pawn.jpg" alt="If Black greedily captures the pawn at F3, White can move the rook from D1 to F1, capturing Black's knight, and likely winning the game. Like playing Chess, robots in dynamic environments must consider longer term consequences of actions." width="" />
 </table>
-</P>
+</p>
 
 <h4 id="a-lookup-table-for-control">A lookup table for control</h4>
 
 <p>Since computing controls fast enough is such a problem, one holy grail would
-be a lookup table (also known as a <em>control policy</em>) for dextrous robot control.A sketch of such a table is below. </p>
+be a lookup table (also known as a <em>control policy</em>) for dextrous robot control.A sketch of such a table is below.</p>
 
-<table><thead>
-<tr>
-<th>x\(_1\)</th>
-<th>x\(_2\)</th>
-<th>Action</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>a</td>
-<td>a</td>
-<td>Move up</td>
-</tr>
-<tr>
-<td>a</td>
-<td>b</td>
-<td>Move down</td>
-</tr>
-<tr>
-<td>\(\vdots\)</td>
-<td>\(\vdots\)</td>
-<td>\(\vdots\)</td>
-</tr>
-<tr>
-<td>z</td>
-<td>z</td>
-<td>Climb right</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>x\(_1\)</th>
+      <th>x\(_2\)</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>a</td>
+      <td>a</td>
+      <td>Move up</td>
+    </tr>
+    <tr>
+      <td>a</td>
+      <td>b</td>
+      <td>Move down</td>
+    </tr>
+    <tr>
+      <td>\(\vdots\)</td>
+      <td>\(\vdots\)</td>
+      <td>\(\vdots\)</td>
+    </tr>
+    <tr>
+      <td>z</td>
+      <td>z</td>
+      <td>Climb right</td>
+    </tr>
+  </tbody>
+</table>
 
 <p>For robots, such a lookup table would have to consider- at minimum- each 
-joint&#39;s angle and speed; these are the <a href="../dynamical-systems">state variables</a>. For a &quot;simple&quot; humanoid robot, over seventy state variables may be required.
+joint’s angle and speed; these are the <a href="../dynamical-systems">state variables</a>. For a “simple” humanoid robot, over seventy state variables may be required.
 To make a table, we have to discretize these state variables. If we assume
-ten (only ten!) gradations per variable, the size of the lookup table will be \(10^{70}\) entries. If we want to explore the effect of taking each action <em>just once</em>, and our robot could somehow perform and evaluate one million actions per second, \(10^{64}\) seconds would be required, This number far exceeds the \(10^{18}\) seconds believed to be the age of the universe. Even if this could be magically computed quickly enough, tem gradations is at least an order of magnitude too coarse! </p>
+ten (only ten!) gradations per variable, the size of the lookup table will be \(10^{70}\) entries. If we want to explore the effect of taking each action <em>just once</em>, and our robot could somehow perform and evaluate one million actions per second, \(10^{64}\) seconds would be required, This number far exceeds the \(10^{18}\) seconds believed to be the age of the universe. Even if this could be magically computed quickly enough, tem gradations is at least an order of magnitude too coarse!</p>
 
 <p>What about function approximation approaches, which have been studied heavily
 by machine learning researchers? Function approximation can often
@@ -297,12 +296,13 @@ functions. How would we know that an approximation would be good enough?</p>
 
 <p>Even before we ask that question, we need to know how an action is chosen.
 As I established above, greedily choosing the action that appears best at any time is often a poor
-choice. Similarly, a legged robot might fall over if a good enough <em>sequence</em> of commands isn&#39;t found. We wish for the robot to act to optimize an objective function over a series of commands. </p>
+choice. Similarly, a legged robot might fall over if a good enough <em>sequence</em> of commands isn’t found. We wish for the robot to act to optimize an objective function over a series of commands.</p>
 
 <p>This problem falls under the domain of <em>optimal control</em>, for which globally
 optimal solutions are often intractable to find. Current optimal control and
-<a href="https://en.wikipedia.org/wiki/Model_predictive_control">model predictive control</a> approaches often focus on algorithms for robustly finding locally optimal solutions (numerically &quot;brittle&quot; algorithms are presently required). Even if a tractable algorithm for solving optimal control problems were to exist, selecting 
-a good objective function would remain a challenging problem. </p>
+<a href="https://en.wikipedia.org/wiki/Model_predictive_control">model predictive control</a> approaches often focus on algorithms for robustly finding locally optimal solutions (numerically “brittle” algorithms are presently required). Even if a tractable algorithm for solving optimal control problems were to exist, selecting 
+a good objective function would remain a challenging problem.</p>
+
 
 
   <!-- POST NAVIGATION -->
