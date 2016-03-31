@@ -73,8 +73,8 @@ Brazil.
 The Lorenz equations follow:
 
 \begin{align}
-\frac{dx}{dt} & = \sigma(y - x) \\\\
-\frac{dy}{dt} & = x(\rho - z) - y \\\\
+\frac{dx}{dt} & = \sigma(y - x) \\\
+\frac{dy}{dt} & = x(\rho - z) - y \\\
 \frac{dz}{dt} & = xy - \beta z 
 \end{align}
 
@@ -403,7 +403,7 @@ Identify stable, marginally stable, unstable, underdamped, overdamped, and criti
 first look for equilibrium points. Equilibrium points for the pendulum exist where \\(\dot{\theta} = 0, \dot{\varphi} = 0\\). \\(\dot{\theta} = 0\\) when the velocity of the pendulum is zero,
 so that part is easy. We next solve Equation \ref{eqn:varphi} for \\(\dot{\varphi} = 0\\):
 \begin{align}
-\dot{\varphi} & = -g/L \sin \theta \\\\
+\dot{\varphi} & = -g/L \sin \theta \\\
 0 & = -g/L \sin \theta
 \end{align}
 \\(\sin \theta\\) is zero for \\(\theta = \\{ 0, \pi \\}\\). Therefore, the
@@ -414,7 +414,7 @@ because of the presence of the \\(\sin\\) term, which means that it seems that w
 if we notice that \\(\sin \theta \approx \theta\\) for \\(\theta \approx 0\\) and \\(\sin \theta \approx \pi - \theta\\) for \\(\theta \approx \pi\\), then
 we can get a _linearization_ for \\(\dot{\varphi}\\):
 \begin{equation}
-\dot{\varphi} \approx \begin{cases} -g/L\ \theta & \textrm{ if } \theta \approx 0 \\\\
+\dot{\varphi} \approx \begin{cases} -g/L\ \theta & \textrm{ if } \theta \approx 0 \\\
 -g/L\ (\pi - \theta) & \textrm{ if } \theta \approx \pi \end{cases}
 \end{equation}
 
@@ -424,12 +424,12 @@ We need to be able to put the equations in the form:
 
 \begin{equation}
 \begin{bmatrix}
-\dot{\theta} \\\\
+\dot{\theta} \\\
 \dot{\varphi}
 \end{bmatrix} =
 \mathbf{A}
 \begin{bmatrix}
-\theta \\\\
+\theta \\\
 \varphi
 \end{bmatrix}
 \end{equation} 
@@ -438,11 +438,11 @@ This means \\(\mathbf{A}\\) can take two forms, depending on which equilibrium p
 
 \begin{align}
 \mathbf{A}\_0 & = \begin{bmatrix} 
-0 & 1 \\\\
+0 & 1 \\\
 -g/L & 0
-\end{bmatrix}\\\\
+\end{bmatrix}\\\
 \mathbf{A}\_\pi & = \begin{bmatrix}
-0 & 1 \\\\
+0 & 1 \\\
 g/L & 0
 \end{bmatrix} 
 \end{align}

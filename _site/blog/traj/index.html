@@ -110,10 +110,10 @@ Rather than trying to pose paths and velocity profiles, we can start by
 stating the constraints- position and velocity- that should be satisfied at each endpoint:</p>
 
 <p>\begin{align}
-\tau(t_0) &amp; = \theta_0 \<br />
-\tau(t_f) &amp; = \theta_f \<br />
-\dot{\tau(t_0)} &amp; = \dot{\theta_0} \<br />
-\dot{\tau(t_f)} &amp; = \dot{\theta_f} \<br />
+\tau(t_0) &amp; = \theta_0 \\
+\tau(t_f) &amp; = \theta_f \\
+\dot{\tau(t_0)} &amp; = \dot{\theta_0} \\
+\dot{\tau(t_f)} &amp; = \dot{\theta_f} \\
 \end{align}</p>
 
 <p>This case only considers the path that a single joint follows over time.
@@ -156,9 +156,9 @@ are independent, which they are).</p>
 <p>Evaluating the cubic polynomial and its derivative at \(t_0\) and \(t_f\), we now formulate the system of linear equations, solving for the <em>a</em> parameters:</p>
 
 <p>\begin{align}
-a_3t_0^3 + a_2t_0^2 + a_1t_0 + a_0 &amp; = \theta_0 \<br />
-a_3t_f^3 + a_2t_f^2 + a_1t_f + a_0 &amp; = \theta_f \<br />
-3a_3t_0^2 + 2a_2t_0 + a_1 &amp; = \dot{\theta_0} \<br />
+a_3t_0^3 + a_2t_0^2 + a_1t_0 + a_0 &amp; = \theta_0 \\
+a_3t_f^3 + a_2t_f^2 + a_1t_f + a_0 &amp; = \theta_f \\
+3a_3t_0^2 + 2a_2t_0 + a_1 &amp; = \dot{\theta_0} \\
 3a_3t_2^2 + 2a_2t_f + a_1 &amp; = \dot{\theta_f}
 \end{align}</p>
 
@@ -166,21 +166,21 @@ a_3t_f^3 + a_2t_f^2 + a_1t_f + a_0 &amp; = \theta_f \<br />
 
 <p>\begin{equation}
 \begin{bmatrix}
-t_0^3 &amp; t_0^2 &amp; t_0 &amp; 1 \<br />
-t_f^3 &amp; t_f^2 &amp; t_f &amp; 1 \<br />
-3t_0^2 &amp; 2t_0 &amp; 1 &amp; 0 \<br />
+t_0^3 &amp; t_0^2 &amp; t_0 &amp; 1 \\
+t_f^3 &amp; t_f^2 &amp; t_f &amp; 1 \\
+3t_0^2 &amp; 2t_0 &amp; 1 &amp; 0 \\
 3t_f^2 &amp; 2t_f &amp; 1 &amp; 0
 \end{bmatrix}
 \begin{bmatrix}
-a_3 \<br />
-a_2 \<br />
-a_1 \<br />
+a_3 \\
+a_2 \\
+a_1 \\
 a_0 
 \end{bmatrix} =
 \begin{bmatrix}
-\theta_0 \<br />
-\theta_f \<br />
-\dot{\theta}_0 \<br />
+\theta_0 \\
+\theta_f \\
+\dot{\theta}_0 \\
 \dot{\theta}_f
 \end{bmatrix}
 \end{equation}</p>
@@ -201,11 +201,11 @@ higher order polynomial. A quintic polynomial:</p>
 movement. Again, setting this up as a system of linear equations, and solving for <em>a</em> params:</p>
 
 <p>\begin{align}
-a_5t_0^5 + a_4t_0^4 + a_3t_0^3 + a_2t^2 + a_1t + a_0 &amp; = \theta_0 \<br />
-a_5t_f^5 + a_4t_f^4 + a_3t_f^3 + a_2t^2 + a_1t + a_0 &amp; = \theta_f \<br />
-5a_5t_0^4 + 4a_4t_0^3 + 3a_3t_0^2 + 2a_2t_0 + a_1 &amp; = \dot{\theta_0} \<br />
-5a_5t_0^4 + 4a_4t_f^3 + 3a_3t_2^2 + 2a_2t_f + a_1 &amp; = \dot{\theta_f} \<br />
-20a_5t_0^3 + 12a_4t_0^2 + 6a_3t_0 + 2a_2 = \ddot{\theta_0} \<br />
+a_5t_0^5 + a_4t_0^4 + a_3t_0^3 + a_2t^2 + a_1t + a_0 &amp; = \theta_0 \\
+a_5t_f^5 + a_4t_f^4 + a_3t_f^3 + a_2t^2 + a_1t + a_0 &amp; = \theta_f \\
+5a_5t_0^4 + 4a_4t_0^3 + 3a_3t_0^2 + 2a_2t_0 + a_1 &amp; = \dot{\theta_0} \\
+5a_5t_0^4 + 4a_4t_f^3 + 3a_3t_2^2 + 2a_2t_f + a_1 &amp; = \dot{\theta_f} \\
+20a_5t_0^3 + 12a_4t_0^2 + 6a_3t_0 + 2a_2 = \ddot{\theta_0} \\
 20a_5t_0^3 + 12a_4t_f^2 + 6a_3t_2 + 2a_2 = \ddot{\theta_f}
 \end{align}</p>
 
@@ -213,27 +213,27 @@ a_5t_f^5 + a_4t_f^4 + a_3t_f^3 + a_2t^2 + a_1t + a_0 &amp; = \theta_f \<br />
 
 <p>\begin{equation}
 \begin{bmatrix}
-t_0^5 &amp; t_0^4 &amp; t_0^3 &amp; t_0^2 &amp; t_0 &amp; 1 \<br />
-t_f^5 &amp; t_f^4 &amp; t_f^3 &amp; t_f^2 &amp; t_f &amp; 1 \<br />
-5t_0^4 &amp; 4t_0^3 &amp; 3t_0^2 &amp; 2t_0 &amp; 1 &amp; 0 \<br />
-5t_f^4 &amp; 4t_f^3 &amp; 3t_f^2 &amp; 2t_f &amp; 1 &amp; 0 \<br />
-20t_0^3 &amp; 12t_0^2 &amp; 6t_0 &amp; 2 &amp; 0 &amp; 0 \<br />
+t_0^5 &amp; t_0^4 &amp; t_0^3 &amp; t_0^2 &amp; t_0 &amp; 1 \\
+t_f^5 &amp; t_f^4 &amp; t_f^3 &amp; t_f^2 &amp; t_f &amp; 1 \\
+5t_0^4 &amp; 4t_0^3 &amp; 3t_0^2 &amp; 2t_0 &amp; 1 &amp; 0 \\
+5t_f^4 &amp; 4t_f^3 &amp; 3t_f^2 &amp; 2t_f &amp; 1 &amp; 0 \\
+20t_0^3 &amp; 12t_0^2 &amp; 6t_0 &amp; 2 &amp; 0 &amp; 0 \\
 20t_f^3 &amp; 12t_f^2 &amp; 6t_f &amp; 2 &amp; 0 &amp; 0 
 \end{bmatrix}
 \begin{bmatrix}
-a_5 \<br />
-a_4 \<br />
-a_3 \<br />
-a_2 \<br />
-a_1 \<br />
+a_5 \\
+a_4 \\
+a_3 \\
+a_2 \\
+a_1 \\
 a_0 
 \end{bmatrix} =
 \begin{bmatrix}
-\theta_0 \<br />
-\theta_f \<br />
-\dot{\theta}_0 \<br />
-\dot{\theta}_f \<br />
-\ddot{\theta}_0 \<br />
+\theta_0 \\
+\theta_f \\
+\dot{\theta}_0 \\
+\dot{\theta}_f \\
+\ddot{\theta}_0 \\
 \ddot{\theta}_f
 \end{bmatrix}
 \end{equation}</p>
@@ -298,8 +298,6 @@ we would not have any control over the kind of solution that would result.</p>
   <li>Set zero velocity at the intermediate point. This would give two additional equations.</li>
   <li>Make velocities and acccelerations equal at the intermediate point. This would also give two additional equations.</li>
 </ul>
-
-<p>TODO: ensure that student knows how to evaluate the spline / feed the value into the controller</p>
 
 <h3 id="multiple-intermediate-points-with-cubic-splines">Multiple intermediate points with cubic splines</h3>
 
@@ -405,27 +403,6 @@ robots where the environment is controlled and the execution speed can be
 timed to ensure that deviation from the trajectory will be small. For
 autonomous robots, two problems can arise as the robot deviates from the 
 planned trajectory.</p>
-
-<p>First, as the deviation becomes large, the plan becomes less viable. The
-mismatch between the controller and the plan’s d</p>
-
-<p>The second problem will occur as the robot determines that it needs to
-replan as the plan is executing. The robot’s velocity will be changing as
-the replanning is occuring. (replanning needs to occur w/in a single
-control cycle)
-- replanning</p>
-
-<p>TODO: make sure we point out how it can be difficult to ensure that we start executing one trajectory right after another to use velocity-level constraints (re-planning)
-TODO: talk about very, very small timespans</p>
-
-<h2 id="further-reading">Further reading</h2>
-
-<p>TODO: fill these in</p>
-
-<ul>
-  <li>Trajectory optimization. Numerical methods. <a href="http://galileo.phys.virginia.edu/classes/321.jvn.fall02/var_meth.pdf">Dido’s Problem</a></li>
-  <li>Trajectory scaling</li>
-</ul>
 
 
 

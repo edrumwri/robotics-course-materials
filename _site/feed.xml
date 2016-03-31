@@ -5,8 +5,8 @@
     <description>Robotics</description>
     <link>/robotics-course-materials/robotics-course-materials/</link>
     <atom:link href="/robotics-course-materials/robotics-course-materials/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 30 Mar 2016 21:40:26 -0400</pubDate>
-    <lastBuildDate>Wed, 30 Mar 2016 21:40:26 -0400</lastBuildDate>
+    <pubDate>Thu, 31 Mar 2016 16:51:35 -0400</pubDate>
+    <lastBuildDate>Thu, 31 Mar 2016 16:51:35 -0400</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       
@@ -355,8 +355,8 @@ Brazil.&lt;/p&gt;
 &lt;p&gt;The Lorenz equations follow:&lt;/p&gt;
 
 &lt;p&gt;\begin{align}
-\frac{dx}{dt} &amp;amp; = \sigma(y - x) \&lt;br /&gt;
-\frac{dy}{dt} &amp;amp; = x(\rho - z) - y \&lt;br /&gt;
+\frac{dx}{dt} &amp;amp; = \sigma(y - x) \\
+\frac{dy}{dt} &amp;amp; = x(\rho - z) - y \\
 \frac{dz}{dt} &amp;amp; = xy - \beta z 
 \end{align}&lt;/p&gt;
 
@@ -709,7 +709,7 @@ both real and imaginary eigenvalues.&lt;/p&gt;
 first look for equilibrium points. Equilibrium points for the pendulum exist where \(\dot{\theta} = 0, \dot{\varphi} = 0\). \(\dot{\theta} = 0\) when the velocity of the pendulum is zero,
 so that part is easy. We next solve Equation \ref{eqn:varphi} for \(\dot{\varphi} = 0\):
 \begin{align}
-\dot{\varphi} &amp;amp; = -g/L \sin \theta \&lt;br /&gt;
+\dot{\varphi} &amp;amp; = -g/L \sin \theta \\
 0 &amp;amp; = -g/L \sin \theta
 \end{align}
 \(\sin \theta\) is zero for \(\theta = \{ 0, \pi \}\). Therefore, the
@@ -720,7 +720,7 @@ because of the presence of the \(\sin\) term, which means that it seems that we 
 if we notice that \(\sin \theta \approx \theta\) for \(\theta \approx 0\) and \(\sin \theta \approx \pi - \theta\) for \(\theta \approx \pi\), then
 we can get a &lt;em&gt;linearization&lt;/em&gt; for \(\dot{\varphi}\):
 \begin{equation}
-\dot{\varphi} \approx \begin{cases} -g/L\ \theta &amp;amp; \textrm{ if } \theta \approx 0 \&lt;br /&gt;
+\dot{\varphi} \approx \begin{cases} -g/L\ \theta &amp;amp; \textrm{ if } \theta \approx 0 \\
 -g/L\ (\pi - \theta) &amp;amp; \textrm{ if } \theta \approx \pi \end{cases}
 \end{equation}&lt;/p&gt;
 
@@ -730,12 +730,12 @@ we can get a &lt;em&gt;linearization&lt;/em&gt; for \(\dot{\varphi}\):
 
 &lt;p&gt;\begin{equation}
 \begin{bmatrix}
-\dot{\theta} \&lt;br /&gt;
+\dot{\theta} \\
 \dot{\varphi}
 \end{bmatrix} =
 \mathbf{A}
 \begin{bmatrix}
-\theta \&lt;br /&gt;
+\theta \\
 \varphi
 \end{bmatrix}
 \end{equation}&lt;/p&gt;
@@ -744,11 +744,11 @@ we can get a &lt;em&gt;linearization&lt;/em&gt; for \(\dot{\varphi}\):
 
 &lt;p&gt;\begin{align}
 \mathbf{A}_0 &amp;amp; = \begin{bmatrix} 
-0 &amp;amp; 1 \&lt;br /&gt;
+0 &amp;amp; 1 \\
 -g/L &amp;amp; 0
-\end{bmatrix}\&lt;br /&gt;
+\end{bmatrix}\\
 \mathbf{A}_\pi &amp;amp; = \begin{bmatrix}
-0 &amp;amp; 1 \&lt;br /&gt;
+0 &amp;amp; 1 \\
 g/L &amp;amp; 0
 \end{bmatrix} 
 \end{align}&lt;/p&gt;
@@ -884,12 +884,12 @@ which has the same orientation as \(w\), but is located in a different place &lt
 &lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;/p&gt;
 
 &lt;p&gt;Given \(\theta = \frac{\pi}{2}\), \(\ _{w}\mathbf{R}_{s}\) will be the matrix:
-\begin{equation&lt;em&gt;}
+\begin{equation}
 \begin{bmatrix}
-0 &amp;amp; -1 \&lt;br /&gt;
+0 &amp;amp; -1 \\
 1 &amp;amp; 0
 \end{bmatrix}
-\end{equation&lt;/em&gt;}&lt;/p&gt;
+\end{equation}&lt;/p&gt;
 
 &lt;p&gt;The two frames \(s\) and \(w\) are depicted in the figure below.&lt;/p&gt;
 
@@ -952,21 +952,21 @@ This is easier to look at, use, and debug than the previous sequence of operatio
 &lt;h4 id=&quot;homogeneous-coordinates&quot;&gt;Homogeneous coordinates&lt;/h4&gt;
 &lt;p&gt;The key is to use &lt;a href=&quot;https://en.wikipedia.org/wiki/Homogeneous_coordinates&quot;&gt;homogeneous coordinates&lt;/a&gt;. For example, the Cartesian coordinates:
 &lt;script type=&quot;math/tex&quot;&gt;\begin{bmatrix}
-x \\\\
+x \\\
 y 
 \end{bmatrix}&lt;/script&gt;
 become
 &lt;script type=&quot;math/tex&quot;&gt;\begin{bmatrix}
-x \\\\
-y \\\\
+x \\\
+y \\\
 1
 \end{bmatrix}&lt;/script&gt;&lt;/p&gt;
 
 &lt;p&gt;The form of the \(\mathbf{T}\) matrices above is now \(3 \times 3\) and represents a two-dimensional rotation about \(\theta\) &lt;em&gt;followed by&lt;/em&gt; a translation by \((t_x,t_y)\):
 \begin{equation}
 \begin{bmatrix}
-\cos{\theta} &amp;amp; -\sin{\theta} &amp;amp; t_x \&lt;br /&gt;
-\sin{\theta} &amp;amp; \cos{\theta} &amp;amp; t_y \&lt;br /&gt;
+\cos{\theta} &amp;amp; -\sin{\theta} &amp;amp; t_x \\
+\sin{\theta} &amp;amp; \cos{\theta} &amp;amp; t_y \\
 0 &amp;amp; 0 &amp;amp; 1
 \end{bmatrix}
 \label{eqn:homogeneous}
@@ -979,7 +979,7 @@ y \\\\
 &lt;p&gt;\begin{align}
 \mathbf{T} \equiv
 \begin{bmatrix}
-\mathbf{R} &amp;amp; \mathbf{t} \&lt;br /&gt;
+\mathbf{R} &amp;amp; \mathbf{t} \\
 \mathbf{0} &amp;amp; 1
 \end{bmatrix}
 \label{eqn:homogeneous2}
@@ -992,7 +992,7 @@ y \\\\
 &lt;p&gt;One of the great things about a rotation matrix is that its orthogonality makes it &lt;a href=&quot;../linear-algebra&quot;&gt;easy and fast to invert&lt;/a&gt;. Unfortunately, a homogeneous transformation matrix is not orthogonal. However, we can still invert the matrix easily using the following formula:
 \begin{equation}
 \mathbf{T}^{-1} = \begin{bmatrix}
-\mathbf{R}^\mathsf{T} &amp;amp; -\mathbf{R}^\mathsf{T}\mathbf{t} \&lt;br /&gt;
+\mathbf{R}^\mathsf{T} &amp;amp; -\mathbf{R}^\mathsf{T}\mathbf{t} \\
 \mathbf{0} &amp;amp; 1
 \end{bmatrix}
 \end{equation}&lt;/p&gt;
@@ -1003,27 +1003,27 @@ y \\\\
 change. When we transform vectors (as might describe the angular velocity
 of a body), &lt;em&gt;we wish to preserve lengths&lt;/em&gt;. Consider the figure above where
 \(\theta = \frac{\pi}{2}\). The homogeneous transformation matrix corresponding to this figure is:
-\begin{equation&lt;em&gt;}
+\begin{equation}
 \ _w\mathbf{T}_s \equiv 
 \begin{bmatrix}
-0 &amp;amp; -1 &amp;amp; 1 \&lt;br /&gt;
-1 &amp;amp; 0 &amp;amp; 1 \&lt;br /&gt;
+0 &amp;amp; -1 &amp;amp; 1 \\
+1 &amp;amp; 0 &amp;amp; 1 \\
 0 &amp;amp; 0 &amp;amp; 1
 \end{bmatrix}
-\end{equation&lt;/em&gt;}&lt;/p&gt;
+\end{equation}&lt;/p&gt;
 
 &lt;p&gt;If we define the vector \(\mathbf{v}_s \equiv \begin{bmatrix} 1 &amp;amp; 1 &amp;amp; 1 \end{bmatrix}^{\mathsf{T}}\), then:
-\begin{equation&lt;em&gt;}
+\begin{equation}
 \ _w\mathbf{T}_s \mathbf{v}_s = \mathbf{v}_w = \begin{bmatrix} 0 \\ 2 \\ 1 \end{bmatrix}
-\end{equation&lt;/em&gt;}
+\end{equation}
 and we notice that the lengths of the two vectors are not equal (ignoring the homogeneous components of course): \(||\mathbf{v}_s|| = \sqrt{2} \neq 2 = ||\mathbf{v}_w||\). If we want to preserve magnitudes, we only apply the rotational part of the matrix:
-\begin{equation&lt;em&gt;}
+\begin{equation}
 \ _w\mathbf{R}_s \equiv
 \begin{bmatrix}
-0 &amp;amp; -1 \&lt;br /&gt;
+0 &amp;amp; -1 \\
 1 &amp;amp; 1
 \end{bmatrix}
-\end{equation&lt;/em&gt;}
+\end{equation}
 Then \(||\ _w\mathbf{R}_s \cdot \begin{bmatrix} 1 &amp;amp; 1 \end{bmatrix}^{\mathsf{T}}|| = ||\begin{bmatrix} 1 &amp;amp; 1 \end{bmatrix}^{\mathsf{T}}||\).&lt;/p&gt;
 
 &lt;h4 id=&quot;concatenating-transformations&quot;&gt;Concatenating transformations&lt;/h4&gt;
@@ -1044,29 +1044,29 @@ reason we mark the frame of reference for transformations.&lt;/p&gt;
 
 &lt;p&gt;The transformation from Frame 1 (defined at the endpoint of the pendulum) to Frame 0 (the world frame) is determined like so:&lt;/p&gt;
 
-&lt;p&gt;\begin{equation&lt;em&gt;}
+&lt;p&gt;\begin{equation}
 \ _0\mathbf{T}_1 = \ _0\mathbf{T}_{0’} \cdot \ _{0’}\mathbf{T}_1
-\end{equation&lt;/em&gt;}&lt;/p&gt;
+\end{equation}&lt;/p&gt;
 
 &lt;p&gt;where&lt;/p&gt;
 
-&lt;p&gt;\begin{equation&lt;em&gt;}
+&lt;p&gt;\begin{equation}
 _0\mathbf{T}_{0’} \equiv
 \begin{bmatrix}
-\cos{\theta} &amp;amp; -\sin{\theta} &amp;amp; 0 \&lt;br /&gt;
-\sin{\theta} &amp;amp; \cos{\theta} &amp;amp; 0 \&lt;br /&gt;
+\cos{\theta} &amp;amp; -\sin{\theta} &amp;amp; 0 \\
+\sin{\theta} &amp;amp; \cos{\theta} &amp;amp; 0 \\
 0 &amp;amp; 0 &amp;amp; 1
 \end{bmatrix}
-\end{equation&lt;/em&gt;}
+\end{equation}
 and
-\begin{equation&lt;em&gt;}
+\begin{equation}
 _{0’}\mathbf{T}_{1} \equiv
 \begin{bmatrix}
-1 &amp;amp; 0 &amp;amp; 0 \&lt;br /&gt;
-0 &amp;amp; 1 &amp;amp; -\ell \&lt;br /&gt;
+1 &amp;amp; 0 &amp;amp; 0 \\
+0 &amp;amp; 1 &amp;amp; -\ell \\
 0 &amp;amp; 0 &amp;amp; 1
 \end{bmatrix}
-\end{equation&lt;/em&gt;}&lt;/p&gt;
+\end{equation}&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Make sure you understand why the \(\ell\) in \(\ _{0’}\mathbf{T}_1\)
 is translated along -y&lt;/strong&gt;.&lt;/p&gt;
@@ -1074,7 +1074,7 @@ is translated along -y&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Given the relationship \(\ _0\mathbf{T}_1\), we can transform points from Frame 1 to Frame 0. For instance, if I want to know the position of the pendulum bob in the world frame, I can do this:&lt;/p&gt;
 
 &lt;p&gt;\begin{align}
-\mathbf{p}_1 &amp;amp; \equiv \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix} \&lt;br /&gt;
+\mathbf{p}_1 &amp;amp; \equiv \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix} \\
 \mathbf{p}_0 &amp;amp; = \ _0\mathbf{T}_1 \cdot \mathbf{p}_1
 \end{align}&lt;/p&gt;
 
@@ -1120,7 +1120,7 @@ where
 \ _w\dot{\mathbf{R}}_i \equiv
 \dot{\theta}_w 
 \begin{bmatrix}
-\cos{(\theta_w + \frac{\pi}{2})} &amp;amp; -\sin{(\theta_w + \frac{\pi}{2})} \&lt;br /&gt;
+\cos{(\theta_w + \frac{\pi}{2})} &amp;amp; -\sin{(\theta_w + \frac{\pi}{2})} \\
 \sin{(\theta_w + \frac{\pi}{2})} &amp;amp; \cos{(\theta_w + \frac{\pi}{2})}
 \end{bmatrix}
 \end{equation}&lt;/p&gt;
@@ -1147,344 +1147,345 @@ The rigid body assumption is a common simplification used to easily and quickly 
       
       <item>
         <title>Rigid body poses in 3D</title>
-        <description>&lt;p class=&quot;intro&quot;&gt;
+        <description>&lt;p&gt;The primary difficulty when beginning to consider three-dimensional kinematics 
+is due to the significant difference between two-dimensional and three-dimensional orientations. In two-dimensions, orientation can be represented using a single scalar value. In three-dimensions, a plethora of three-dimensional orientations are conceivable, and at least three values are necessary to represent all 3D rotations. We will not consider translation in three dimensions: it is treated exactly as in 2D (with an additional component to represent location along the \(z\) axis, of course).&lt;/p&gt;
 
-The primary difficulty when beginning to consider three-dimensional kinematics 
-is due to the significant difference between two-dimensional and three-dimensional orientations. In two-dimensions, orientation can be represented using a single scalar value. In three-dimensions, a plethora of three-dimensional orientations are conceivable, and at least three values are necessary to represent all 3D rotations. We will not consider translation in three dimensions: it is treated exactly as in 2D (with an additional component to represent location along the \\(z\\) axis, of course).
- 
-We will again use the convention that frame \\(w\\) indicates a &quot;world frame&quot; and frame \\(s\\) indicates an alternative frame of reference.
+&lt;p&gt;We will again use the convention that frame \(w\) indicates a “world frame” and frame \(s\) indicates an alternative frame of reference.&lt;/p&gt;
 
-### Representations of 3D orientation
+&lt;h3 id=&quot;representations-of-3d-orientation&quot;&gt;Representations of 3D orientation&lt;/h3&gt;
 
-#### Rotation matrices
-We can describe the orientation of one reference frame in 3D with respect to 
-another using \\(3\times 3\\) matrices analogously to how we define relative
-orientations in 2D using \\(2\times 2\\) matrices. 
+&lt;h4 id=&quot;rotation-matrices&quot;&gt;Rotation matrices&lt;/h4&gt;
+&lt;p&gt;We can describe the orientation of one reference frame in 3D with respect to 
+another using \(3\times 3\) matrices analogously to how we define relative
+orientations in 2D using \(2\times 2\) matrices.&lt;/p&gt;
 
-Again consider our alternative frame of reference \\(s\\), which is collocated with \\(w\\) but is oriented differently. Assume that the axes of \\(w\\) are named \\(\mathbf{a}\_x\\), \\(\mathbf{a}\_y\\), and \\(\mathbf{a}\_z\\) and that the respective axes of \\(s\\) are denoted \\(\mathbf{a}&#39;\_x, \mathbf{a}&#39;\_y\\), and \\(\mathbf{a}&#39;\_z\\). All of these vectors are three-dimensional. One choice of the set of vectors \\(\mathbf{a}\_x, \mathbf{a}\_y\\), and \\(\mathbf{a}\_z\\) are the vectors \\(\begin{bmatrix}1 &amp;amp; 0 &amp;amp; 0\end{bmatrix}\^{\mathsf{T}}\\), \\(\begin{bmatrix}0 &amp;amp; 1 &amp;amp; 0\end{bmatrix}\^{\mathsf{T}}\\), and \\(\begin{bmatrix}0 &amp;amp; 0 &amp;amp; 1\end{bmatrix}\^{\mathsf{T}}\\), respectively. We can now transform vectors between the reference frames using this matrix:
-$$
-\ \_{w}\mathbf{R}\_{s} \triangleq \begin{bmatrix}\mathbf{a}&#39;\_{x\_1} &amp;amp; \mathbf{a}&#39;\_{y\_1} &amp;amp; \mathbf{a}&#39;\_{z\_1} \end{bmatrix} 
-$$
-Like the \\(2 \times 2\\) rotation matrices, the matrix above is orthogonal. A nice computational implication of this property is that the inverse of a rotation matrix is equal to its inverse (which makes inversion both fast and numerically stable). If the coordinate frame is _right-handed_, then \\(\mathbf{a}\_x \times \mathbf{a}\_y = \mathbf{a}\_z\\) is a right-handed cross-product and the determinant of \\(\_w\mathbf{R}\_s = 1\\). If the coordinate frame is _left-handed_, then \\(\mathbf{a}\_x \times \mathbf{a}\_y = \mathbf{a}\_z\\) is a left-handed cross-product and \\(\textrm{det}(\ \_w\mathbf{R}\_s) = 1\\). 
+&lt;p&gt;Again consider our alternative frame of reference \(s\), which is collocated with \(w\) but is oriented differently. Assume that the axes of \(w\) are named \(\mathbf{a}_x\), \(\mathbf{a}_y\), and \(\mathbf{a}_z\) and that the respective axes of \(s\) are denoted \(\mathbf{a}’_x, \mathbf{a}’_y\), and \(\mathbf{a}’_z\). All of these vectors are three-dimensional. One choice of the set of vectors \(\mathbf{a}_x, \mathbf{a}_y\), and \(\mathbf{a}_z\) are the vectors \(\begin{bmatrix}1 &amp;amp; 0 &amp;amp; 0\end{bmatrix}^{\mathsf{T}}\), \(\begin{bmatrix}0 &amp;amp; 1 &amp;amp; 0\end{bmatrix}^{\mathsf{T}}\), and \(\begin{bmatrix}0 &amp;amp; 0 &amp;amp; 1\end{bmatrix}^{\mathsf{T}}\), respectively. We can now transform vectors between the reference frames using this matrix:
+\begin{equation}
+\ _{w}\mathbf{R}_{s} \triangleq \begin{bmatrix}\mathbf{a}’_{x_1} &amp;amp; \mathbf{a}’_{y_1} &amp;amp; \mathbf{a}’_{z_1} \end{bmatrix} 
+\end{equation}
+Like the \(2 \times 2\) rotation matrices, the matrix above is orthogonal. A nice computational implication of this property is that the inverse of a rotation matrix is equal to its inverse (which makes inversion both fast and numerically stable). If the coordinate frame is &lt;em&gt;right-handed&lt;/em&gt;, then \(\mathbf{a}_x \times \mathbf{a}_y = \mathbf{a}_z\) is a right-handed cross-product and the determinant of \(_w\mathbf{R}_s = 1\). If the coordinate frame is &lt;em&gt;left-handed&lt;/em&gt;, then \(\mathbf{a}_x \times \mathbf{a}_y = \mathbf{a}_z\) is a left-handed cross-product and \(\textrm{det}(\ _w\mathbf{R}_s) = 1\).&lt;/p&gt;
 
-I note that all vectors should be unit vectors and the set of vectors should be mutually orthogonal (hint: you should use this as a debugging check in your coursework). If one or both of these conditions is not satisfied, you will have significant problems!
+&lt;p&gt;I note that all vectors should be unit vectors and the set of vectors should be mutually orthogonal (hint: you should use this as a debugging check in your coursework). If one or both of these conditions is not satisfied, you will have significant problems!&lt;/p&gt;
 
-##### Concatenating rotations
-If we have two orientations, \\(\ \_w\mathbf{R}\_s\\) and \\(\ \_s\mathbf{R}\_r\\), we can concatenate them- effecting one rotation followed by another- using matrix multiplication: \\(\ \_w\mathbf{R}\_r =\ \_w\mathbf{R}\_s \cdot \ \_s\mathbf{R}\_r\\). Of course, matrix multiplication is commutative, so the order of multiplication is important to get the proper rotation. This warning should sound familiar: use subscripts (or superscripts, or some other system that works for you), to make sure that your operations are correct. Just verifying that your calculations are right by testing one or two cases is dangerous!
+&lt;h5 id=&quot;concatenating-rotations&quot;&gt;Concatenating rotations&lt;/h5&gt;
+&lt;p&gt;If we have two orientations, \(\ _w\mathbf{R}_s\) and \(\ _s\mathbf{R}_r\), we can concatenate them- effecting one rotation followed by another- using matrix multiplication: \(\ _w\mathbf{R}_r =\ _w\mathbf{R}_s \cdot \ _s\mathbf{R}_r\). Of course, matrix multiplication is commutative, so the order of multiplication is important to get the proper rotation. This warning should sound familiar: use subscripts (or superscripts, or some other system that works for you), to make sure that your operations are correct. Just verifying that your calculations are right by testing one or two cases is dangerous!&lt;/p&gt;
 
-#### Axis-angle
-The axis-angle representation of orientation appears as the following:
-$$
+&lt;h4 id=&quot;axis-angle&quot;&gt;Axis-angle&lt;/h4&gt;
+&lt;p&gt;The axis-angle representation of orientation appears as the following:
+\begin{equation}
 \begin{bmatrix}
-u\_x &amp;amp; u\_y &amp;amp; u\_z
-\end{bmatrix}\^{\mathsf{T}}
+u_x &amp;amp; u_y &amp;amp; u_z
+\end{bmatrix}^{\mathsf{T}}
 \theta
-$$
-This representation indicates that a rotation about the _unit vector_ \\(\begin{bmatrix} u\_x &amp;amp; u\_y &amp;amp; u\_z \end{bmatrix}\^{\mathsf{T}}\\) by an angle of \\(\theta\\).
+\end{equation}
+This representation indicates that a rotation about the &lt;em&gt;unit vector&lt;/em&gt; \(\begin{bmatrix} u_x &amp;amp; u_y &amp;amp; u_z \end{bmatrix}^{\mathsf{T}}\) by an angle of \(\theta\).&lt;/p&gt;
 
-The rotation matrix representation corresponds one-to-one to SO(3), the 
-&quot;special orthogonal group&quot; of orientations in three-dimensions. However,
-the axis-angle representation generally maps two-to-one to SO(3): the values \\((\begin{bmatrix} u\_x &amp;amp; u\_y &amp;amp; u\_z \end{bmatrix}\^{\mathsf{T}} \theta)\\) and \\((\begin{bmatrix} -u\_x &amp;amp; -u\_y &amp;amp; -u\_z \end{bmatrix}\^{\mathsf{T}} -\theta)\\) are identical. The exception is a singularity at \\((\begin{bmatrix} u\_x &amp;amp; u\_y &amp;amp; u\_z \end{bmatrix}\^{\mathsf{T}} 0)\\), where the values of \\(u\_x\\), \\(u\_y\\), and \\(u\_z\\) are arbitrary: all values map to an identity orientation. The singularity makes conversion from a rotation matrix to the axis-angle representation a little tricky, as will be seen below.
+&lt;p&gt;The rotation matrix representation corresponds one-to-one to SO(3), the 
+“special orthogonal group” of orientations in three-dimensions. However,
+the axis-angle representation generally maps two-to-one to SO(3): the values \((\begin{bmatrix} u_x &amp;amp; u_y &amp;amp; u_z \end{bmatrix}^{\mathsf{T}} \theta)\) and \((\begin{bmatrix} -u_x &amp;amp; -u_y &amp;amp; -u_z \end{bmatrix}^{\mathsf{T}} -\theta)\) are identical. The exception is a singularity at \((\begin{bmatrix} u_x &amp;amp; u_y &amp;amp; u_z \end{bmatrix}^{\mathsf{T}} 0)\), where the values of \(u_x\), \(u_y\), and \(u_z\) are arbitrary: all values map to an identity orientation. The singularity makes conversion from a rotation matrix to the axis-angle representation a little tricky, as will be seen below.&lt;/p&gt;
 
-##### Conversion to rotation matrix
-$$
+&lt;h5 id=&quot;conversion-to-rotation-matrix&quot;&gt;Conversion to rotation matrix&lt;/h5&gt;
+&lt;p&gt;\begin{equation}
 \begin{bmatrix}
-u\_x^2v + \cos{\theta} &amp;amp; u\_x u\_y v - u\_z\sin{\theta} &amp;amp; u\_xu\_z v + y\sin{\theta}\\\\
-u\_xu\_yv + u\_z\sin{\theta} &amp;amp; u\_y^2v + \cos{\theta} &amp;amp; u\_yu\_z v - u\_x\sin{\theta}\\\\
-u\_xu\_zv - u\_y\sin{\theta} &amp;amp; u\_yu\_zv - u\_x\sin{\theta} &amp;amp; u\_z^2v + \cos{\theta}  
+u_x^2v + \cos{\theta} &amp;amp; u_x u_y v - u_z\sin{\theta} &amp;amp; u_xu_z v + y\sin{\theta}\\
+u_xu_yv + u_z\sin{\theta} &amp;amp; u_y^2v + \cos{\theta} &amp;amp; u_yu_z v - u_x\sin{\theta}\\
+u_xu_zv - u_y\sin{\theta} &amp;amp; u_yu_zv - u_x\sin{\theta} &amp;amp; u_z^2v + \cos{\theta}&lt;br /&gt;
 \end{bmatrix}
-$$
-where \\(v = 1 - \cos{\theta}\\) if \\(|\theta| &amp;gt; \epsilon\\), and \\(v = \frac{\sin^2{\theta}}{1+\cos{\theta}}\\) otherwise (this formula minimizes cancellation error (see [Ericson 2005], p. 441).
+\end{equation}
+where \(v = 1 - \cos{\theta}\) if \(|\theta| &amp;gt; \epsilon\), and \(v = \frac{\sin^2{\theta}}{1+\cos{\theta}}\) otherwise (this formula minimizes cancellation error (see [Ericson 2005], p. 441).&lt;/p&gt;
 
-Note that there exists no straightforward way to concatenate rotations using the axis-angle representation; one must convert to rotation matrices, multiply, and convert back (if so desired).
+&lt;p&gt;Note that there exists no straightforward way to concatenate rotations using the axis-angle representation; one must convert to rotation matrices, multiply, and convert back (if so desired).&lt;/p&gt;
 
-##### Conversion from rotation matrix
-\begin{align}
-\theta &amp;amp; = \cos^{-1}\Big(\frac{1}{2}(R\_{xx} + R\_{yy} + R\_{zz} - 1)\Big) \\\\
-u\_x &amp;amp; = \frac{R\_{zy} - R\_{yz}}{2 \sin \theta} \\\\
-u\_y &amp;amp; = \frac{R\_{xz} - R\_{zx}}{2 \sin \theta} \\\\
-u\_z &amp;amp; = \frac{R\_{yx} - R\_{xy}}{2 \sin \theta} 
-\end{align}
+&lt;h5 id=&quot;conversion-from-rotation-matrix&quot;&gt;Conversion from rotation matrix&lt;/h5&gt;
+&lt;p&gt;\begin{align}
+\theta &amp;amp; = \cos^{-1}\Big(\frac{1}{2}(R_{xx} + R_{yy} + R_{zz} - 1)\Big) \\
+u_x &amp;amp; = \frac{R_{zy} - R_{yz}}{2 \sin \theta} \\
+u_y &amp;amp; = \frac{R_{xz} - R_{zx}}{2 \sin \theta} \\
+u_z &amp;amp; = \frac{R_{yx} - R_{xy}}{2 \sin \theta} 
+\end{align}&lt;/p&gt;
 
-#### Unit quaternions
-Unit quaternions take the form:
-$$
-\left.\begin{array}{llll} e\_x &amp;amp; e\_y &amp;amp; e\_z &amp;amp; e\_w \end{array}\right.
-$$
-and are subject to the constraint \\(e\_x^2 + e\_y^2 + e\_z^2 + e\_w^2 = 1\\). The following general text about unit quaternions- also known as _rotational quaternions_ and _Euler parameters_ (the latter especially in Mechanics)- was adapted from Wikipedia:
+&lt;h4 id=&quot;unit-quaternions&quot;&gt;Unit quaternions&lt;/h4&gt;
+&lt;p&gt;Unit quaternions take the form:
+\begin{equation}
+\left.\begin{array}{llll} e_x &amp;amp; e_y &amp;amp; e_z &amp;amp; e_w \end{array}\right.
+\end{equation}
+and are subject to the constraint \(e_x^2 + e_y^2 + e_z^2 + e_w^2 = 1\). The following general text about unit quaternions- also known as &lt;em&gt;rotational quaternions&lt;/em&gt; and &lt;em&gt;Euler parameters&lt;/em&gt; (the latter especially in Mechanics)- was adapted from Wikipedia:&lt;/p&gt;
 
-    Unit quaternions represent [SO(3)] in a very straightforward way. 
-    The correspondence between rotations and quaternions can be understood 
-    by first visualizing the space of rotations itself. In order to 
-    visualize the space of rotations, it helps to consider a simpler case. 
-    Any rotation in three dimensions can be described by a rotation by 
-    some angle about some axis; for our purposes, we will use an axis 
-    vector to establish handedness for our angle. Consider the special 
-    case in which the axis of rotation lies in the xy plane. We can then 
-    specify the axis of one of these rotations by a point on a circle 
-    through which the vector crosses, and we can select the radius of the 
-    circle to denote the angle of rotation. Similarly, a rotation whose 
-    axis of rotation lies in the xy plane can be described as a point on 
-    a sphere of fixed radius in three dimensions. Beginning at the north 
-    pole of a sphere in three dimensional space, we specify the point at 
-    the north pole to be the identity rotation (a zero angle rotation). 
-    Just as in the case of the identity rotation, no axis of rotation is 
-    defined, and the angle of rotation (zero) is irrelevant. A rotation 
-    having a very small rotation angle can be specified by a slice through 
-    the sphere parallel to the xy plane and very near the north pole. 
-    The circle defined by this slice will be very small, corresponding to 
-    the small angle of the rotation. As the rotation angles become larger, 
-    the slice moves in the -z direction, and the circles become larger 
-    until the equator of the sphere is reached, which will correspond to a 
-    rotation angle of pi radians. Continuing southward, the radii of the 
-    circles now become smaller (corresponding to the absolute value of the 
-    angle of the rotation considered as a negative number). Finally, as 
-    the south pole is reached, the circles shrink once more to the 
-    identity rotation, which is also specified as the point at the 
-    south pole.
+&lt;pre&gt;&lt;code&gt;Unit quaternions represent [SO(3)] in a very straightforward way. 
+The correspondence between rotations and quaternions can be understood 
+by first visualizing the space of rotations itself. In order to 
+visualize the space of rotations, it helps to consider a simpler case. 
+Any rotation in three dimensions can be described by a rotation by 
+some angle about some axis; for our purposes, we will use an axis 
+vector to establish handedness for our angle. Consider the special 
+case in which the axis of rotation lies in the xy plane. We can then 
+specify the axis of one of these rotations by a point on a circle 
+through which the vector crosses, and we can select the radius of the 
+circle to denote the angle of rotation. Similarly, a rotation whose 
+axis of rotation lies in the xy plane can be described as a point on 
+a sphere of fixed radius in three dimensions. Beginning at the north 
+pole of a sphere in three dimensional space, we specify the point at 
+the north pole to be the identity rotation (a zero angle rotation). 
+Just as in the case of the identity rotation, no axis of rotation is 
+defined, and the angle of rotation (zero) is irrelevant. A rotation 
+having a very small rotation angle can be specified by a slice through 
+the sphere parallel to the xy plane and very near the north pole. 
+The circle defined by this slice will be very small, corresponding to 
+the small angle of the rotation. As the rotation angles become larger, 
+the slice moves in the -z direction, and the circles become larger 
+until the equator of the sphere is reached, which will correspond to a 
+rotation angle of pi radians. Continuing southward, the radii of the 
+circles now become smaller (corresponding to the absolute value of the 
+angle of the rotation considered as a negative number). Finally, as 
+the south pole is reached, the circles shrink once more to the 
+identity rotation, which is also specified as the point at the 
+south pole.
+&lt;/code&gt;&lt;/pre&gt;
 
-##### Angle between two orientations
-One nice property of unit quaternions is that they allow one to compute the distance between two orientations using the _geodesic_ between the orientations. Think of the geodesic as the shortest path connecting any two orientations in SO(3). The distance between two orientations \\(A\\) and \\(B\\) is measured using the angle between them: \\(\theta = \cos^{-1}{\mathbf{e}^{A^\mathsf{T}}\mathbf{e}^B}\\)
+&lt;h5 id=&quot;angle-between-two-orientations&quot;&gt;Angle between two orientations&lt;/h5&gt;
+&lt;p&gt;One nice property of unit quaternions is that they allow one to compute the distance between two orientations using the &lt;em&gt;geodesic&lt;/em&gt; between the orientations. Think of the geodesic as the shortest path connecting any two orientations in SO(3). The distance between two orientations \(A\) and \(B\) is measured using the angle between them: \(\theta = \cos^{-1}{\mathbf{e}^{A^\mathsf{T}}\mathbf{e}^B}\)
 or equivalently (if it disturbs you to perform dot products over unit quaternions:
-$$
-\theta = \cos^{-1}{(e^A\_xe^B\_x + e^A\_ye^B\_y + e^A\_ze^B\_z + e^A\_we^B\_w)}
-$$
+\begin{equation}
+\theta = \cos^{-1}{(e^A_xe^B_x + e^A_ye^B_y + e^A_ze^B_z + e^A_we^B_w)}
+\end{equation}&lt;/p&gt;
 
-##### Conversion to rotation matrices
-We can transform unit quaternions to \\(3 \times 3\\) rotation matrices using the function definition \\(R(.)\\) below:
-$$
+&lt;h5 id=&quot;conversion-to-rotation-matrices&quot;&gt;Conversion to rotation matrices&lt;/h5&gt;
+&lt;p&gt;We can transform unit quaternions to \(3 \times 3\) rotation matrices using the function definition \(R(.)\) below:
+\begin{equation}
 R(\mathbf{e}) = 
 \begin{bmatrix}
-2(e\_x^2 + e\_w^2) - 1 &amp;amp; 2(e\_xe\_y - e\_ze\_w) &amp;amp; 2(e\_xe\_z + e\_ye\_w) \\\\
-2(e\_xe\_y + e\_ze\_w) &amp;amp; 2(e\_y^2 + e\_w^2) - 1 &amp;amp; 2(e\_ye\_z - e\_xe\_w) \\\\
-2(e\_xe\_z - e\_ye\_w) &amp;amp; 2(e\_ye\_z + e\_xe\_w) &amp;amp; 2(e\_z^2 + e\_w^2) - 1
+2(e_x^2 + e_w^2) - 1 &amp;amp; 2(e_xe_y - e_ze_w) &amp;amp; 2(e_xe_z + e_ye_w) \\
+2(e_xe_y + e_ze_w) &amp;amp; 2(e_y^2 + e_w^2) - 1 &amp;amp; 2(e_ye_z - e_xe_w) \\
+2(e_xe_z - e_ye_w) &amp;amp; 2(e_ye_z + e_xe_w) &amp;amp; 2(e_z^2 + e_w^2) - 1
 \end{bmatrix}
-$$
+\end{equation}&lt;/p&gt;
 
-##### Transforming vectors
-If we define the two matrices \\(\mathbf{G}\\) and \\(\mathbf{L}\\) as follows:
-$$
+&lt;h5 id=&quot;transforming-vectors&quot;&gt;Transforming vectors&lt;/h5&gt;
+&lt;p&gt;If we define the two matrices \(\mathbf{G}\) and \(\mathbf{L}\) as follows:
+\begin{equation}
 \mathbf{G}(\mathbf{e}) \triangleq \begin{bmatrix} 
--e\_x &amp;amp; e\_w &amp;amp; -e\_z &amp;amp; e\_y \\\\
--e\_y &amp;amp; e\_z  &amp;amp; e\_w &amp;amp; -e\_x \\\\
--e\_z &amp;amp; -e\_y &amp;amp; e\_x &amp;amp; e\_w
+-e_x &amp;amp; e_w &amp;amp; -e_z &amp;amp; e_y \\
+-e_y &amp;amp; e_z  &amp;amp; e_w &amp;amp; -e_x \\
+-e_z &amp;amp; -e_y &amp;amp; e_x &amp;amp; e_w
 \end{bmatrix}
-$$
-$$
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
 \mathbf{L}(\mathbf{e}) \triangleq \begin{bmatrix} 
--e\_x &amp;amp; e\_w &amp;amp; e\_z &amp;amp; -e\_y \\\\
--e\_y &amp;amp; -e\_z  &amp;amp; e\_w &amp;amp; e\_x \\\\
--e\_z &amp;amp; e\_y &amp;amp; -e\_x &amp;amp; e\_w
+-e_x &amp;amp; e_w &amp;amp; e_z &amp;amp; -e_y \\
+-e_y &amp;amp; -e_z  &amp;amp; e_w &amp;amp; e_x \\
+-e_z &amp;amp; e_y &amp;amp; -e_x &amp;amp; e_w
 \end{bmatrix}
-$$
-then you can verify that \\(R(\mathbf{e}) = \mathbf{G}(\mathbf{e}){\mathbf{L}(\mathbf{e})}\^{\mathsf{T}}\\). Then, transforming a vector \\(\mathbf{v}\\) is most efficient by applying the operation \\(\mathbf{G}(\mathbf{e}){\mathbf{L}(\mathbf{e})}^\mathsf{T}\mathbf{v}\\).
+\end{equation}
+then you can verify that \(R(\mathbf{e}) = \mathbf{G}(\mathbf{e}){\mathbf{L}(\mathbf{e})}^{\mathsf{T}}\). Then, transforming a vector \(\mathbf{v}\) is most efficient by applying the operation \(\mathbf{G}(\mathbf{e}){\mathbf{L}(\mathbf{e})}^\mathsf{T}\mathbf{v}\).&lt;/p&gt;
 
-##### Inversion of rotation
-Inversion of rotation using quaternions is simple using the _conjugate_
+&lt;h5 id=&quot;inversion-of-rotation&quot;&gt;Inversion of rotation&lt;/h5&gt;
+&lt;p&gt;Inversion of rotation using quaternions is simple using the &lt;em&gt;conjugate&lt;/em&gt;
 of a quaternion: simply negate the vector component of the quaternion values to get the conjugate:
-$$
+\begin{equation}
 R(\mathbf{e})^{-1} = R(-\mathbf{e})
-$$
+\end{equation}&lt;/p&gt;
 
-##### Concatenation of rotations
-We can apply rotation \\(A\\) (represented by quaternion \\(\mathbf{e}^A\\)) followed by rotation \\(B\\) (represented by quaternion \\(\mathbf{e}^B\\) using the following matrix-vector multiplication operation:
-$$
+&lt;h5 id=&quot;concatenation-of-rotations&quot;&gt;Concatenation of rotations&lt;/h5&gt;
+&lt;p&gt;We can apply rotation \(A\) (represented by quaternion \(\mathbf{e}^A\)) followed by rotation \(B\) (represented by quaternion \(\mathbf{e}^B\) using the following matrix-vector multiplication operation:
+\begin{equation}
 \mathbf{e}^B \otimes \mathbf{e}^A = \begin{bmatrix}
-e^A\_w &amp;amp; e^A\_z &amp;amp; -e^A\_y &amp;amp; e^A\_x \\\\ 
--e^A\_z &amp;amp; e^A\_w &amp;amp; e^A\_x &amp;amp; e^A\_y \\\\
-e^A\_y &amp;amp; -e^A\_x &amp;amp; e^A\_w &amp;amp; e^A\_z \\\\ 
--e^A\_x &amp;amp; -e^A\_y &amp;amp; -e^A\_z &amp;amp; e^A\_w  
+e^A_w &amp;amp; e^A_z &amp;amp; -e^A_y &amp;amp; e^A_x \\ 
+-e^A_z &amp;amp; e^A_w &amp;amp; e^A_x &amp;amp; e^A_y \\
+e^A_y &amp;amp; -e^A_x &amp;amp; e^A_w &amp;amp; e^A_z \\ 
+-e^A_x &amp;amp; -e^A_y &amp;amp; -e^A_z &amp;amp; e^A_w&lt;br /&gt;
 \end{bmatrix}
 \begin{bmatrix}
-e^B\_x \\\\
-e^B\_y \\\\
-e^B\_z \\\\
-e^B\_w
+e^B_x \\
+e^B_y \\
+e^B_z \\
+e^B_w
 \end{bmatrix}
-$$
+\end{equation}&lt;/p&gt;
 
-#### Alternative representations
-There exist alternative representations of orientations in 3D, including _Euler/roll-pitch-yaw/Tait-Bryan_ angles, _Gibbs vectors_, _Pauli spin matrices_, among others. I will not cover these representations in this post.
+&lt;h4 id=&quot;alternative-representations&quot;&gt;Alternative representations&lt;/h4&gt;
+&lt;p&gt;There exist alternative representations of orientations in 3D, including &lt;em&gt;Euler/roll-pitch-yaw/Tait-Bryan&lt;/em&gt; angles, &lt;em&gt;Gibbs vectors&lt;/em&gt;, &lt;em&gt;Pauli spin matrices&lt;/em&gt;, among others. I will not cover these representations in this post.&lt;/p&gt;
 
-#### Storage considerations
-Encoding orientations exposes a tradeoff between speed and memory that may not immediately obvious to you. A few options for encoding orientations are:
+&lt;h4 id=&quot;storage-considerations&quot;&gt;Storage considerations&lt;/h4&gt;
+&lt;p&gt;Encoding orientations exposes a tradeoff between speed and memory that may not immediately obvious to you. A few options for encoding orientations are:&lt;/p&gt;
 
-1. Store the full \\(3 \times 3\\) matrix
-2. Store the first two columns of the full \\(3 \times 3\\) matrix and compute the last column as needed at run-time
-3. Encode orientation using a three-dimensional orientation representation (Euler angles, roll-pitch-yaw angles)
-4. Encode orientation using a four-dimensional orientation representation (Quaternions, axis-angle)
-The various computational tradeoffs between the choice of representation is shown in the table below.
+&lt;ol&gt;
+  &lt;li&gt;Store the full \(3 \times 3\) matrix&lt;/li&gt;
+  &lt;li&gt;Store the first two columns of the full \(3 \times 3\) matrix and compute the last column as needed at run-time&lt;/li&gt;
+  &lt;li&gt;Encode orientation using a three-dimensional orientation representation (Euler angles, roll-pitch-yaw angles)&lt;/li&gt;
+  &lt;li&gt;Encode orientation using a four-dimensional orientation representation (Quaternions, axis-angle)
+The various computational tradeoffs between the choice of representation is shown in the table below.&lt;/li&gt;
+&lt;/ol&gt;
 
-| |  \\(3\times 3\\) matrix | \\(2 \times 3\\) matrix | Euler-angles | Quaternions | Axis-angle |
-| ---- | ---- | ---- | ---- | ----- | ---- |
+&lt;p&gt;| |  \(3\times 3\) matrix | \(2 \times 3\) matrix | Euler-angles | Quaternions | Axis-angle |
+| —- | —- | —- | —- | —– | —- |
 Storage | 9 values | 6 values | 3 values | 4 values | 4 values |
-Conversion to matrix | N/A | 6*, 3+ | 6 trig, 16*, 4+ | 30*, 12+ | 2 trig, 24*, 18+ |
-Vector transform | 9*, 6+ | 15*, 9+ | N/A | 24*, 15+ | 23*, 16+, 2 trig |
-Rotation concatenation | 27*, 18+ | 33*, 21+ | N/A | 16*, 12+ | N/A |
-Re-normalization cost | 36*, 27+, 3 sqrt | 15*, 11+, 2 sqrt | N/A | 4*, 3+, 1 sqrt | N/A | 
+Conversion to matrix | N/A | 6&lt;em&gt;, 3+ | 6 trig, 16&lt;/em&gt;, 4+ | 30&lt;em&gt;, 12+ | 2 trig, 24&lt;/em&gt;, 18+ |
+Vector transform | 9&lt;em&gt;, 6+ | 15&lt;/em&gt;, 9+ | N/A | 24&lt;em&gt;, 15+ | 23&lt;/em&gt;, 16+, 2 trig |
+Rotation concatenation | 27&lt;em&gt;, 18+ | 33&lt;/em&gt;, 21+ | N/A | 16&lt;em&gt;, 12+ | N/A |
+Re-normalization cost | 36&lt;/em&gt;, 27+, 3 sqrt | 15&lt;em&gt;, 11+, 2 sqrt | N/A | 4&lt;/em&gt;, 3+, 1 sqrt | N/A |&lt;/p&gt;
 
+&lt;h3 id=&quot;homogeneous-transformations&quot;&gt;Homogeneous transformations&lt;/h3&gt;
 
-
-### Homogeneous transformations
-
-Homogeneous transformations work in 3D exactly like they did in 2D. The 
+&lt;p&gt;Homogeneous transformations work in 3D exactly like they did in 2D. The 
 obvious differences are that homogeneous coordinates are now four dimensional:
-$$
+\begin{equation}
 \begin{bmatrix}
-x \\\\
-y \\\\
-z \\\\
+x \\
+y \\
+z \\
 1
 \end{bmatrix}
-$$
+\end{equation}&lt;/p&gt;
 
-
-and that the transformation matrices are now \\(4 \times 4\\). The upper left
-\\(3 \times 3\\) block of the matrix is a rotation matrix and the fourth
-column is a translation vector. The matrix still represents a rotation followed by a translation. The [block form of the matrix](https://en.wikipedia.org/wiki/Block_matrix) still looks like this:
+&lt;p&gt;and that the transformation matrices are now \(4 \times 4\). The upper left
+\(3 \times 3\) block of the matrix is a rotation matrix and the fourth
+column is a translation vector. The matrix still represents a rotation followed by a translation. The &lt;a href=&quot;https://en.wikipedia.org/wiki/Block_matrix&quot;&gt;block form of the matrix&lt;/a&gt; still looks like this:
 \begin{equation}
 \mathbf{T} \equiv
 \begin{bmatrix}
-\mathbf{R} &amp;amp; \mathbf{t} \\\\
+\mathbf{R} &amp;amp; \mathbf{t} \\
 \mathbf{0} &amp;amp; 1
 \end{bmatrix}
 \label{eqn:homogeneous}
 \end{equation}
-but now \\(\mathbf{R}\\) is the \\(3 \times 3\\) rotation matrix and \\(\mathbf{t}\\) is the \\(3 \times 1\\) translation vector.
+but now \(\mathbf{R}\) is the \(3 \times 3\) rotation matrix and \(\mathbf{t}\) is the \(3 \times 1\) translation vector.&lt;/p&gt;
 
-**Homogeneous transformations can be inverted [exactly as they were in the two-dimensional case](../poses).**
+&lt;p&gt;&lt;strong&gt;Homogeneous transformations can be inverted &lt;a href=&quot;../poses&quot;&gt;exactly as they were in the two-dimensional case&lt;/a&gt;.&lt;/strong&gt;&lt;/p&gt;
 
-### Angular velocity and acceleration in 3D
-In order to explore the concept of angular velocity, we&#39;ll examine the velocity of a point on a rigid body in 3D both geometrically and using calculus.
-$$
-\mathbf{p}\_w = \bar{\mathbf{x}}\_w + \_w\mathbf{R}\_i\mathbf{r}\_i
-$$
-where \\(\mathbf{p}\_w\\) is the point in the global frame, \\(\_w\mathbf{R}\_i\\) is the rotation matrix from frame \\(i\\) to the global frame, and \\(\mathbf{r}\_i\\) is the vector from the center-of-mass of the body to the point _in the body frame_, \\(i\\). 
+&lt;h3 id=&quot;angular-velocity-and-acceleration-in-3d&quot;&gt;Angular velocity and acceleration in 3D&lt;/h3&gt;
+&lt;p&gt;In order to explore the concept of angular velocity, we’ll examine the velocity of a point on a rigid body in 3D both geometrically and using calculus.
+\begin{equation}
+\mathbf{p}_w = \bar{\mathbf{x}}_w + _w\mathbf{R}_i\mathbf{r}_i
+\end{equation}
+where \(\mathbf{p}_w\) is the point in the global frame, \(_w\mathbf{R}_i\) is the rotation matrix from frame \(i\) to the global frame, and \(\mathbf{r}_i\) is the vector from the center-of-mass of the body to the point &lt;em&gt;in the body frame&lt;/em&gt;, \(i\). 
 When we take the time-derivative of this equation, we get:
-$$
-\dot{\mathbf{p}}\_w = \dot{\bar{\mathbf{x}}}\_w + \_w\dot{\mathbf{R}}\_i\mathbf{r}\_i
-$$
-The remainder of this section will focus on gleaning insight into the structure of \\(\_w\mathbf{R}\_i\\). We start with a geometric interpretation of \\(\dot{\mathbf{p}}\_w\\) using the figure below. If we ignore the body&#39;s linear velocity (by assuming that \\(\dot{\bar{\mathbf{x}}}\_w = \mathbf{0}\\)), then we find that the velocity of \\(\dot{\mathbf{p}}\_w\\) is orthogonal both to the axis of rotation \\(\mathbf{\omega}\_w/||\mathbf{\omega}\_w||\\) and to the vector (\\(||\mathbf{p} - \bar{\mathbf{x}}||\\)). You can confirm geometrically or numerically that the magnitude of \\(\dot{\mathbf{p}}\_w\\) is proportional to both \\(||\mathbf{\omega}\_w||\\) and \\(||\mathbf{r}\_i||\\). 
+\begin{equation}
+\dot{\mathbf{p}}_w = \dot{\bar{\mathbf{x}}}_w + _w\dot{\mathbf{R}}_i\mathbf{r}_i
+\end{equation}
+The remainder of this section will focus on gleaning insight into the structure of \(_w\mathbf{R}_i\). We start with a geometric interpretation of \(\dot{\mathbf{p}}_w\) using the figure below. If we ignore the body’s linear velocity (by assuming that \(\dot{\bar{\mathbf{x}}}_w = \mathbf{0}\)), then we find that the velocity of \(\dot{\mathbf{p}}_w\) is orthogonal both to the axis of rotation \(\mathbf{\omega}_w/||\mathbf{\omega}_w||\) and to the vector (\(||\mathbf{p} - \bar{\mathbf{x}}||\)). You can confirm geometrically or numerically that the magnitude of \(\dot{\mathbf{p}}_w\) is proportional to both \(||\mathbf{\omega}_w||\) and \(||\mathbf{r}_i||\).&lt;/p&gt;
 
-![A frame](../../assets/img/frame-geom.png)
+&lt;p&gt;&lt;img src=&quot;../../assets/img/frame-geom.png&quot; alt=&quot;A frame&quot; /&gt;&lt;/p&gt;
 
-Based on this geometric interpretation of point velocity, it should be clear that \\(\dot{\mathbf{p}}\_w = \mathbf{\omega}\_w \times\ \_w\mathbf{R}\_i\mathbf{r}\_i\\) (when the linear velocity at the center-of-mass is not zero, it just adds to \\(\dot{\mathbf{p}}\_w\\)). Accounting for the equation above, we have \\(\_w\dot{\mathbf{R}}\_i\mathbf{r}\_i = \mathbf{\omega}\_w \times \_w\mathbf{R}\_i\mathbf{r}\_i\\), and thus \\(\_w\dot{\mathbf{R}}\_i = \mathbf{\omega}\_w \times \_w\mathbf{R}\_i\\). This formula should appear strange to you, because how can we take the cross product between a vector and a matrix? Doing a little matrix arithmetic, we get
+&lt;p&gt;Based on this geometric interpretation of point velocity, it should be clear that \(\dot{\mathbf{p}}_w = \mathbf{\omega}_w \times\ _w\mathbf{R}_i\mathbf{r}_i\) (when the linear velocity at the center-of-mass is not zero, it just adds to \(\dot{\mathbf{p}}_w\)). Accounting for the equation above, we have \(_w\dot{\mathbf{R}}_i\mathbf{r}_i = \mathbf{\omega}_w \times _w\mathbf{R}_i\mathbf{r}_i\), and thus \(_w\dot{\mathbf{R}}_i = \mathbf{\omega}_w \times _w\mathbf{R}_i\). This formula should appear strange to you, because how can we take the cross product between a vector and a matrix? Doing a little matrix arithmetic, we get
 \begin{equation}
 \label{eqn:skewsymm}
 _w\dot{\mathbf{R}}_i\cdot_w{\mathbf{R}_i}^{\mathsf{T}} = \tilde{\mathbf{\omega}}_w
 \end{equation}
-where we will get to the definition of \\(\tilde{\mathbf{\omega}}\\) shortly.
+where we will get to the definition of \(\tilde{\mathbf{\omega}}\) shortly.&lt;/p&gt;
 
-Now, let&#39;s use calculus to examine the time-derivative of a rotation matrix. We start with an identity from orthogonality:
-$$
-\_w\mathbf{R}\_i\cdot{\_w\mathbf{R}\_i}^{\mathsf{T}} - \mathbf{I} = \mathbf{0}
-$$
-Now computing the time-derivative:
-$$
-\dot{\_w\mathbf{R}\_i}\cdot{\_w\mathbf{R}\_i}^{\mathsf{T}} + \_w\mathbf{R}\_i\cdot{\dot{\_w\mathbf{R}\_i}}^{\mathsf{T}} = \mathbf{0}
-$$
-Using equations above, it should be apparent to you that
-$$
-\tilde{\mathbf{\omega}}\_w + {\tilde{\mathbf{\omega}}\_w}^{\mathsf{T}} = \mathbf{0}
-$$
-This equation indicates that \\(\tilde{\mathbf{\omega}}\_w\\) is a _skew symmetric matrix_, which takes the form:
-$$
-\tilde{\mathbf{\omega}} = \begin{bmatrix} 
-0 &amp;amp; -\omega\_z &amp;amp; \omega\_y \\\\
-\omega\_z &amp;amp; 0 &amp;amp; -\omega\_x \\\\
--\omega\_y &amp;amp; \omega\_x &amp;amp; 0
-\end{bmatrix}
-$$
-from which we can recover the \\(3 \times 1\\) angular velocity tensor \\(\mathbf{\omega}\_w = \begin{bmatrix} \omega\_x &amp;amp; \omega\_y &amp;amp; \omega\_z \end{bmatrix}^T\\). 
-
-#### Angular acceleration
-Let us now take the time-derivative of \\(\dot{\mathbf{p}}\_w\\) to get:
+&lt;p&gt;Now, let’s use calculus to examine the time-derivative of a rotation matrix. We start with an identity from orthogonality:
 \begin{equation}
-\ddot{\mathbf{p}}\_w = \ddot{\bar{\mathbf{x}}}\_w + \frac{d}{dt}(\tilde{\mathbf{\omega}}\_w\cdot\_w\mathbf{R}\_i)\mathbf{r}\_i = \ddot{\bar{\mathbf{x}}}\_w + \dot{\mathbf{\omega}}\_w \times \_w\mathbf{R}\_i \cdot \mathbf{r}\_i + \mathbf{\omega}\_w \times \_w\dot{\mathbf{R}}\_i \cdot \mathbf{r}\_i
+_w\mathbf{R}_i\cdot{_w\mathbf{R}_i}^{\mathsf{T}} - \mathbf{I} = \mathbf{0}
+\end{equation}
+Now computing the time-derivative:
+\begin{equation}
+\dot{_w\mathbf{R}_i}\cdot{_w\mathbf{R}_i}^{\mathsf{T}} + _w\mathbf{R}_i\cdot{\dot{_w\mathbf{R}_i}}^{\mathsf{T}} = \mathbf{0}
+\end{equation}
+Using equations above, it should be apparent to you that
+\begin{equation}
+\tilde{\mathbf{\omega}}_w + {\tilde{\mathbf{\omega}}_w}^{\mathsf{T}} = \mathbf{0}
+\end{equation}
+This equation indicates that \(\tilde{\mathbf{\omega}}_w\) is a &lt;em&gt;skew symmetric matrix&lt;/em&gt;, which takes the form:
+\begin{equation}
+\tilde{\mathbf{\omega}} = \begin{bmatrix} 
+0 &amp;amp; -\omega_z &amp;amp; \omega_y \\
+\omega_z &amp;amp; 0 &amp;amp; -\omega_x \\
+-\omega_y &amp;amp; \omega_x &amp;amp; 0
+\end{bmatrix}
+\end{equation}
+from which we can recover the \(3 \times 1\) angular velocity tensor \(\mathbf{\omega}_w = \begin{bmatrix} \omega_x &amp;amp; \omega_y &amp;amp; \omega_z \end{bmatrix}^T\).&lt;/p&gt;
+
+&lt;h4 id=&quot;angular-acceleration&quot;&gt;Angular acceleration&lt;/h4&gt;
+&lt;p&gt;Let us now take the time-derivative of \(\dot{\mathbf{p}}_w\) to get:
+\begin{equation}
+\ddot{\mathbf{p}}_w = \ddot{\bar{\mathbf{x}}}_w + \frac{d}{dt}(\tilde{\mathbf{\omega}}_w\cdot_w\mathbf{R}_i)\mathbf{r}_i = \ddot{\bar{\mathbf{x}}}_w + \dot{\mathbf{\omega}}_w \times _w\mathbf{R}_i \cdot \mathbf{r}_i + \mathbf{\omega}_w \times _w\dot{\mathbf{R}}_i \cdot \mathbf{r}_i
 \label{eqn:pddot}
 \end{equation}
-The \\(3 \times 1\\) vector \\(\dot{\mathbf{\omega}}\_w\\) (also commonly written \\(\mathbf{\alpha}\_w\\)) is the angular acceleration. The equation above is equivalent to:
+The \(3 \times 1\) vector \(\dot{\mathbf{\omega}}_w\) (also commonly written \(\mathbf{\alpha}_w\)) is the angular acceleration. The equation above is equivalent to:
 \begin{equation}
-\ddot{\mathbf{p}}\_w = \ddot{\bar{\mathbf{x}}}\_w + \dot{\mathbf{\omega}}\_w \times \_w\mathbf{R}\_i \cdot \mathbf{r}\_i + \mathbf{\omega}\_w \times \mathbf{\omega} \times \_w\mathbf{R}\_i \cdot \mathbf{r}\_i
+\ddot{\mathbf{p}}_w = \ddot{\bar{\mathbf{x}}}_w + \dot{\mathbf{\omega}}_w \times _w\mathbf{R}_i \cdot \mathbf{r}_i + \mathbf{\omega}_w \times \mathbf{\omega} \times _w\mathbf{R}_i \cdot \mathbf{r}_i
 \end{equation}
-The second term on the right above is called the _transverse acceleration_ and the term to its right is the _centripetal acceleration_.
+The second term on the right above is called the &lt;em&gt;transverse acceleration&lt;/em&gt; and the term to its right is the &lt;em&gt;centripetal acceleration&lt;/em&gt;.&lt;/p&gt;
 
-Since we&#39;re examining centripetal acceleration, let&#39;s look at the phenomenon of Coriolis acceleration. To do that, we need to compute the acceleration of the point with respect to a point defined in a moving frame (\\(s\\), which we now assume is moving):
+&lt;p&gt;Since we’re examining centripetal acceleration, let’s look at the phenomenon of Coriolis acceleration. To do that, we need to compute the acceleration of the point with respect to a point defined in a moving frame (\(s\), which we now assume is moving):
 \begin{align}
-\mathbf{p}\_s &amp;amp; = \ \_s\mathbf{R}\_w\mathbf{p}\_w + \mathbf{x}\_w^s \\\\
-\dot{\mathbf{p}}\_s &amp;amp; = \_s\dot{\mathbf{R}}\_w\mathbf{p}\_w + \ \_s\mathbf{R}\_w\dot{\mathbf{p}}\_w \\\\
-\ddot{\mathbf{p}}\_s &amp;amp; = \dot{\mathbf{\omega}}\_s \times \ \_s\mathbf{R}\_w\mathbf{p}\_w + \mathbf{\omega}\_s \times \ \_s\mathbf{R}\_w\dot{\mathbf{p}}\_w + \mathbf{\omega}\_s \times \ \_s\mathbf{R}\_w\dot{\mathbf{p}}\_w +  \ \_s\mathbf{R}\_w\ddot{\mathbf{p}}\_w \\\\
-&amp;amp; = \dot{\mathbf{\omega}}\_s \times \ \_s\mathbf{R}\_w\mathbf{p}\_w + 2\mathbf{\omega}\_s \times \ \_s\mathbf{R}\_w\dot{\mathbf{p}}\_w +  \ \_s\mathbf{R}\_w\ddot{\mathbf{p}}\_w
+\mathbf{p}_s &amp;amp; = \ _s\mathbf{R}_w\mathbf{p}_w + \mathbf{x}_w^s \\
+\dot{\mathbf{p}}_s &amp;amp; = _s\dot{\mathbf{R}}_w\mathbf{p}_w + \ _s\mathbf{R}_w\dot{\mathbf{p}}_w \\
+\ddot{\mathbf{p}}_s &amp;amp; = \dot{\mathbf{\omega}}_s \times \ _s\mathbf{R}_w\mathbf{p}_w + \mathbf{\omega}_s \times \ _s\mathbf{R}_w\dot{\mathbf{p}}_w + \mathbf{\omega}_s \times \ _s\mathbf{R}_w\dot{\mathbf{p}}_w +  \ _s\mathbf{R}_w\ddot{\mathbf{p}}_w \\
+&amp;amp; = \dot{\mathbf{\omega}}_s \times \ _s\mathbf{R}_w\mathbf{p}_w + 2\mathbf{\omega}_s \times \ _s\mathbf{R}_w\dot{\mathbf{p}}_w +  \ _s\mathbf{R}_w\ddot{\mathbf{p}}_w
 \end{align}
-The second term that appears is the _Coriolis acceleration_. Notice that this term only appears when observing the acceleration of a point from a moving frame.
+The second term that appears is the &lt;em&gt;Coriolis acceleration&lt;/em&gt;. Notice that this term only appears when observing the acceleration of a point from a moving frame.&lt;/p&gt;
 
-#### Renormalization
-Let us say that you wish to update the rigid body orientation using first-order integration (although the problem we are exploring happens with any integration approach):
+&lt;h4 id=&quot;renormalization&quot;&gt;Renormalization&lt;/h4&gt;
+&lt;p&gt;Let us say that you wish to update the rigid body orientation using first-order integration (although the problem we are exploring happens with any integration approach):
 \begin{equation}
 \mathbf{R}(t+\Delta t) = \mathbf{R}(t) + \Delta t\cdot \dot{\mathbf{R}}(t)
 \end{equation}
-If the angular velocity is large, then \\(\dot{\mathbf{R}}\\) will be large as well. As a result, the columns of \\(\mathbf{R}(t+\Delta t)\\) will generally no longer be either normalized or mutually orthogonal. \\(\mathbf{R}(t + \Delta t)\\) must then be renormalized using Gram-Schmidt normalization. 
+If the angular velocity is large, then \(\dot{\mathbf{R}}\) will be large as well. As a result, the columns of \(\mathbf{R}(t+\Delta t)\) will generally no longer be either normalized or mutually orthogonal. \(\mathbf{R}(t + \Delta t)\) must then be renormalized using Gram-Schmidt normalization.&lt;/p&gt;
 
-#### Time-derivatives of quaternions
-The first time-derivative of the unit quaternion exhibits the following (identical) relationships with angular velocity: \\(\mathbf{\omega}\_w = 2\mathbf{G}(\mathbf{e})\dot{\mathbf{e}}\\) and \\(\dot{\mathbf{e}} = \frac{1}{2}{\mathbf{G}(\mathbf{e})}^{\mathsf{T}}\mathbf{\omega}\_w\\).
-It can also be shown that \\(\mathbf{\omega}\_i = 2\mathbf{L}(\mathbf{e})\dot{\mathbf{e}}\\) and \\(\dot{\mathbf{e}} = \frac{1}{2}{\mathbf{L}(\mathbf{e})}^{\mathsf{T}}\mathbf{\omega}\_i\\), where \\(\mathbf{\omega}\_i\\) is the angular velocity vector in the body&#39;s frame.
+&lt;h4 id=&quot;time-derivatives-of-quaternions&quot;&gt;Time-derivatives of quaternions&lt;/h4&gt;
+&lt;p&gt;The first time-derivative of the unit quaternion exhibits the following (identical) relationships with angular velocity: \(\mathbf{\omega}_w = 2\mathbf{G}(\mathbf{e})\dot{\mathbf{e}}\) and \(\dot{\mathbf{e}} = \frac{1}{2}{\mathbf{G}(\mathbf{e})}^{\mathsf{T}}\mathbf{\omega}_w\).
+It can also be shown that \(\mathbf{\omega}_i = 2\mathbf{L}(\mathbf{e})\dot{\mathbf{e}}\) and \(\dot{\mathbf{e}} = \frac{1}{2}{\mathbf{L}(\mathbf{e})}^{\mathsf{T}}\mathbf{\omega}_i\), where \(\mathbf{\omega}_i\) is the angular velocity vector in the body’s frame.&lt;/p&gt;
 
-An advantage of unit quaternions is that renormalization is simple using an update:
+&lt;p&gt;An advantage of unit quaternions is that renormalization is simple using an update:
 \begin{align}
-\mathbf{e}(t + \Delta t) &amp;amp; = \mathbf{e}(t) + \Delta t \cdot \dot{\mathbf{e}}(t) \\\\
-\mathbf{e}(t + \Delta t) &amp;amp; \leftarrow \frac{\mathbf{e}(t + \Delta t)}{\sqrt{e\_x(t + \Delta t) + e\_y^2(t + \Delta t) + e\_z^2(t + \Delta t) + e\_w^2(t + \Delta t)}}
-\end{align} 
+\mathbf{e}(t + \Delta t) &amp;amp; = \mathbf{e}(t) + \Delta t \cdot \dot{\mathbf{e}}(t) \\
+\mathbf{e}(t + \Delta t) &amp;amp; \leftarrow \frac{\mathbf{e}(t + \Delta t)}{\sqrt{e_x(t + \Delta t) + e_y^2(t + \Delta t) + e_z^2(t + \Delta t) + e_w^2(t + \Delta t)}}
+\end{align}&lt;/p&gt;
 
-The second time-derivative of the unit quaternion exhibits the following relationships with angular acceleration: \\(\dot{\mathbf{\omega}}\_w = 2\mathbf{G}(\mathbf{e})\ddot{\mathbf{e}}\\) and \\(\ddot{\mathbf{e}} = \frac{1}{2}{\mathbf{G}(\mathbf{e})}^{\mathsf{T}}\dot{\mathbf{\omega}}\_w\\). It can also be shown that \\(\dot{\mathbf{\omega}}\_i = 2\mathbf{L}(\mathbf{e})\ddot{\mathbf{e}}\\) and \\(\ddot{\mathbf{e}} = \frac{1}{2}{\mathbf{L}(\mathbf{e})}^{\mathsf{T}}\dot{\mathbf{\omega}}\_i\\).
+&lt;p&gt;The second time-derivative of the unit quaternion exhibits the following relationships with angular acceleration: \(\dot{\mathbf{\omega}}_w = 2\mathbf{G}(\mathbf{e})\ddot{\mathbf{e}}\) and \(\ddot{\mathbf{e}} = \frac{1}{2}{\mathbf{G}(\mathbf{e})}^{\mathsf{T}}\dot{\mathbf{\omega}}_w\). It can also be shown that \(\dot{\mathbf{\omega}}_i = 2\mathbf{L}(\mathbf{e})\ddot{\mathbf{e}}\) and \(\ddot{\mathbf{e}} = \frac{1}{2}{\mathbf{L}(\mathbf{e})}^{\mathsf{T}}\dot{\mathbf{\omega}}_i\).&lt;/p&gt;
 
-### Generalized coordinates
-Our choices for generalized coordinates, velocities, and accelerations are:
+&lt;h3 id=&quot;generalized-coordinates&quot;&gt;Generalized coordinates&lt;/h3&gt;
+&lt;p&gt;Our choices for generalized coordinates, velocities, and accelerations are:&lt;/p&gt;
 
-1. Use one representation for everything (position plus unit quaternions). The advantages with this approach are that (1) coordinates/velocities/accelerations can be added to each other and (2) for dynamics, all formulas can be dealt with abstractly as \\(\mathbf{f} = \mathbf{M}\mathbf{a}\\) (Newton&#39;s second law), \\(\mathbf{p} = \mathbf{M}\mathbf{v}\\) (generalized momentum), _etc._ (one never needs to do any intermediate calculations).
-2. Use position and multiple representations for orientation, such as unit quaternions and (typically) scaled-axis angle (i.e., \\(\mathbf{\omega}, \dot{\mathbf{\omega}}\\)). The advantages with this approach are that (1) it&#39;s more compact (generalized velocities and accelerations for rigid bodies require only six parameters, generalized inertia matrices are only \\(6 \times 6\\) rather than \\(7 \times 7\\)) and (2)   it&#39;s far simpler: one need not convert generalized inertia, generalized forces, _etc._ from their &quot;natural&quot; six-dimensional representation (to be explored at a later time) to a less-intuitive seven-dimensional representation.
+&lt;ol&gt;
+  &lt;li&gt;Use one representation for everything (position plus unit quaternions). The advantages with this approach are that (1) coordinates/velocities/accelerations can be added to each other and (2) for dynamics, all formulas can be dealt with abstractly as \(\mathbf{f} = \mathbf{M}\mathbf{a}\) (Newton’s second law), \(\mathbf{p} = \mathbf{M}\mathbf{v}\) (generalized momentum), &lt;em&gt;etc.&lt;/em&gt; (one never needs to do any intermediate calculations).&lt;/li&gt;
+  &lt;li&gt;Use position and multiple representations for orientation, such as unit quaternions and (typically) scaled-axis angle (i.e., \(\mathbf{\omega}, \dot{\mathbf{\omega}}\)). The advantages with this approach are that (1) it’s more compact (generalized velocities and accelerations for rigid bodies require only six parameters, generalized inertia matrices are only \(6 \times 6\) rather than \(7 \times 7\)) and (2)   it’s far simpler: one need not convert generalized inertia, generalized forces, &lt;em&gt;etc.&lt;/em&gt; from their “natural” six-dimensional representation (to be explored at a later time) to a less-intuitive seven-dimensional representation.&lt;/li&gt;
+&lt;/ol&gt;
 
-#### Generalized coordinates in the global reference frame
-Let&#39;s first look at the generalized coordinates for a body defined in the global reference frame, \\(w\\). We will define the generalized coordinates using unit quaternions:
+&lt;h4 id=&quot;generalized-coordinates-in-the-global-reference-frame&quot;&gt;Generalized coordinates in the global reference frame&lt;/h4&gt;
+&lt;p&gt;Let’s first look at the generalized coordinates for a body defined in the global reference frame, \(w\). We will define the generalized coordinates using unit quaternions:
 \begin{equation} 
-\mathbf{q}\_w = \begin{bmatrix} \bar{x}\_w \\\\ \bar{y}\_w \\\\ \bar{z}\_w \\\\ \mathbf{e}\_i \end{bmatrix}
+\mathbf{q}_w = \begin{bmatrix} \bar{x}_w \\ \bar{y}_w \\ \bar{z}_w \\ \mathbf{e}_i \end{bmatrix}
 \end{equation}
-where \\(\{ \bar{x}\_w, \bar{y}\_w, \bar{z}\_w \}\\) is the position of the center-of-mass in frame \\(w\\).  \\(\ \_w\mathbf{e}\_i\\) gives the orientation of the body relative to the global frame.
+where \({ \bar{x}_w, \bar{y}_w, \bar{z}_w }\) is the position of the center-of-mass in frame \(w\).  \(\ _w\mathbf{e}_i\) gives the orientation of the body relative to the global frame.&lt;/p&gt;
 
-#### General coordinates in another reference frame
-For comparison, let&#39;s look at how the body is defined in another reference frame, \\(s\\), which is defined relative to frame \\(\mathbf{w}\\) by a translation of \\(\mathbf{x}\_w^s\\) and by an orientation via the rotation matrix \\(\_s\mathbf{R}\_w\\) (and using the equivalent unit quaternion \\(\ \_s\mathbf{e}\_w\\)).
-The generalized coordinates in frame \\(s\\) are now:
+&lt;h4 id=&quot;general-coordinates-in-another-reference-frame&quot;&gt;General coordinates in another reference frame&lt;/h4&gt;
+&lt;p&gt;For comparison, let’s look at how the body is defined in another reference frame, \(s\), which is defined relative to frame \(\mathbf{w}\) by a translation of \(\mathbf{x}_w^s\) and by an orientation via the rotation matrix \(_s\mathbf{R}_w\) (and using the equivalent unit quaternion \(\ _s\mathbf{e}_w\)).
+The generalized coordinates in frame \(s\) are now:
 \begin{equation}
-\mathbf{q}\_s = \begin{bmatrix}\_s\mathbf{R}\_w \begin{bmatrix}\bar{x}\_w \\\\ \bar{y}\_w \\\\ \bar{z}\_w \end{bmatrix} + \mathbf{x}\_w^s  \\\\ 
-\_s\mathbf{e}\_w \otimes \_w\mathbf{e}\_i \end{bmatrix}
-\end{equation}
+\mathbf{q}_s = \begin{bmatrix}_s\mathbf{R}_w \begin{bmatrix}\bar{x}_w \\ \bar{y}_w \\ \bar{z}_w \end{bmatrix} + \mathbf{x}_w^s  \\ 
+_s\mathbf{e}_w \otimes _w\mathbf{e}_i \end{bmatrix}
+\end{equation}&lt;/p&gt;
 
-#### Generalized velocities in the global reference frame
-Let&#39;s now compute the time-derivatives:
+&lt;h4 id=&quot;generalized-velocities-in-the-global-reference-frame&quot;&gt;Generalized velocities in the global reference frame&lt;/h4&gt;
+&lt;p&gt;Let’s now compute the time-derivatives:
 \begin{equation} 
-\dot{\mathbf{q}}\_w = \begin{bmatrix} \dot{\bar{x}}\_w \\\\ \dot{\bar{y}}\_w \\\\ \dot{\bar{z}}\_w \\\\ \_w\dot{\mathbf{e}}\_i\end{bmatrix}
-\end{equation}
+\dot{\mathbf{q}}_w = \begin{bmatrix} \dot{\bar{x}}_w \\ \dot{\bar{y}}_w \\ \dot{\bar{z}}_w \\ _w\dot{\mathbf{e}}_i\end{bmatrix}
+\end{equation}&lt;/p&gt;
 
-#### Generalized velocities in another reference frame
-The generalized velocity in \mbox{frame \\(s\\)} is:
+&lt;h4 id=&quot;generalized-velocities-in-another-reference-frame&quot;&gt;Generalized velocities in another reference frame&lt;/h4&gt;
+&lt;p&gt;The generalized velocity in \mbox{frame \(s\)} is:
 \begin{equation}
-\dot{\mathbf{q}}\_s 
-= \begin{bmatrix}\tilde{\mathbf{\omega}}\_s\cdot \ \_s\mathbf{R}\_w\begin{bmatrix}\dot{\bar{x}}\_w \\\\ \dot{\bar{y}}\_w \\\\ \dot{\bar{z}}\_w \end{bmatrix} \\\\ \_s\mathbf{e}\_w \otimes \_w\dot{\mathbf{e}}\_i \end{bmatrix}
+\dot{\mathbf{q}}_s 
+= \begin{bmatrix}\tilde{\mathbf{\omega}}_s\cdot \ _s\mathbf{R}_w\begin{bmatrix}\dot{\bar{x}}_w \\ \dot{\bar{y}}_w \\ \dot{\bar{z}}_w \end{bmatrix} \\ _s\mathbf{e}_w \otimes _w\dot{\mathbf{e}}_i \end{bmatrix}
 \end{equation}
-Here we are assuming that frame \\(s\\) is fixed (and we already know that frame \\(w\\) is fixed, since it is the ``global&#39;&#39; frame of reference), because \\(\mathbf{x}\_w^s\\) disappears upon taking the derivative and \\(\ \_s\mathbf{e}\_w\\) is constant.
+Here we are assuming that frame \(s\) is fixed (and we already know that frame \(w\) is fixed, since it is the ``global’’ frame of reference), because \(\mathbf{x}_w^s\) disappears upon taking the derivative and \(\ _s\mathbf{e}_w\) is constant.&lt;/p&gt;
 
-#### Generalized velocities in a moving reference frame
-What if frame \\(s\\) is _not_ fixed but instead moves relative to frame \\(w\\) with linear velocity \\(\dot{\mathbf{x}}\_w^s\\) and angular velocity \\(\dot{\mathbf{\omega}}\_w^s\\)? Then: 
+&lt;h4 id=&quot;generalized-velocities-in-a-moving-reference-frame&quot;&gt;Generalized velocities in a moving reference frame&lt;/h4&gt;
+&lt;p&gt;What if frame \(s\) is &lt;em&gt;not&lt;/em&gt; fixed but instead moves relative to frame \(w\) with linear velocity \(\dot{\mathbf{x}}_w^s\) and angular velocity \(\dot{\mathbf{\omega}}_w^s\)? Then: 
 \begin{equation}
-\dot{\mathbf{q}}\_s = \begin{bmatrix}\tilde{\mathbf{\omega}}\_s\cdot \ \_s\mathbf{R}\_w \begin{bmatrix}\dot{\bar{x}}\_w \\\\ \dot{\bar{y}}\_w \\\\ \dot{\bar{z}}\_w \end{bmatrix} + \dot{\mathbf{x}}^s\_w  \\\\ \_s\dot{\mathbf{e}}\_w \otimes \_w\mathbf{e}\_i + \_s\dot{\mathbf{e}}\_w \otimes \_w\mathbf{e}\_i \end{bmatrix}
-\end{equation}
+\dot{\mathbf{q}}_s = \begin{bmatrix}\tilde{\mathbf{\omega}}_s\cdot \ _s\mathbf{R}_w \begin{bmatrix}\dot{\bar{x}}_w \\ \dot{\bar{y}}_w \\ \dot{\bar{z}}_w \end{bmatrix} + \dot{\mathbf{x}}^s_w  \\ _s\dot{\mathbf{e}}_w \otimes _w\mathbf{e}_i + _s\dot{\mathbf{e}}_w \otimes _w\mathbf{e}_i \end{bmatrix}
+\end{equation}&lt;/p&gt;
 
-
-&lt;/p&gt;
 </description>
         
-          <description>&lt;p class=&quot;intro&quot;&gt;
+          <description>&lt;p&gt;The primary difficulty when beginning to consider three-dimensional kinematics 
+is due to the significant difference between two-dimensional and three-dimensional orientations. In two-dimensions, orientation can be represented using a single scalar value. In three-dimensions, a plethora of three-dimensional orientations are conceivable, and at least three values are necessary to represent all 3D rotations. We will not consider translation in three dimensions: it is treated exactly as in 2D (with an additional component to represent location along the \(z\) axis, of course).&lt;/p&gt;
 
-&lt;/p&gt;
+&lt;p&gt;We will again use the convention that frame \(w\) indicates a “world frame” and frame \(s\) indicates an alternative frame of reference.&lt;/p&gt;
+
 </description>
         
         <pubDate>Sat, 19 Dec 2015 00:00:00 -0500</pubDate>
@@ -1511,56 +1512,56 @@ in matrix arithmetic and numerical linear algebra that I have found useful.&lt;/
 same dimensionality. Then, addition and subtraction are performed
 elementwise:&lt;/p&gt;
 
-&lt;p&gt;\begin{equation&lt;em&gt;}
+&lt;p&gt;\begin{equation}
 \begin{bmatrix}
-u_1 \&lt;br /&gt;
-u_2 \&lt;br /&gt;
+u_1 \\
+u_2 \\
 u_3 
 \end{bmatrix} + 
 \begin{bmatrix}
-v_1 \&lt;br /&gt;
-v_2 \&lt;br /&gt;
+v_1 \\
+v_2 \\
 v_3
 \end{bmatrix} =
 \begin{bmatrix}
-u_1 + v_1 \&lt;br /&gt;
-u_2 + v_2 \&lt;br /&gt;
+u_1 + v_1 \\
+u_2 + v_2 \\
 u_3 + v_3 
 \end{bmatrix}
-\end{equation&lt;/em&gt;}&lt;/p&gt;
+\end{equation}&lt;/p&gt;
 
-&lt;p&gt;\begin{equation&lt;em&gt;}
+&lt;p&gt;\begin{equation}
 \begin{bmatrix}
-m_{11} &amp;amp; m_{12} &amp;amp; m_{13} \&lt;br /&gt;
-m_{21} &amp;amp; m_{22} &amp;amp; m_{23} \&lt;br /&gt;
+m_{11} &amp;amp; m_{12} &amp;amp; m_{13} \\
+m_{21} &amp;amp; m_{22} &amp;amp; m_{23} \\
 m_{31} &amp;amp; m_{32} &amp;amp; m_{33}
 \end{bmatrix} + 
 \begin{bmatrix}
-n_{11} &amp;amp; n_{12} &amp;amp; n_{13} \&lt;br /&gt;
-n_{21} &amp;amp; n_{22} &amp;amp; n_{23} \&lt;br /&gt;
+n_{11} &amp;amp; n_{12} &amp;amp; n_{13} \\
+n_{21} &amp;amp; n_{22} &amp;amp; n_{23} \\
 n_{31} &amp;amp; n_{32} &amp;amp; n_{33}
 \end{bmatrix} = 
 \begin{bmatrix}
-m_{11} + n_{11} &amp;amp; m_{12} + n_{12} &amp;amp; m_{13} + n_{13} \&lt;br /&gt;
-m_{21} + n_{21} &amp;amp; m_{22} + n_{22} &amp;amp; m_{23} + n_{23} \&lt;br /&gt;
+m_{11} + n_{11} &amp;amp; m_{12} + n_{12} &amp;amp; m_{13} + n_{13} \\
+m_{21} + n_{21} &amp;amp; m_{22} + n_{22} &amp;amp; m_{23} + n_{23} \\
 m_{31} + n_{31} &amp;amp; m_{32} + n_{32} &amp;amp; m_{33} + n_{33}
 \end{bmatrix}
-\end{equation&lt;/em&gt;}&lt;/p&gt;
+\end{equation}&lt;/p&gt;
 
 &lt;h4 id=&quot;matrix-and-vector-scaling&quot;&gt;Matrix and vector scaling&lt;/h4&gt;
 
 &lt;p&gt;Matrix and vectors can be scaled by multiplying every element in the matrix or vector by the scalar, as seen below:&lt;/p&gt;
 
-&lt;p&gt;\begin{align&lt;em&gt;}
+&lt;p&gt;\begin{align}
 \mathbf{M} &amp;amp; \equiv \begin{bmatrix} 
-m_{11} &amp;amp; m_{12} &amp;amp; m_{13} \&lt;br /&gt;
-m_{21} &amp;amp; m_{22} &amp;amp; m_{23} \&lt;br /&gt;
+m_{11} &amp;amp; m_{12} &amp;amp; m_{13} \\
+m_{21} &amp;amp; m_{22} &amp;amp; m_{23} \\
 m_{31} &amp;amp; m_{32} &amp;amp; m_{33} \end{bmatrix} \\ 
 s \mathbf{M} &amp;amp; = \begin{bmatrix}
-s m_{11} &amp;amp; sm_{12} &amp;amp; sm_{13} \&lt;br /&gt;
-s m_{21} &amp;amp; sm_{22} &amp;amp; sm_{23} \&lt;br /&gt;
+s m_{11} &amp;amp; sm_{12} &amp;amp; sm_{13} \\
+s m_{21} &amp;amp; sm_{22} &amp;amp; sm_{23} \\
 s m_{31} &amp;amp; sm_{32} &amp;amp; sm_{33} \end{bmatrix} 
-\end{align&lt;/em&gt;}
+\end{align}
 for \(s \in \mathbb{R}\)&lt;/p&gt;
 
 &lt;h4 id=&quot;special-matrices&quot;&gt;Special matrices&lt;/h4&gt;
@@ -1587,18 +1588,20 @@ For two vectors \(\mathbf{a}, \mathbf{b} \in \mathbb{R}^3\), \(\mathbf{a} \times
 
 &lt;p&gt;The cross product is distributive over addition:&lt;/p&gt;
 
-&lt;p&gt;\begin{equation&lt;em&gt;}
+&lt;p&gt;\begin{equation}
 \mathbf{a} \times (\mathbf{b} + \mathbf{c}) = \mathbf{a} \times \mathbf{b} + \mathbf{a} \times \mathbf{c}
-\end{equation&lt;/em&gt;}&lt;/p&gt;
+\end{equation}&lt;/p&gt;
 
 &lt;h5 id=&quot;computing-the-cross-product&quot;&gt;Computing the cross product&lt;/h5&gt;
 
 &lt;p&gt;For the right handed cross product, 
-&lt;script type=&quot;math/tex&quot;&gt;\mathbf{a} \times \mathbf{b} = \begin{bmatrix}
-a\_2b\_3 - a\_3b\_2 \\\\
-a\_3b\_1 - a\_1b\_3 \\\\
-a\_1b\_2 - a\_2b\_1
-\end{bmatrix}&lt;/script&gt;&lt;/p&gt;
+\begin{equation}
+\mathbf{a} \times \mathbf{b} = \begin{bmatrix}
+a_2b_3 - a_3b_2 \\
+a_3b_1 - a_1b_3 \\
+a_1b_2 - a_2b_1
+\end{bmatrix}
+\end{equation}&lt;/p&gt;
 
 &lt;p&gt;The left handed cross product is just the negation of this vector.&lt;/p&gt;
 
@@ -1606,11 +1609,11 @@ a\_1b\_2 - a\_2b\_1
 
 &lt;p&gt;The inner product operation (also called the &lt;em&gt;dot product&lt;/em&gt;) between two vectors \(\mathbf{a}\) and \(\mathbf{b}\) is written \(\lt \mathbf{a}, \mathbf{b}\gt \), \(\mathbf{a}^{\textsf{T}}\mathbf{b}\), or \(\mathbf{a} \cdot \mathbf{b}\). The inner product is only defined for vectors of equal dimension and consists of the sum of the products of the corresponding elements from the two vectors. An example is given below:&lt;/p&gt;
 
-&lt;p&gt;\begin{align&lt;em&gt;}
-\mathbf{a} &amp;amp; \equiv \begin{bmatrix} a_1 \\ a_2 \\ a_3 \\ a_4 \end{bmatrix} \&lt;br /&gt;
-\mathbf{b} &amp;amp; \equiv \begin{bmatrix} b_1 \\ b_2 \\ b_3 \\ b_4 \end{bmatrix} \&lt;br /&gt;
+&lt;p&gt;\begin{align}
+\mathbf{a} &amp;amp; \equiv \begin{bmatrix} a_1 \\ a_2 \\ a_3 \\ a_4 \end{bmatrix} \\
+\mathbf{b} &amp;amp; \equiv \begin{bmatrix} b_1 \\ b_2 \\ b_3 \\ b_4 \end{bmatrix} \\
 \mathbf{a}^\textsf{T}\mathbf{b} &amp;amp; = a_1 b_1 + a_2 b_2 + a_3 b_3 + a_4 b_4
-\end{align&lt;/em&gt;}&lt;/p&gt;
+\end{align}&lt;/p&gt;
 
 &lt;p&gt;Some properties of the inner product follow, for real vectors \(\mathbf{a}, \mathbf{b}, \mathbf{c}\):&lt;/p&gt;
 
@@ -1627,23 +1630,23 @@ a\_1b\_2 - a\_2b\_1
 &lt;p&gt;Matrix/vector multiplication is identical to multiple inner (dot) product
 operations over the rows of \(\mathbf{A}\). Assume we define matrix \(\mathbf{A}\) as follows:&lt;/p&gt;
 
-&lt;p&gt;\begin{equation&lt;em&gt;}
+&lt;p&gt;\begin{equation}
 \mathbf{A} \equiv \begin{bmatrix} \mathbf{a}_1 \\ \vdots \\ \mathbf{a}_m \end{bmatrix}
-\end{equation&lt;/em&gt;}&lt;/p&gt;
+\end{equation}&lt;/p&gt;
 
 &lt;p&gt;We can then compute the matix vector product \(\mathbf{Av}\) using \(m\) inner products:&lt;/p&gt;
 
-&lt;p&gt;\begin{equation&lt;em&gt;}
+&lt;p&gt;\begin{equation}
 \mathbf{Av} = \begin{bmatrix} \mathbf{a}_1\mathbf{v} \\ \vdots \\ \mathbf{a}_m\mathbf{v} \end{bmatrix}
-\end{equation&lt;/em&gt;}&lt;/p&gt;
+\end{equation}&lt;/p&gt;
 
 &lt;p&gt;As a concrete example, we define:&lt;/p&gt;
 
-&lt;p&gt;\begin{align&lt;em&gt;}
-\mathbf{A} &amp;amp; \equiv \begin{bmatrix} a &amp;amp; b &amp;amp; c \\ d &amp;amp; e &amp;amp; f \end{bmatrix} \&lt;br /&gt;
-\mathbf{v} &amp;amp; \equiv \begin{bmatrix} g \\ h \\ i \end{bmatrix} \&lt;br /&gt;
+&lt;p&gt;\begin{align}
+\mathbf{A} &amp;amp; \equiv \begin{bmatrix} a &amp;amp; b &amp;amp; c \\ d &amp;amp; e &amp;amp; f \end{bmatrix} \\
+\mathbf{v} &amp;amp; \equiv \begin{bmatrix} g \\ h \\ i \end{bmatrix} \\
 \mathbf{Av} &amp;amp; = \begin{bmatrix} ag + bh + ci \\ dg + eh + fi \end{bmatrix}
-\end{align&lt;/em&gt;}&lt;/p&gt;
+\end{align}&lt;/p&gt;
 
 &lt;h4 id=&quot;matrixmatrix-multiplication&quot;&gt;Matrix/matrix multiplication&lt;/h4&gt;
 
@@ -1656,18 +1659,18 @@ over multiple columns:&lt;/p&gt;
 
 &lt;p&gt;As a concrete example:&lt;/p&gt;
 
-&lt;p&gt;\begin{align&lt;em&gt;}
+&lt;p&gt;\begin{align}
 \mathbf{M} &amp;amp; \equiv 
-\begin{bmatrix} a &amp;amp; b \\ c &amp;amp; d \\ e &amp;amp; f \end{bmatrix} \&lt;br /&gt;
-\mathbf{n}_1 &amp;amp; \equiv \begin{bmatrix} g \\ j \end{bmatrix}  \&lt;br /&gt;
-\mathbf{n}_2 &amp;amp; \equiv \begin{bmatrix} h \\ k \end{bmatrix}  \&lt;br /&gt;
-\mathbf{n}_3 &amp;amp; \equiv \begin{bmatrix} i \\ l \end{bmatrix}  \&lt;br /&gt;
-\mathbf{N} &amp;amp; \equiv \begin{bmatrix} \mathbf{n}_1 &amp;amp; \mathbf{n}_2 &amp;amp; \mathbf{n}_3 \end{bmatrix} \&lt;br /&gt;
-\mathbf{Mn}_1 &amp;amp; \equiv \begin{bmatrix} ag + bj \\ cg + dj \\ eg + fj \end{bmatrix} \&lt;br /&gt;
-\mathbf{Mn}_2 &amp;amp; \equiv \begin{bmatrix} ah + bk \\ ch + dk \\ eh + fk \end{bmatrix} \&lt;br /&gt;
-\mathbf{Mn}_3 &amp;amp; \equiv \begin{bmatrix} ai + bl \\ ci + dl \\ ei + fl \end{bmatrix} \&lt;br /&gt;
+\begin{bmatrix} a &amp;amp; b \\ c &amp;amp; d \\ e &amp;amp; f \end{bmatrix} \\
+\mathbf{n}_1 &amp;amp; \equiv \begin{bmatrix} g \\ j \end{bmatrix}  \\
+\mathbf{n}_2 &amp;amp; \equiv \begin{bmatrix} h \\ k \end{bmatrix}  \\
+\mathbf{n}_3 &amp;amp; \equiv \begin{bmatrix} i \\ l \end{bmatrix}  \\
+\mathbf{N} &amp;amp; \equiv \begin{bmatrix} \mathbf{n}_1 &amp;amp; \mathbf{n}_2 &amp;amp; \mathbf{n}_3 \end{bmatrix} \\
+\mathbf{Mn}_1 &amp;amp; \equiv \begin{bmatrix} ag + bj \\ cg + dj \\ eg + fj \end{bmatrix} \\
+\mathbf{Mn}_2 &amp;amp; \equiv \begin{bmatrix} ah + bk \\ ch + dk \\ eh + fk \end{bmatrix} \\
+\mathbf{Mn}_3 &amp;amp; \equiv \begin{bmatrix} ai + bl \\ ci + dl \\ ei + fl \end{bmatrix} \\
 \mathbf{MN} &amp;amp; \equiv \begin{bmatrix} ag+bj &amp;amp; ah+bk &amp;amp; ai+bl \\ cg+dj &amp;amp; ch+dk &amp;amp; ci + dl\\ eg+fj &amp;amp; eh+fk &amp;amp; ei+fl \end{bmatrix}
-\end{align&lt;/em&gt;}&lt;/p&gt;
+\end{align}&lt;/p&gt;
 
 &lt;p&gt;Note that &lt;strong&gt;matrix multiplication is not commutative&lt;/strong&gt;: \(\mathbf{AB} \ne \mathbf{BA}\) (generally), even when the dimensions are compatible.&lt;/p&gt;
 
@@ -1705,7 +1708,7 @@ over multiple columns:&lt;/p&gt;
 &lt;p&gt;The inverse of a matrix \(\mathbf{A}\), written \(\mathbf{A}^{-1}\), is characterized by the following properties:&lt;/p&gt;
 
 &lt;p&gt;\begin{align}
-\mathbf{AA}^{-1} &amp;amp; = \mathbf{I} \&lt;br /&gt;
+\mathbf{AA}^{-1} &amp;amp; = \mathbf{I} \\
 \mathbf{A}^{-1}\mathbf{A} &amp;amp; = \mathbf{I}
 \end{align}&lt;/p&gt;
 
@@ -1835,42 +1838,13 @@ with definite matrices.&lt;/p&gt;
 
 &lt;p&gt;I like to consider matrix factorizations in ascending order of computational expense. Correlated with computational expense is numerical robustness. A list of the factorizations follows:&lt;/p&gt;
 
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;Factorization&lt;/th&gt;
-      &lt;th&gt;Flops&lt;/th&gt;
-      &lt;th&gt;Applicability&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Cholesky factorization&lt;/td&gt;
-      &lt;td&gt;\(n^3/3\)&lt;/td&gt;
-      &lt;td&gt;Positive-definite matrices only&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;LDL\(^\mathsf{T}\) factorization&lt;/td&gt;
-      &lt;td&gt;\(n^3/2 + O(n^2)\)&lt;/td&gt;
-      &lt;td&gt;Symmetric matrices only&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;LU factorization&lt;/td&gt;
-      &lt;td&gt;\(2n^3/3\)&lt;/td&gt;
-      &lt;td&gt;Non-singular matrices (no least squares)&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;QR factorization&lt;/td&gt;
-      &lt;td&gt;\(4n^3/3\)&lt;/td&gt;
-      &lt;td&gt;Singular and non-singular matrices (least squares ok)&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Singular value decomposition&lt;/td&gt;
-      &lt;td&gt;\(8n^3/3\)&lt;/td&gt;
-      &lt;td&gt;Singular and non-singular matrices (least squares ok)&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+&lt;p&gt;Factorization | Flops | Applicability
+—- | —- | —-
+Cholesky factorization | \(n^3/3\) | Positive-definite matrices only
+LDL\(^\mathsf{T}\) factorization | \(n^3/2 + O(n^2)\) | Symmetric matrices only
+LU factorization | \(2n^3/3\) | Non-singular matrices (no least squares)
+QR factorization | \(4n^3/3\) | Singular and non-singular matrices (least squares ok) 
+Singular value decomposition | \(8n^3/3\) | Singular and non-singular matrices (least squares ok)&lt;/p&gt;
 
 &lt;h4 id=&quot;nullspace&quot;&gt;Nullspace&lt;/h4&gt;
 
@@ -1901,9 +1875,9 @@ hierarchical fashion.&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 \nabla f_{\mathbf{x}} \equiv
 \begin{bmatrix}
-\frac{\partial f}{\partial x_1} \&lt;br /&gt;
-\vdots \&lt;br /&gt;
-\frac{\partial f}{\partial x_n} \&lt;br /&gt;
+\frac{\partial f}{\partial x_1} \\
+\vdots \\
+\frac{\partial f}{\partial x_n} \\
 \end{bmatrix}
 \end{equation}&lt;/p&gt;
 
@@ -1913,9 +1887,9 @@ hierarchical fashion.&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 \nabla f_{\mathbf{xx}} \equiv 
 \begin{bmatrix}
-\frac{\partial^2 f}{\partial x_1^2} &amp;amp; \ldots &amp;amp; \frac{\partial^2 f}{\partial x_1 \partial x_n}\&lt;br /&gt;
-\vdots \&lt;br /&gt;
-\frac{\partial^2 f}{\partial x_n \partial x_1} &amp;amp; \ldots &amp;amp; \frac{\partial^2 f}{\partial x_n^2}\&lt;br /&gt;
+\frac{\partial^2 f}{\partial x_1^2} &amp;amp; \ldots &amp;amp; \frac{\partial^2 f}{\partial x_1 \partial x_n}\\
+\vdots \\
+\frac{\partial^2 f}{\partial x_n \partial x_1} &amp;amp; \ldots &amp;amp; \frac{\partial^2 f}{\partial x_n^2}\\
 \end{bmatrix}
 \end{equation}&lt;/p&gt;
 
@@ -1927,12 +1901,12 @@ hierarchical fashion.&lt;/p&gt;
 of each function output dimension taken with respect to the partial derivative of each function input dimension. Let us examine a contrived function, \(f : \mathbb{R}^3 \to \mathbb{R}^2\); \(f(.)\) might represent a vector flow for
 points in three dimensional Cartesian space. The Jacobian of \(f(.)\) is then:&lt;/p&gt;
 
-&lt;p&gt;\begin{equation&lt;em&gt;}
+&lt;p&gt;\begin{equation}
 \frac{\partial f}{\partial \mathbf{x}} = \begin{bmatrix} 
-\frac{\partial f_1}{\partial x_1} &amp;amp; \frac{\partial f_1}{\partial x_2} &amp;amp; \frac{\partial f_1}{\partial x_3} \&lt;br /&gt;
+\frac{\partial f_1}{\partial x_1} &amp;amp; \frac{\partial f_1}{\partial x_2} &amp;amp; \frac{\partial f_1}{\partial x_3} \\
 \frac{\partial f_2}{\partial x_1} &amp;amp; \frac{\partial f_2}{\partial x_2} &amp;amp; \frac{\partial f_2}{\partial x_3} 
 \end{bmatrix} 
-\end{equation&lt;/em&gt;}&lt;/p&gt;
+\end{equation}&lt;/p&gt;
 
 &lt;p&gt;Just like the standard derivative, the Jacobian matrix gives the instantaneous change in \(f(.)\) at \(\mathbf{x}\).&lt;/p&gt;
 
@@ -1958,25 +1932,7 @@ to be multiple (infinite) assignments to \(\mathbf{x}\) that make \(||\mathbf{Ax
 
 &lt;h5 id=&quot;the-moore-penrose-pseudo-inverse&quot;&gt;The Moore-Penrose pseudo-inverse&lt;/h5&gt;
 
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;em&gt;Two&lt;/em&gt; least squares problems become evident: (1) select \(\mathbf{x}\) such that  \(&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt;\mathbf{Ax} - \mathbf{b}&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt;\) is minimized. If \(&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt;\mathbf{Ax} - \mathbf{b}&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt;= 0\), then (2) select the solution that minimizes \(&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt;\mathbf{x}&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt;\). Both solutions can be obtained using the Moore-Penrose pseudo-inverse (which is denoted using the operator \(\ ^+\), which has some of the properties of the inverse (I’ll only list a few below):&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+&lt;p&gt;&lt;em&gt;Two&lt;/em&gt; least squares problems become evident: (1) select \(\mathbf{x}\) such that  \(||\mathbf{Ax} - \mathbf{b}||\) is minimized. If \(||\mathbf{Ax} - \mathbf{b}|| = 0\), then (2) select the solution that minimizes \(||\mathbf{x}||\). Both solutions can be obtained using the Moore-Penrose pseudo-inverse (which is denoted using the operator \(\ ^+\), which has some of the properties of the inverse (I’ll only list a few below):&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;\(\mathbf{A}\mathbf{A}^+ = \mathbf{I}\)&lt;/li&gt;
@@ -2005,10 +1961,10 @@ constitutes a &lt;em&gt;right inverse&lt;/em&gt; (because \(\mathbf{A}\mathbf{A}
 we can also use the singular value decomposition to solve least squares 
 problems.&lt;/p&gt;
 
-&lt;p&gt;Recall that the singular value decomposition of \(\mathbf{A} = \mathbf{U\Sigma}mathbf{V}^{\mathsf{T}}\). \(\mathbf{U}\) and \(\mathbf{V}\) are both orthogonal, which means that \(\mathbf{U}^{-1} = \mathbf{U}^{\mathsf{T}}\) and \(\mathbf{V}^{-1} = \mathbf{V}^{\mathsf{T}}\). From the identity above, \(\mathbf{A}^{-1} = \mathbf{V}\Sigma^{-1}\mathbf{U}^{\mathsf{T}}\). For non-square \(\mathbf{A}\), \(\mathbf{A}^+ = \mathbf{V}\mathbf{\Sigma}^+{\mathbf{U}}^\mathsf{T}\), where \(\Sigma^+\) will be defined as follows:&lt;/p&gt;
+&lt;p&gt;Recall that the singular value decomposition of \(\mathbf{A} = \mathbf{U\Sigma}\mathbf{V}^{\mathsf{T}}\). \(\mathbf{U}\) and \(\mathbf{V}\) are both orthogonal, which means that \(\mathbf{U}^{-1} = \mathbf{U}^{\mathsf{T}}\) and \(\mathbf{V}^{-1} = \mathbf{V}^{\mathsf{T}}\). From the identity above, \(\mathbf{A}^{-1} = \mathbf{V}\Sigma^{-1}\mathbf{U}^{\mathsf{T}}\). For non-square \(\mathbf{A}\), \(\mathbf{A}^+ = \mathbf{V}\mathbf{\Sigma}^+{\mathbf{U}}^\mathsf{T}\), where \(\Sigma^+\) will be defined as follows:&lt;/p&gt;
 
 &lt;p&gt;\begin{equation}
-\Sigma_{ij}^+ \leftarrow \begin{cases}\frac{1}{\Sigma_{ij}} &amp;amp; \textrm{if } i = j, \&lt;br /&gt;
+\Sigma_{ij}^+ \leftarrow \begin{cases}\frac{1}{\Sigma_{ij}} &amp;amp; \textrm{if } i = j, \\
 0 &amp;amp; \textrm{if } i \ne j. \end{cases}
 \end{equation}&lt;/p&gt;
 
@@ -2027,7 +1983,7 @@ robustness.&lt;/p&gt;
 &lt;p&gt;The formula for computing \(\mathbf{\Sigma}^+\) can be updated for a numerically robust solution:&lt;/p&gt;
 
 &lt;p&gt;\begin{equation}
-\Sigma_{ij}^+ \leftarrow \begin{cases}\frac{1}{\Sigma_{ij}} &amp;amp; \textrm{if } i = j \textrm{ and } \Sigma_{ij} &amp;gt; \epsilon, \&lt;br /&gt;
+\Sigma_{ij}^+ \leftarrow \begin{cases}\frac{1}{\Sigma_{ij}} &amp;amp; \textrm{if } i = j \textrm{ and } \Sigma_{ij} &amp;gt; \epsilon, \\
 0 &amp;amp; \textrm{if } i \ne j \textrm{ or } \Sigma_{ij} \le \epsilon. \end{cases}
 \end{equation}&lt;/p&gt;
 
@@ -2984,45 +2940,11 @@ process converges to an answer.&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;\(\mathbf{q} \leftarrow \mathbf{q}_{\textrm{init}}\)&lt;/li&gt;
-  &lt;li&gt;Compute \(\Delta\mathbf{x} = \mathbf{x}_{\textrm{des}} - f(\mathbf{q}\))&lt;/li&gt;
-  &lt;li&gt;
-    &lt;table&gt;
-      &lt;tbody&gt;
-        &lt;tr&gt;
-          &lt;td&gt;If \(&lt;/td&gt;
-          &lt;td&gt; &lt;/td&gt;
-          &lt;td&gt;\Delta \mathbf{x}&lt;/td&gt;
-          &lt;td&gt; &lt;/td&gt;
-          &lt;td&gt;&amp;lt; \epsilon \) &lt;strong&gt;return&lt;/strong&gt; &lt;em&gt;success&lt;/em&gt;&lt;/td&gt;
-        &lt;/tr&gt;
-      &lt;/tbody&gt;
-    &lt;/table&gt;
-  &lt;/li&gt;
+  &lt;li&gt;Compute \(\Delta\mathbf{x} = \mathbf{x}_{\textrm{des}} - f(\mathbf{q})\)&lt;/li&gt;
+  &lt;li&gt;If \(||\Delta \mathbf{x}|| \le \epsilon \) &lt;strong&gt;return&lt;/strong&gt; &lt;em&gt;success&lt;/em&gt;&lt;/li&gt;
   &lt;li&gt;Compute Jacobian (\(\mathbf{J}\)), evaluated at \(\mathbf{q}\)&lt;/li&gt;
-  &lt;li&gt;
-    &lt;table&gt;
-      &lt;tbody&gt;
-        &lt;tr&gt;
-          &lt;td&gt;Solve least squares problem, \(\min_{\mathbf{q}}&lt;/td&gt;
-          &lt;td&gt; &lt;/td&gt;
-          &lt;td&gt;\mathbf{J}\Delta \mathbf{q} - \Delta \mathbf{x}&lt;/td&gt;
-          &lt;td&gt; &lt;/td&gt;
-          &lt;td&gt;\)&lt;/td&gt;
-        &lt;/tr&gt;
-      &lt;/tbody&gt;
-    &lt;/table&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;table&gt;
-      &lt;tbody&gt;
-        &lt;tr&gt;
-          &lt;td&gt;Determine \(t \le 1\) such that \(&lt;/td&gt;
-          &lt;td&gt; &lt;/td&gt;
-          &lt;td&gt;\mathbf{x}_{\textrm{des}} - \mathbf{f}(\mathbf{q + t\Delta \mathbf{q}}\)) is minimized&lt;/td&gt;
-        &lt;/tr&gt;
-      &lt;/tbody&gt;
-    &lt;/table&gt;
-  &lt;/li&gt;
+  &lt;li&gt;Solve least squares problem, \(\min_{\mathbf{q}} ||\mathbf{J}\Delta \mathbf{q} - \Delta \mathbf{x}||\)&lt;/li&gt;
+  &lt;li&gt;Determine \(t \le 1\) such that \(||\mathbf{x}_{\textrm{des}} - \mathbf{f}(\mathbf{q + t\Delta \mathbf{q}})||\) is minimized&lt;/li&gt;
   &lt;li&gt;Update \(\mathbf{q}\): \(\mathbf{q} \leftarrow \mathbf{q} + t\Delta \mathbf{q}\)&lt;/li&gt;
   &lt;li&gt;Repeat (2) until maximum iterations exceeded&lt;/li&gt;
   &lt;li&gt;&lt;strong&gt;return&lt;/strong&gt; &lt;em&gt;failure&lt;/em&gt;&lt;/li&gt;
@@ -3044,10 +2966,10 @@ approach: \(\mathbf{A}^\mathsf{T}\mathbf{b}\) does not generally yield a
 &lt;em&gt;descent direction&lt;/em&gt; (a change in \(\mathbf{x}\)) that reduces \(||\mathbf{Ax} - \mathbf{b}||\). The Jacobian transpose method is able to leverage rigid body dynamics’ duality between force and
 velocity:&lt;/p&gt;
 
-&lt;p&gt;\begin{align&lt;em&gt;}
-\mathbf{J}\dot{\mathbf{q}} &amp;amp; = \dot{\mathbf{x}} \&lt;br /&gt;
+&lt;p&gt;\begin{align}
+\mathbf{J}\dot{\mathbf{q}} &amp;amp; = \dot{\mathbf{x}} \\
 \mathbf{J}^\mathsf{T}\mathbf{f} &amp;amp; = \mathbf{\tau}
-\end{align&lt;/em&gt;}&lt;/p&gt;
+\end{align}&lt;/p&gt;
 
 &lt;p&gt;The Jacobian transpose approach functions as if there were a spring attached 
 between frame \(p\) and \(\mathbf{x}_{\textrm{des}}\). Proof
@@ -3055,17 +2977,7 @@ that the Jacobian transpose approach yields a descent direction follows.&lt;/p&g
 
 &lt;p&gt;&lt;strong&gt;Theorem&lt;/strong&gt;: \((\mathbf{JJ}^\mathsf{T}\Delta \mathbf{x})^\mathsf{T}\Delta \mathbf{x} \ge 0\)&lt;/p&gt;
 
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;em&gt;Proof&lt;/em&gt;: \((\mathbf{JJ}^\mathsf{T}\Delta \mathbf{x})^\mathsf{T}\Delta \mathbf{x} = (\mathbf{J}^\textsf{T}\Delta \mathbf{x})^\mathsf{T}(\mathbf{J}^\textsf{T}\Delta \mathbf{x}) =&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt;\mathbf{J}^\textsf{T}\Delta \mathbf{x}&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt;^2\)&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+&lt;p&gt;&lt;em&gt;Proof&lt;/em&gt;: \((\mathbf{JJ}^\mathsf{T}\Delta \mathbf{x})^\mathsf{T}\Delta \mathbf{x} = (\mathbf{J}^\textsf{T}\Delta \mathbf{x})^\mathsf{T}(\mathbf{J}^\textsf{T}\Delta \mathbf{x}) = ||\mathbf{J}^\textsf{T}\Delta \mathbf{x}||^2\)&lt;/p&gt;
 
 &lt;p&gt;Properties of the Jacobian transpose method:&lt;/p&gt;
 
@@ -3079,7 +2991,7 @@ that the Jacobian transpose approach yields a descent direction follows.&lt;/p&g
 &lt;p&gt;Alternatively, we can use the right pseudo inverse to solve the least squares problem.&lt;/p&gt;
 
 &lt;p&gt;\begin{align}
-\Delta \mathbf{q} &amp;amp; = \mathbf{J}^+\Delta \mathbf{x} \&lt;br /&gt;
+\Delta \mathbf{q} &amp;amp; = \mathbf{J}^+\Delta \mathbf{x} \\
  &amp;amp; = \mathbf{J}^\mathsf{T}(\mathbf{JJ}^\mathsf{T})^{-1}\Delta \mathbf{x}
 \end{align}&lt;/p&gt;
 
@@ -3119,17 +3031,7 @@ solution to \(||\mathbf{J}\Delta \mathbf{q} - \Delta \mathbf{x}||\), the nullspa
 \mathbf{R} \equiv (\mathbf{I} - \mathbf{J}^+\mathbf{J})
 \end{equation}&lt;/p&gt;
 
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;If \(\Delta \mathbf{q}\) minimizes the residual \(&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt;\mathbf{J\Delta q} = \mathbf{\Delta x}&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt;\), then \(\mathbf{\Delta q} + \mathbf{Ry}\), where \(\mathbf{R} \in \mathbb{R}^{n \times m}, \mathbf{y} \in \mathbb{R}^m\) also minimizes the residual.&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+&lt;p&gt;If \(\Delta \mathbf{q}\) minimizes the residual \(||\mathbf{J\Delta q} = \mathbf{\Delta x}||\), then \(\mathbf{\Delta q} + \mathbf{Ry}\), where \(\mathbf{R} \in \mathbb{R}^{n \times m}, \mathbf{y} \in \mathbb{R}^m\) also minimizes the residual.&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Proof&lt;/em&gt;:&lt;/p&gt;
 
@@ -3145,19 +3047,7 @@ solution to \(||\mathbf{J}\Delta \mathbf{q} - \Delta \mathbf{x}||\), the nullspa
 &lt;ul&gt;
   &lt;li&gt;Maximizing a manipulability measure: \(g(\mathbf{q}) \equiv \sqrt{\textrm{det}(\mathbf{J(q)J}^\mathsf{T}(\mathbf{q})}\). Moves the robot away from singular configurations.&lt;/li&gt;
   &lt;li&gt;Maximizing distance from joint limits: \(g(\mathbf{q}) \equiv \sum_{i=1}^n (q^{i^u} - q^i)^2 + (q^i - q^{i^l})^2\)&lt;/li&gt;
-  &lt;li&gt;
-    &lt;table&gt;
-      &lt;tbody&gt;
-        &lt;tr&gt;
-          &lt;td&gt;Maximizing distance to an objstacle: \(g(\mathbf{q}) \equiv \min_{\mathbf{p}, \mathbf{o}}&lt;/td&gt;
-          &lt;td&gt; &lt;/td&gt;
-          &lt;td&gt;\mathbf{p}(\mathbf{q}) - \mathbf{o}&lt;/td&gt;
-          &lt;td&gt; &lt;/td&gt;
-          &lt;td&gt;\)&lt;/td&gt;
-        &lt;/tr&gt;
-      &lt;/tbody&gt;
-    &lt;/table&gt;
-  &lt;/li&gt;
+  &lt;li&gt;Maximizing distance to an objstacle: \(g(\mathbf{q}) \equiv \min_{\mathbf{p}, \mathbf{o}} ||\mathbf{p}(\mathbf{q}) - \mathbf{o}||\)&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Finally, satisfying a hierarchy of task goals is possible using multiple nullspace projections.&lt;/p&gt;
@@ -3191,8 +3081,8 @@ first order approximation and lack of re-orthogonalization mean that it
 generally will not be. So, to get \(\omega\), we use the skew-symmetric form of \(\mathbf{\omega} \times\) (again, &lt;a href=&quot;../poses3&quot;&gt;as you should recall&lt;/a&gt;) resulting in:
 \begin{equation}
 \Delta \mathbf{x} = \frac{1}{2} \begin{bmatrix}
-\tilde{\omega}_{32} - \tilde{\omega}_{23} \&lt;br /&gt;
-\tilde{\omega}_{13} - \tilde{\omega}_{31} \&lt;br /&gt;
+\tilde{\omega}_{32} - \tilde{\omega}_{23} \\
+\tilde{\omega}_{13} - \tilde{\omega}_{31} \\
 \tilde{\omega}_{21} - \tilde{\omega}_{12}
 \end{bmatrix}
 \end{equation}&lt;/p&gt;
@@ -3288,7 +3178,7 @@ for the Jacobian matrix that we compute below is the global reference frame.&lt;
 
 &lt;p&gt;\begin{equation}
 \begin{bmatrix}
-j_{i_2} - p^o_2\&lt;br /&gt;
+j_{i_2} - p^o_2\\
 p^o_1 - j_{i_1}
 \end{bmatrix}
 \end{equation}&lt;/p&gt;
@@ -3375,11 +3265,11 @@ in the equation below:&lt;/p&gt;
 
 &lt;p&gt;\begin{equation}
 \begin{bmatrix}
-\dot{\overrightarrow{\mathbf{x}}} \&lt;br /&gt;
+\dot{\overrightarrow{\mathbf{x}}} \\
 \mathbf{\omega}
 \end{bmatrix} = 
 \begin{bmatrix}
-\mathbf{J}_{\overrightarrow{\mathbf{x}}} \&lt;br /&gt;
+\mathbf{J}_{\overrightarrow{\mathbf{x}}} \\
 \mathbf{J}_{\mathbf{\omega}}
 \end{bmatrix}
 \dot{\mathbf{q}}
@@ -3407,8 +3297,8 @@ same entries in \(\dot{\mathbf{q}}\).&lt;/p&gt;
 &lt;p&gt;Finally, we also have to determine the form of the Jacobian that we want: I’ll say that we want a \(3 \times 2\) Jacobian matrix so that \(\dot{\mathbf{x}}\) corresponds to:
 \begin{equation}
 \begin{bmatrix}
-\dot{x}\&lt;br /&gt;
-\dot{y}\&lt;br /&gt;
+\dot{x}\\
+\dot{y}\\
 \dot{\theta}
 \end{bmatrix}
 \end{equation}&lt;/p&gt;
@@ -3421,32 +3311,32 @@ is:&lt;/p&gt;
 &lt;p&gt;\begin{align}
 _w\mathbf{T}_1 \cdot\ _1\mathbf{T}_{1’} = 
 \begin{bmatrix} 
-c_1 &amp;amp; -s_1 &amp;amp; 0 \&lt;br /&gt;
-s_1 &amp;amp; c_1 &amp;amp; 0 \&lt;br /&gt;
+c_1 &amp;amp; -s_1 &amp;amp; 0 \\
+s_1 &amp;amp; c_1 &amp;amp; 0 \\
 0 &amp;amp; 0 &amp;amp; 1
 \end{bmatrix} \cdot
 \begin{bmatrix} 
-1 &amp;amp; 0 &amp;amp; \ell_1 \&lt;br /&gt;
-0 &amp;amp; 1 &amp;amp; 0 \&lt;br /&gt;
+1 &amp;amp; 0 &amp;amp; \ell_1 \\
+0 &amp;amp; 1 &amp;amp; 0 \\
 0 &amp;amp; 0 &amp;amp; 1
 \end{bmatrix} = 
 \begin{bmatrix} 
-c_1 &amp;amp; -s_1 &amp;amp; l_1 c_1 \&lt;br /&gt;
-s_1 &amp;amp; c_1 &amp;amp; l_1 s_1 \&lt;br /&gt;
+c_1 &amp;amp; -s_1 &amp;amp; l_1 c_1 \\
+s_1 &amp;amp; c_1 &amp;amp; l_1 s_1 \\
 0 &amp;amp; 0 &amp;amp; 1
 \end{bmatrix}
 \end{align}&lt;/p&gt;
 
 &lt;p&gt;Summarizing:
 \begin{align}
-\mathbf{j}_1 &amp;amp; = \begin{bmatrix} 0 \\ 0 \end{bmatrix} \&lt;br /&gt;
+\mathbf{j}_1 &amp;amp; = \begin{bmatrix} 0 \\ 0 \end{bmatrix} \\
 \mathbf{j}_2 &amp;amp; = \begin{bmatrix} l_1 c_1 \\ l_1 s_1 \end{bmatrix}
 \end{align}&lt;/p&gt;
 
 &lt;p&gt;\begin{equation}
 \begin{bmatrix}
--(l_1 s_1 + l_2 s_{1+2}) &amp;amp; -l_2 s_{12}  \&lt;br /&gt;
-l_1 c_1 + l_2 c_{1+2} &amp;amp; l_2 c_{12} \&lt;br /&gt;
+-(l_1 s_1 + l_2 s_{1+2}) &amp;amp; -l_2 s_{12}  \\
+l_1 c_1 + l_2 c_{1+2} &amp;amp; l_2 c_{12} \\
 1 &amp;amp; 1
 \end{bmatrix}
 \end{equation}&lt;/p&gt;
@@ -3454,11 +3344,11 @@ l_1 c_1 + l_2 c_{1+2} &amp;amp; l_2 c_{12} \&lt;br /&gt;
 &lt;p&gt;Note that this is equivalent to the 3D Jacobian:
 \begin{equation}
 \begin{bmatrix}
--(l_1 s_1 + l_2 s_{1+2}) &amp;amp; -l_2 s_{12}  \&lt;br /&gt;
-l_1 c_1 + l_2 c_{1+2} &amp;amp; l_2 c_{12} \&lt;br /&gt;
-0 &amp;amp; 0 \&lt;br /&gt;
-0 &amp;amp; 0 \&lt;br /&gt;
-0 &amp;amp; 0 \&lt;br /&gt;
+-(l_1 s_1 + l_2 s_{1+2}) &amp;amp; -l_2 s_{12}  \\
+l_1 c_1 + l_2 c_{1+2} &amp;amp; l_2 c_{12} \\
+0 &amp;amp; 0 \\
+0 &amp;amp; 0 \\
+0 &amp;amp; 0 \\
 1 &amp;amp; 1
 \end{bmatrix}
 \end{equation}&lt;/p&gt;
@@ -3559,10 +3449,10 @@ Rather than trying to pose paths and velocity profiles, we can start by
 stating the constraints- position and velocity- that should be satisfied at each endpoint:&lt;/p&gt;
 
 &lt;p&gt;\begin{align}
-\tau(t_0) &amp;amp; = \theta_0 \&lt;br /&gt;
-\tau(t_f) &amp;amp; = \theta_f \&lt;br /&gt;
-\dot{\tau(t_0)} &amp;amp; = \dot{\theta_0} \&lt;br /&gt;
-\dot{\tau(t_f)} &amp;amp; = \dot{\theta_f} \&lt;br /&gt;
+\tau(t_0) &amp;amp; = \theta_0 \\
+\tau(t_f) &amp;amp; = \theta_f \\
+\dot{\tau(t_0)} &amp;amp; = \dot{\theta_0} \\
+\dot{\tau(t_f)} &amp;amp; = \dot{\theta_f} \\
 \end{align}&lt;/p&gt;
 
 &lt;p&gt;This case only considers the path that a single joint follows over time.
@@ -3605,9 +3495,9 @@ are independent, which they are).&lt;/p&gt;
 &lt;p&gt;Evaluating the cubic polynomial and its derivative at \(t_0\) and \(t_f\), we now formulate the system of linear equations, solving for the &lt;em&gt;a&lt;/em&gt; parameters:&lt;/p&gt;
 
 &lt;p&gt;\begin{align}
-a_3t_0^3 + a_2t_0^2 + a_1t_0 + a_0 &amp;amp; = \theta_0 \&lt;br /&gt;
-a_3t_f^3 + a_2t_f^2 + a_1t_f + a_0 &amp;amp; = \theta_f \&lt;br /&gt;
-3a_3t_0^2 + 2a_2t_0 + a_1 &amp;amp; = \dot{\theta_0} \&lt;br /&gt;
+a_3t_0^3 + a_2t_0^2 + a_1t_0 + a_0 &amp;amp; = \theta_0 \\
+a_3t_f^3 + a_2t_f^2 + a_1t_f + a_0 &amp;amp; = \theta_f \\
+3a_3t_0^2 + 2a_2t_0 + a_1 &amp;amp; = \dot{\theta_0} \\
 3a_3t_2^2 + 2a_2t_f + a_1 &amp;amp; = \dot{\theta_f}
 \end{align}&lt;/p&gt;
 
@@ -3615,21 +3505,21 @@ a_3t_f^3 + a_2t_f^2 + a_1t_f + a_0 &amp;amp; = \theta_f \&lt;br /&gt;
 
 &lt;p&gt;\begin{equation}
 \begin{bmatrix}
-t_0^3 &amp;amp; t_0^2 &amp;amp; t_0 &amp;amp; 1 \&lt;br /&gt;
-t_f^3 &amp;amp; t_f^2 &amp;amp; t_f &amp;amp; 1 \&lt;br /&gt;
-3t_0^2 &amp;amp; 2t_0 &amp;amp; 1 &amp;amp; 0 \&lt;br /&gt;
+t_0^3 &amp;amp; t_0^2 &amp;amp; t_0 &amp;amp; 1 \\
+t_f^3 &amp;amp; t_f^2 &amp;amp; t_f &amp;amp; 1 \\
+3t_0^2 &amp;amp; 2t_0 &amp;amp; 1 &amp;amp; 0 \\
 3t_f^2 &amp;amp; 2t_f &amp;amp; 1 &amp;amp; 0
 \end{bmatrix}
 \begin{bmatrix}
-a_3 \&lt;br /&gt;
-a_2 \&lt;br /&gt;
-a_1 \&lt;br /&gt;
+a_3 \\
+a_2 \\
+a_1 \\
 a_0 
 \end{bmatrix} =
 \begin{bmatrix}
-\theta_0 \&lt;br /&gt;
-\theta_f \&lt;br /&gt;
-\dot{\theta}_0 \&lt;br /&gt;
+\theta_0 \\
+\theta_f \\
+\dot{\theta}_0 \\
 \dot{\theta}_f
 \end{bmatrix}
 \end{equation}&lt;/p&gt;
@@ -3650,11 +3540,11 @@ higher order polynomial. A quintic polynomial:&lt;/p&gt;
 movement. Again, setting this up as a system of linear equations, and solving for &lt;em&gt;a&lt;/em&gt; params:&lt;/p&gt;
 
 &lt;p&gt;\begin{align}
-a_5t_0^5 + a_4t_0^4 + a_3t_0^3 + a_2t^2 + a_1t + a_0 &amp;amp; = \theta_0 \&lt;br /&gt;
-a_5t_f^5 + a_4t_f^4 + a_3t_f^3 + a_2t^2 + a_1t + a_0 &amp;amp; = \theta_f \&lt;br /&gt;
-5a_5t_0^4 + 4a_4t_0^3 + 3a_3t_0^2 + 2a_2t_0 + a_1 &amp;amp; = \dot{\theta_0} \&lt;br /&gt;
-5a_5t_0^4 + 4a_4t_f^3 + 3a_3t_2^2 + 2a_2t_f + a_1 &amp;amp; = \dot{\theta_f} \&lt;br /&gt;
-20a_5t_0^3 + 12a_4t_0^2 + 6a_3t_0 + 2a_2 = \ddot{\theta_0} \&lt;br /&gt;
+a_5t_0^5 + a_4t_0^4 + a_3t_0^3 + a_2t^2 + a_1t + a_0 &amp;amp; = \theta_0 \\
+a_5t_f^5 + a_4t_f^4 + a_3t_f^3 + a_2t^2 + a_1t + a_0 &amp;amp; = \theta_f \\
+5a_5t_0^4 + 4a_4t_0^3 + 3a_3t_0^2 + 2a_2t_0 + a_1 &amp;amp; = \dot{\theta_0} \\
+5a_5t_0^4 + 4a_4t_f^3 + 3a_3t_2^2 + 2a_2t_f + a_1 &amp;amp; = \dot{\theta_f} \\
+20a_5t_0^3 + 12a_4t_0^2 + 6a_3t_0 + 2a_2 = \ddot{\theta_0} \\
 20a_5t_0^3 + 12a_4t_f^2 + 6a_3t_2 + 2a_2 = \ddot{\theta_f}
 \end{align}&lt;/p&gt;
 
@@ -3662,27 +3552,27 @@ a_5t_f^5 + a_4t_f^4 + a_3t_f^3 + a_2t^2 + a_1t + a_0 &amp;amp; = \theta_f \&lt;b
 
 &lt;p&gt;\begin{equation}
 \begin{bmatrix}
-t_0^5 &amp;amp; t_0^4 &amp;amp; t_0^3 &amp;amp; t_0^2 &amp;amp; t_0 &amp;amp; 1 \&lt;br /&gt;
-t_f^5 &amp;amp; t_f^4 &amp;amp; t_f^3 &amp;amp; t_f^2 &amp;amp; t_f &amp;amp; 1 \&lt;br /&gt;
-5t_0^4 &amp;amp; 4t_0^3 &amp;amp; 3t_0^2 &amp;amp; 2t_0 &amp;amp; 1 &amp;amp; 0 \&lt;br /&gt;
-5t_f^4 &amp;amp; 4t_f^3 &amp;amp; 3t_f^2 &amp;amp; 2t_f &amp;amp; 1 &amp;amp; 0 \&lt;br /&gt;
-20t_0^3 &amp;amp; 12t_0^2 &amp;amp; 6t_0 &amp;amp; 2 &amp;amp; 0 &amp;amp; 0 \&lt;br /&gt;
+t_0^5 &amp;amp; t_0^4 &amp;amp; t_0^3 &amp;amp; t_0^2 &amp;amp; t_0 &amp;amp; 1 \\
+t_f^5 &amp;amp; t_f^4 &amp;amp; t_f^3 &amp;amp; t_f^2 &amp;amp; t_f &amp;amp; 1 \\
+5t_0^4 &amp;amp; 4t_0^3 &amp;amp; 3t_0^2 &amp;amp; 2t_0 &amp;amp; 1 &amp;amp; 0 \\
+5t_f^4 &amp;amp; 4t_f^3 &amp;amp; 3t_f^2 &amp;amp; 2t_f &amp;amp; 1 &amp;amp; 0 \\
+20t_0^3 &amp;amp; 12t_0^2 &amp;amp; 6t_0 &amp;amp; 2 &amp;amp; 0 &amp;amp; 0 \\
 20t_f^3 &amp;amp; 12t_f^2 &amp;amp; 6t_f &amp;amp; 2 &amp;amp; 0 &amp;amp; 0 
 \end{bmatrix}
 \begin{bmatrix}
-a_5 \&lt;br /&gt;
-a_4 \&lt;br /&gt;
-a_3 \&lt;br /&gt;
-a_2 \&lt;br /&gt;
-a_1 \&lt;br /&gt;
+a_5 \\
+a_4 \\
+a_3 \\
+a_2 \\
+a_1 \\
 a_0 
 \end{bmatrix} =
 \begin{bmatrix}
-\theta_0 \&lt;br /&gt;
-\theta_f \&lt;br /&gt;
-\dot{\theta}_0 \&lt;br /&gt;
-\dot{\theta}_f \&lt;br /&gt;
-\ddot{\theta}_0 \&lt;br /&gt;
+\theta_0 \\
+\theta_f \\
+\dot{\theta}_0 \\
+\dot{\theta}_f \\
+\ddot{\theta}_0 \\
 \ddot{\theta}_f
 \end{bmatrix}
 \end{equation}&lt;/p&gt;
@@ -3747,8 +3637,6 @@ we would not have any control over the kind of solution that would result.&lt;/p
   &lt;li&gt;Set zero velocity at the intermediate point. This would give two additional equations.&lt;/li&gt;
   &lt;li&gt;Make velocities and acccelerations equal at the intermediate point. This would also give two additional equations.&lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;p&gt;TODO: ensure that student knows how to evaluate the spline / feed the value into the controller&lt;/p&gt;
 
 &lt;h3 id=&quot;multiple-intermediate-points-with-cubic-splines&quot;&gt;Multiple intermediate points with cubic splines&lt;/h3&gt;
 
@@ -3854,27 +3742,6 @@ robots where the environment is controlled and the execution speed can be
 timed to ensure that deviation from the trajectory will be small. For
 autonomous robots, two problems can arise as the robot deviates from the 
 planned trajectory.&lt;/p&gt;
-
-&lt;p&gt;First, as the deviation becomes large, the plan becomes less viable. The
-mismatch between the controller and the plan’s d&lt;/p&gt;
-
-&lt;p&gt;The second problem will occur as the robot determines that it needs to
-replan as the plan is executing. The robot’s velocity will be changing as
-the replanning is occuring. (replanning needs to occur w/in a single
-control cycle)
-- replanning&lt;/p&gt;
-
-&lt;p&gt;TODO: make sure we point out how it can be difficult to ensure that we start executing one trajectory right after another to use velocity-level constraints (re-planning)
-TODO: talk about very, very small timespans&lt;/p&gt;
-
-&lt;h2 id=&quot;further-reading&quot;&gt;Further reading&lt;/h2&gt;
-
-&lt;p&gt;TODO: fill these in&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Trajectory optimization. Numerical methods. &lt;a href=&quot;http://galileo.phys.virginia.edu/classes/321.jvn.fall02/var_meth.pdf&quot;&gt;Dido’s Problem&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Trajectory scaling&lt;/li&gt;
-&lt;/ul&gt;
 
 </description>
         

@@ -57,10 +57,10 @@ Rather than trying to pose paths and velocity profiles, we can start by
 stating the constraints- position and velocity- that should be satisfied at each endpoint: 
 
 \begin{align}
-\tau(t\_0) & = \theta\_0 \\\\
-\tau(t\_f) & = \theta\_f \\\\
-\dot{\tau(t\_0)} & = \dot{\theta\_0} \\\\
-\dot{\tau(t\_f)} & = \dot{\theta\_f} \\\\
+\tau(t\_0) & = \theta\_0 \\\
+\tau(t\_f) & = \theta\_f \\\
+\dot{\tau(t\_0)} & = \dot{\theta\_0} \\\
+\dot{\tau(t\_f)} & = \dot{\theta\_f} \\\
 \end{align}
 
 This case only considers the path that a single joint follows over time.
@@ -98,9 +98,9 @@ In other words, the cubic polynomial satisfies our smoothness requirement and sa
 Evaluating the cubic polynomial and its derivative at \\(t\_0\\) and \\(t\_f\\), we now formulate the system of linear equations, solving for the _a_ parameters:
 
 \begin{align}
-a\_3t\_0^3 + a\_2t\_0^2 + a\_1t\_0 + a\_0 & = \theta\_0 \\\\
-a\_3t\_f^3 + a\_2t\_f^2 + a\_1t\_f + a\_0 & = \theta\_f \\\\
-3a\_3t\_0^2 + 2a\_2t\_0 + a\_1 & = \dot{\theta\_0} \\\\
+a\_3t\_0^3 + a\_2t\_0^2 + a\_1t\_0 + a\_0 & = \theta\_0 \\\
+a\_3t\_f^3 + a\_2t\_f^2 + a\_1t\_f + a\_0 & = \theta\_f \\\
+3a\_3t\_0^2 + 2a\_2t\_0 + a\_1 & = \dot{\theta\_0} \\\
 3a\_3t\_2^2 + 2a\_2t\_f + a\_1 & = \dot{\theta\_f}
 \end{align}
 
@@ -108,21 +108,21 @@ or in matrix form, showing the \\(a\_i\\) variables to solve for:
 
 \begin{equation}
 \begin{bmatrix}
-t\_0^3 & t\_0^2 & t\_0 & 1 \\\\
-t\_f^3 & t\_f^2 & t\_f & 1 \\\\
-3t\_0^2 & 2t\_0 & 1 & 0 \\\\
+t\_0^3 & t\_0^2 & t\_0 & 1 \\\
+t\_f^3 & t\_f^2 & t\_f & 1 \\\
+3t\_0^2 & 2t\_0 & 1 & 0 \\\
 3t\_f^2 & 2t\_f & 1 & 0
 \end{bmatrix}
 \begin{bmatrix}
-a\_3 \\\\
-a\_2 \\\\
-a\_1 \\\\
+a\_3 \\\
+a\_2 \\\
+a\_1 \\\
 a\_0 
 \end{bmatrix} =
 \begin{bmatrix}
-\theta\_0 \\\\
-\theta\_f \\\\
-\dot{\theta}\_0 \\\\
+\theta\_0 \\\
+\theta\_f \\\
+\dot{\theta}\_0 \\\
 \dot{\theta}\_f
 \end{bmatrix}
 \end{equation}
@@ -143,11 +143,11 @@ will permit constraining acceleration at the beginning and end of the
 movement. Again, setting this up as a system of linear equations, and solving for _a_ params:
 
 \begin{align}
-a\_5t\_0^5 + a\_4t\_0^4 + a\_3t\_0^3 + a\_2t^2 + a\_1t + a\_0 & = \theta\_0 \\\\
-a\_5t\_f^5 + a\_4t\_f^4 + a\_3t\_f^3 + a\_2t^2 + a\_1t + a\_0 & = \theta\_f \\\\
-5a\_5t\_0^4 + 4a\_4t\_0^3 + 3a\_3t\_0^2 + 2a\_2t\_0 + a\_1 & = \dot{\theta\_0} \\\\
-5a\_5t\_0^4 + 4a\_4t\_f^3 + 3a\_3t\_2^2 + 2a\_2t\_f + a\_1 & = \dot{\theta\_f} \\\\
-20a\_5t\_0^3 + 12a\_4t\_0^2 + 6a\_3t\_0 + 2a\_2 = \ddot{\theta\_0} \\\\
+a\_5t\_0^5 + a\_4t\_0^4 + a\_3t\_0^3 + a\_2t^2 + a\_1t + a\_0 & = \theta\_0 \\\
+a\_5t\_f^5 + a\_4t\_f^4 + a\_3t\_f^3 + a\_2t^2 + a\_1t + a\_0 & = \theta\_f \\\
+5a\_5t\_0^4 + 4a\_4t\_0^3 + 3a\_3t\_0^2 + 2a\_2t\_0 + a\_1 & = \dot{\theta\_0} \\\
+5a\_5t\_0^4 + 4a\_4t\_f^3 + 3a\_3t\_2^2 + 2a\_2t\_f + a\_1 & = \dot{\theta\_f} \\\
+20a\_5t\_0^3 + 12a\_4t\_0^2 + 6a\_3t\_0 + 2a\_2 = \ddot{\theta\_0} \\\
 20a\_5t\_0^3 + 12a\_4t\_f^2 + 6a\_3t\_2 + 2a\_2 = \ddot{\theta\_f}
 \end{align}
 
@@ -155,27 +155,27 @@ or in matrix form, showing the \\(a\_i\\) variables to solve for:
 
 \begin{equation}
 \begin{bmatrix}
-t\_0^5 & t\_0^4 & t\_0^3 & t\_0^2 & t\_0 & 1 \\\\
-t\_f^5 & t\_f^4 & t\_f^3 & t\_f^2 & t\_f & 1 \\\\
-5t\_0^4 & 4t\_0^3 & 3t\_0^2 & 2t\_0 & 1 & 0 \\\\
-5t\_f^4 & 4t\_f^3 & 3t\_f^2 & 2t\_f & 1 & 0 \\\\
-20t\_0^3 & 12t\_0^2 & 6t\_0 & 2 & 0 & 0 \\\\
+t\_0^5 & t\_0^4 & t\_0^3 & t\_0^2 & t\_0 & 1 \\\
+t\_f^5 & t\_f^4 & t\_f^3 & t\_f^2 & t\_f & 1 \\\
+5t\_0^4 & 4t\_0^3 & 3t\_0^2 & 2t\_0 & 1 & 0 \\\
+5t\_f^4 & 4t\_f^3 & 3t\_f^2 & 2t\_f & 1 & 0 \\\
+20t\_0^3 & 12t\_0^2 & 6t\_0 & 2 & 0 & 0 \\\
 20t\_f^3 & 12t\_f^2 & 6t\_f & 2 & 0 & 0 
 \end{bmatrix}
 \begin{bmatrix}
-a\_5 \\\\
-a\_4 \\\\
-a\_3 \\\\
-a\_2 \\\\
-a\_1 \\\\
+a\_5 \\\
+a\_4 \\\
+a\_3 \\\
+a\_2 \\\
+a\_1 \\\
 a\_0 
 \end{bmatrix} =
 \begin{bmatrix}
-\theta\_0 \\\\
-\theta\_f \\\\
-\dot{\theta}\_0 \\\\
-\dot{\theta}\_f \\\\
-\ddot{\theta}\_0 \\\\
+\theta\_0 \\\
+\theta\_f \\\
+\dot{\theta}\_0 \\\
+\dot{\theta}\_f \\\
+\ddot{\theta}\_0 \\\
 \ddot{\theta}\_f
 \end{bmatrix}
 \end{equation}
@@ -217,7 +217,7 @@ of constraint equations matches the number of unknowns?
 The equation for the cubic spline follows:
 \begin{align}
 \tau(t) \equiv \begin{cases} 
-a\_3^1t^3 + a\_2^1t^2 + a\_1^1t + a\_0^1 & \textrm{ if } t \leq t\_i, \\\\ 
+a\_3^1t^3 + a\_2^1t^2 + a\_1^1t + a\_0^1 & \textrm{ if } t \leq t\_i, \\\ 
 a\_3^2t^3 + a\_2^2t^2 + a\_1^2t + a\_0^2 & \textrm{ if } t \gt t\_i.
 \end{cases} 
 \end{align}
@@ -255,18 +255,18 @@ clear what this velocity should be. Zero seems overly restrictive. If we
 just ask for continuous velocity at the intermediate point, we are left
 with only seven equations (the last equation specifies continuous velocity):
 \begin{align}
-a\_3^1t\_0^3 + a^1\_2t\_0^2 + a^1\_1t\_0 + a^1\_0 & = \theta\_0 \\\\
-a\_3^1t\_i^3 + a^1\_2t\_i^2 + a^1\_1t\_i + a^1\_0 & = \theta\_i \\\\
-a\_3^2t\_i^3 + a^2\_2t\_i^2 + a^2\_1t\_i + a^2\_0 & = \theta\_i \\\\
-a\_3^2t\_f^3 + a^2\_2t\_f^2 + a^2\_1t\_f + a^2\_0 & = \theta\_f \\\\
-3a^1\_3t\_0^2 + 2a^1\_2t\_0 + a^1\_1 & = \dot{\theta\_0} \\\\
-3a^2\_3t\_f^2 + 2a^2\_2t\_f + a^2\_1 & = \dot{\theta\_f} \\\\
-3a^1\_3t\_i^2 + 2a^1\_2t\_i + a^1\_1 & = 3a^2\_3t\_i^2 + 2a^2\_2t\_i + a^2\_1 \\\\
+a\_3^1t\_0^3 + a^1\_2t\_0^2 + a^1\_1t\_0 + a^1\_0 & = \theta\_0 \\\
+a\_3^1t\_i^3 + a^1\_2t\_i^2 + a^1\_1t\_i + a^1\_0 & = \theta\_i \\\
+a\_3^2t\_i^3 + a^2\_2t\_i^2 + a^2\_1t\_i + a^2\_0 & = \theta\_i \\\
+a\_3^2t\_f^3 + a^2\_2t\_f^2 + a^2\_1t\_f + a^2\_0 & = \theta\_f \\\
+3a^1\_3t\_0^2 + 2a^1\_2t\_0 + a^1\_1 & = \dot{\theta\_0} \\\
+3a^2\_3t\_f^2 + 2a^2\_2t\_f + a^2\_1 & = \dot{\theta\_f} \\\
+3a^1\_3t\_i^2 + 2a^1\_2t\_i + a^1\_1 & = 3a^2\_3t\_i^2 + 2a^2\_2t\_i + a^2\_1 \\\
 \end{align}
 A straightforward option at this point is to introduce a constraint for continuous acceleration at the via point, which 
 adds a necessary eighth equation:
 \begin{align}
-6a^1\_3t\_i + 2a^1\_2 & = 6a^2\_3t\_i + 2a^2\_2 \\\\
+6a^1\_3t\_i + 2a^1\_2 & = 6a^2\_3t\_i + 2a^2\_2 \\\
 \end{align}
 {% endcomment %}
 

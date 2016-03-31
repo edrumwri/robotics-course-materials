@@ -18,56 +18,56 @@ Matrices and vectors can only be added or subtracted if they are of the
 same dimensionality. Then, addition and subtraction are performed
 elementwise:
 
-\begin{equation*}
+\begin{equation}
 \begin{bmatrix}
-u\_1 \\\\
-u\_2 \\\\
+u\_1 \\\
+u\_2 \\\
 u\_3 
 \end{bmatrix} + 
 \begin{bmatrix}
-v\_1 \\\\
-v\_2 \\\\
+v\_1 \\\
+v\_2 \\\
 v\_3
 \end{bmatrix} =
 \begin{bmatrix}
-u\_1 + v\_1 \\\\
-u\_2 + v\_2 \\\\
+u\_1 + v\_1 \\\
+u\_2 + v\_2 \\\
 u\_3 + v\_3 
 \end{bmatrix}
-\end{equation*}
+\end{equation}
 
-\begin{equation*}
+\begin{equation}
 \begin{bmatrix}
-m\_{11} & m\_{12} & m\_{13} \\\\
-m\_{21} & m\_{22} & m\_{23} \\\\
+m\_{11} & m\_{12} & m\_{13} \\\
+m\_{21} & m\_{22} & m\_{23} \\\
 m\_{31} & m\_{32} & m\_{33}
 \end{bmatrix} + 
 \begin{bmatrix}
-n\_{11} & n\_{12} & n\_{13} \\\\
-n\_{21} & n\_{22} & n\_{23} \\\\
+n\_{11} & n\_{12} & n\_{13} \\\
+n\_{21} & n\_{22} & n\_{23} \\\
 n\_{31} & n\_{32} & n\_{33}
 \end{bmatrix} = 
 \begin{bmatrix}
-m\_{11} + n\_{11} & m\_{12} + n\_{12} & m\_{13} + n\_{13} \\\\
-m\_{21} + n\_{21} & m\_{22} + n\_{22} & m\_{23} + n\_{23} \\\\
+m\_{11} + n\_{11} & m\_{12} + n\_{12} & m\_{13} + n\_{13} \\\
+m\_{21} + n\_{21} & m\_{22} + n\_{22} & m\_{23} + n\_{23} \\\
 m\_{31} + n\_{31} & m\_{32} + n\_{32} & m\_{33} + n\_{33}
 \end{bmatrix}
-\end{equation*}
+\end{equation}
 
 #### Matrix and vector scaling
 
 Matrix and vectors can be scaled by multiplying every element in the matrix or vector by the scalar, as seen below:
 
-\begin{align*}
+\begin{align}
 \mathbf{M} & \equiv \begin{bmatrix} 
-m\_{11} & m\_{12} & m\_{13} \\\\
-m\_{21} & m\_{22} & m\_{23} \\\\
-m\_{31} & m\_{32} & m\_{33} \end{bmatrix} \\\\ 
+m\_{11} & m\_{12} & m\_{13} \\\
+m\_{21} & m\_{22} & m\_{23} \\\
+m\_{31} & m\_{32} & m\_{33} \end{bmatrix} \\\ 
 s \mathbf{M} & = \begin{bmatrix}
-s m\_{11} & sm\_{12} & sm\_{13} \\\\
-s m\_{21} & sm\_{22} & sm\_{23} \\\\
+s m\_{11} & sm\_{12} & sm\_{13} \\\
+s m\_{21} & sm\_{22} & sm\_{23} \\\
 s m\_{31} & sm\_{32} & sm\_{33} \end{bmatrix} 
-\end{align*}
+\end{align}
 for \\(s \in \mathbb{R}\\)
 
 #### Special matrices
@@ -90,20 +90,20 @@ For two vectors \\(\mathbf{a}, \mathbf{b} \in \mathbb{R}^3\\), \\(\mathbf{a} \ti
 
 The cross product is distributive over addition:
 
-\begin{equation*}
+\begin{equation}
 \mathbf{a} \times (\mathbf{b} + \mathbf{c}) = \mathbf{a} \times \mathbf{b} + \mathbf{a} \times \mathbf{c}
-\end{equation*}
+\end{equation}
 
 ##### Computing the cross product
 
 For the right handed cross product, 
-$$
+\begin{equation}
 \mathbf{a} \times \mathbf{b} = \begin{bmatrix}
-a\_2b\_3 - a\_3b\_2 \\\\
-a\_3b\_1 - a\_1b\_3 \\\\
+a\_2b\_3 - a\_3b\_2 \\\
+a\_3b\_1 - a\_1b\_3 \\\
 a\_1b\_2 - a\_2b\_1
 \end{bmatrix}
-$$
+\end{equation}
 
 The left handed cross product is just the negation of this vector.
 
@@ -111,11 +111,11 @@ The left handed cross product is just the negation of this vector.
 
 The inner product operation (also called the _dot product_) between two vectors \\(\mathbf{a}\\) and \\(\mathbf{b}\\) is written \\(\lt \mathbf{a}, \mathbf{b}\gt \\), \\(\mathbf{a}^{\textsf{T}}\mathbf{b}\\), or \\(\mathbf{a} \cdot \mathbf{b}\\). The inner product is only defined for vectors of equal dimension and consists of the sum of the products of the corresponding elements from the two vectors. An example is given below:
 
-\begin{align*}
-\mathbf{a} & \equiv \begin{bmatrix} a\_1 \\\\ a\_2 \\\\ a\_3 \\\\ a\_4 \end{bmatrix} \\\\
-\mathbf{b} & \equiv \begin{bmatrix} b\_1 \\\\ b\_2 \\\\ b\_3 \\\\ b\_4 \end{bmatrix} \\\\
+\begin{align}
+\mathbf{a} & \equiv \begin{bmatrix} a\_1 \\\ a\_2 \\\ a\_3 \\\ a\_4 \end{bmatrix} \\\
+\mathbf{b} & \equiv \begin{bmatrix} b\_1 \\\ b\_2 \\\ b\_3 \\\ b\_4 \end{bmatrix} \\\
 \mathbf{a}^\textsf{T}\mathbf{b} & = a\_1 b\_1 + a\_2 b\_2 + a\_3 b\_3 + a\_4 b\_4
-\end{align*}
+\end{align}
 
 Some properties of the inner product follow, for real vectors \\(\mathbf{a}, \mathbf{b}, \mathbf{c}\\):
 
@@ -135,23 +135,23 @@ Problem: Convert n' * (xd + w x r) to (n' -r x n) * (xd; w). Motivate problem us
 Matrix/vector multiplication is identical to multiple inner (dot) product
 operations over the rows of \\(\mathbf{A}\\). Assume we define matrix \\(\mathbf{A}\\) as follows:
 
-\begin{equation*}
-\mathbf{A} \equiv \begin{bmatrix} \mathbf{a}\_1 \\\\ \vdots \\\\ \mathbf{a}\_m \end{bmatrix}
-\end{equation*}
+\begin{equation}
+\mathbf{A} \equiv \begin{bmatrix} \mathbf{a}\_1 \\\ \vdots \\\ \mathbf{a}\_m \end{bmatrix}
+\end{equation}
 
 We can then compute the matix vector product \\(\mathbf{Av}\\) using \\(m\\) inner products:
 
-\begin{equation*}
-\mathbf{Av} = \begin{bmatrix} \mathbf{a}\_1\mathbf{v} \\\\ \vdots \\\\ \mathbf{a}\_m\mathbf{v} \end{bmatrix}
-\end{equation*} 
+\begin{equation}
+\mathbf{Av} = \begin{bmatrix} \mathbf{a}\_1\mathbf{v} \\\ \vdots \\\ \mathbf{a}\_m\mathbf{v} \end{bmatrix}
+\end{equation} 
 
 As a concrete example, we define:
 
-\begin{align*}
-\mathbf{A} & \equiv \begin{bmatrix} a & b & c \\\\ d & e & f \end{bmatrix} \\\\
-\mathbf{v} & \equiv \begin{bmatrix} g \\\\ h \\\\ i \end{bmatrix} \\\\
-\mathbf{Av} & = \begin{bmatrix} ag + bh + ci \\\\ dg + eh + fi \end{bmatrix}
-\end{align*}
+\begin{align}
+\mathbf{A} & \equiv \begin{bmatrix} a & b & c \\\ d & e & f \end{bmatrix} \\\
+\mathbf{v} & \equiv \begin{bmatrix} g \\\ h \\\ i \end{bmatrix} \\\
+\mathbf{Av} & = \begin{bmatrix} ag + bh + ci \\\ dg + eh + fi \end{bmatrix}
+\end{align}
 
 #### Matrix/matrix multiplication 
 
@@ -164,18 +164,18 @@ over multiple columns:
 
 As a concrete example:
 
-\begin{align*}
+\begin{align}
 \mathbf{M} & \equiv 
-\begin{bmatrix} a & b \\\\ c & d \\\\ e & f \end{bmatrix} \\\\
-\mathbf{n}\_1 & \equiv \begin{bmatrix} g \\\\ j \end{bmatrix}  \\\\
-\mathbf{n}\_2 & \equiv \begin{bmatrix} h \\\\ k \end{bmatrix}  \\\\
-\mathbf{n}\_3 & \equiv \begin{bmatrix} i \\\\ l \end{bmatrix}  \\\\
-\mathbf{N} & \equiv \begin{bmatrix} \mathbf{n}\_1 & \mathbf{n}\_2 & \mathbf{n}\_3 \end{bmatrix} \\\\
-\mathbf{Mn}\_1 & \equiv \begin{bmatrix} ag + bj \\\\ cg + dj \\\\ eg + fj \end{bmatrix} \\\\
-\mathbf{Mn}\_2 & \equiv \begin{bmatrix} ah + bk \\\\ ch + dk \\\\ eh + fk \end{bmatrix} \\\\
-\mathbf{Mn}\_3 & \equiv \begin{bmatrix} ai + bl \\\\ ci + dl \\\\ ei + fl \end{bmatrix} \\\\
-\mathbf{MN} & \equiv \begin{bmatrix} ag+bj & ah+bk & ai+bl \\\\ cg+dj & ch+dk & ci + dl\\\\ eg+fj & eh+fk & ei+fl \end{bmatrix}
-\end{align*}
+\begin{bmatrix} a & b \\\ c & d \\\ e & f \end{bmatrix} \\\
+\mathbf{n}\_1 & \equiv \begin{bmatrix} g \\\ j \end{bmatrix}  \\\
+\mathbf{n}\_2 & \equiv \begin{bmatrix} h \\\ k \end{bmatrix}  \\\
+\mathbf{n}\_3 & \equiv \begin{bmatrix} i \\\ l \end{bmatrix}  \\\
+\mathbf{N} & \equiv \begin{bmatrix} \mathbf{n}\_1 & \mathbf{n}\_2 & \mathbf{n}\_3 \end{bmatrix} \\\
+\mathbf{Mn}\_1 & \equiv \begin{bmatrix} ag + bj \\\ cg + dj \\\ eg + fj \end{bmatrix} \\\
+\mathbf{Mn}\_2 & \equiv \begin{bmatrix} ah + bk \\\ ch + dk \\\ eh + fk \end{bmatrix} \\\
+\mathbf{Mn}\_3 & \equiv \begin{bmatrix} ai + bl \\\ ci + dl \\\ ei + fl \end{bmatrix} \\\
+\mathbf{MN} & \equiv \begin{bmatrix} ag+bj & ah+bk & ai+bl \\\ cg+dj & ch+dk & ci + dl\\\ eg+fj & eh+fk & ei+fl \end{bmatrix}
+\end{align}
 
 Note that __matrix multiplication is not commutative__: \\(\mathbf{AB} \ne \mathbf{BA}\\) (generally), even when the dimensions are compatible.
 
@@ -208,7 +208,7 @@ The following properties apply to matrix transposition for matrices \\(\mathbf{A
 The inverse of a matrix \\(\mathbf{A}\\), written \\(\mathbf{A}^{-1}\\), is characterized by the following properties:
 
 \begin{align}
-\mathbf{AA}^{-1} & = \mathbf{I} \\\\
+\mathbf{AA}^{-1} & = \mathbf{I} \\\
 \mathbf{A}^{-1}\mathbf{A} & = \mathbf{I}
 \end{align}
 
@@ -334,13 +334,13 @@ with definite matrices.
 
 I like to consider matrix factorizations in ascending order of computational expense. Correlated with computational expense is numerical robustness. A list of the factorizations follows:
 
-Factorization | Flops | Applicability
----- | ---- | ----
-Cholesky factorization | \\(n^3/3\\) | Positive-definite matrices only
-LDL\\(^\mathsf{T}\\) factorization | \\(n^3/2 + O(n^2)\\) | Symmetric matrices only
-LU factorization | \\(2n^3/3\\) | Non-singular matrices (no least squares)
-QR factorization | \\(4n^3/3\\) | Singular and non-singular matrices (least squares ok) 
-Singular value decomposition | \\(8n^3/3\\) | Singular and non-singular matrices (least squares ok) 
+Factorization \| Flops \| Applicability
+---- \| ---- \| ----
+Cholesky factorization \| \\(n^3/3\\) \| Positive-definite matrices only
+LDL\\(^\mathsf{T}\\) factorization \| \\(n^3/2 + O(n^2)\\) \| Symmetric matrices only
+LU factorization \| \\(2n^3/3\\) \| Non-singular matrices (no least squares)
+QR factorization \| \\(4n^3/3\\) \| Singular and non-singular matrices (least squares ok) 
+Singular value decomposition \| \\(8n^3/3\\) \| Singular and non-singular matrices (least squares ok) 
 
 #### Nullspace
 
@@ -371,9 +371,9 @@ The gradient of a function \\(f(\mathbf{x})\\), where \\(\mathbf{x} \in \mathbb{
 \begin{equation}
 \nabla f\_{\mathbf{x}} \equiv
 \begin{bmatrix}
-\frac{\partial f}{\partial x\_1} \\\\
-\vdots \\\\
-\frac{\partial f}{\partial x\_n} \\\\
+\frac{\partial f}{\partial x\_1} \\\
+\vdots \\\
+\frac{\partial f}{\partial x\_n} \\\
 \end{bmatrix}
 \end{equation}
 
@@ -383,9 +383,9 @@ The Hessian matrix of the same function is the \\(n \times n\\) matrix of second
 \begin{equation}
 \nabla f\_{\mathbf{xx}} \equiv 
 \begin{bmatrix}
-\frac{\partial^2 f}{\partial x\_1^2} & \ldots & \frac{\partial^2 f}{\partial x\_1 \partial x\_n}\\\\
-\vdots \\\\
-\frac{\partial^2 f}{\partial x\_n \partial x\_1} & \ldots & \frac{\partial^2 f}{\partial x\_n^2}\\\\
+\frac{\partial^2 f}{\partial x\_1^2} & \ldots & \frac{\partial^2 f}{\partial x\_1 \partial x\_n}\\\
+\vdots \\\
+\frac{\partial^2 f}{\partial x\_n \partial x\_1} & \ldots & \frac{\partial^2 f}{\partial x\_n^2}\\\
 \end{bmatrix}
 \end{equation}
 
@@ -404,12 +404,12 @@ The Jacobian matrix of a function with vector outputs is the partial derivative
 of each function output dimension taken with respect to the partial derivative of each function input dimension. Let us examine a contrived function, \\(f : \mathbb{R}^3 \to \mathbb{R}^2\\); \\(f(.)\\) might represent a vector flow for
 points in three dimensional Cartesian space. The Jacobian of \\(f(.)\\) is then:
 
-\begin{equation*}
+\begin{equation}
 \frac{\partial f}{\partial \mathbf{x}} = \begin{bmatrix} 
-\frac{\partial f\_1}{\partial x\_1} & \frac{\partial f\_1}{\partial x\_2} & \frac{\partial f\_1}{\partial x\_3} \\\\
+\frac{\partial f\_1}{\partial x\_1} & \frac{\partial f\_1}{\partial x\_2} & \frac{\partial f\_1}{\partial x\_3} \\\
 \frac{\partial f\_2}{\partial x\_1} & \frac{\partial f\_2}{\partial x\_2} & \frac{\partial f\_2}{\partial x\_3} 
 \end{bmatrix} 
-\end{equation*}
+\end{equation}
 
 Just like the standard derivative, the Jacobian matrix gives the instantaneous change in \\(f(.)\\) at \\(\mathbf{x}\\). 
 
@@ -419,18 +419,18 @@ Least squares problems are ubiquitous in science and engineering applications.
 Solving a least squares problem finds a line (or plane or hyperplane,
 in higher dimensions) that minimizes the sum of the squared distance from a
 set of points to the line/plane/hyperplane. Another way of saying this is
-that least squares seeks to minimize the residual error, i.e., \\(||\mathbf{A}\mathbf{x} - \mathbf{b}||\\). 
+that least squares seeks to minimize the residual error, i.e., \\(\|\|\mathbf{A}\mathbf{x} - \mathbf{b}\|\|\\). 
 
 {% include image.html url="http://www.datavis.ca/papers/koln/figs/grsp2.gif" description="A depiction of least squares as a mechanical device. Springs are attached from each point to a rod. The amount of force increases quadratically with the distance of each point to the rod." %}
 
 Clearly, if \\(\mathbf{A}\\) is square and non-singular, the solution is \\(\mathbf{x} = \mathbf{A}^{-1}\mathbf{b}\\). What if \\(\mathbf{A} \in \mathbb{R}^{m \times n}\\), where \\(m \neq n\\)? Assume that each row of \\(\mathbf{A}\\) is linearly independent (i.e., \\(\mathbf{A}\\) has full row rank) for now. If \\(m \gt n\\), then there are more
-equations than variables and the problem is _overdetermined_; we expect \\(||\mathbf{Ax} - \mathbf{b}||\\) to be nonzero. If \\(m \lt n\\), then there are more
+equations than variables and the problem is _overdetermined_; we expect \\(\|\|\mathbf{Ax} - \mathbf{b}\|\|\\) to be nonzero. If \\(m \lt n\\), then there are more
 variables than unknowns and the problem is _underdetermined_; we expect there
-to be multiple (infinite) assignments to \\(\mathbf{x}\\) that make \\(||\mathbf{Ax} - \mathbf{b}|| = 0\\).
+to be multiple (infinite) assignments to \\(\mathbf{x}\\) that make \\(\|\|\mathbf{Ax} - \mathbf{b}\|\| = 0\\).
 
 ##### The Moore-Penrose pseudo-inverse
 
-_Two_ least squares problems become evident: (1) select \\(\mathbf{x}\\) such that  \\(||\mathbf{Ax} - \mathbf{b}||\\) is minimized. If \\(||\mathbf{Ax} - \mathbf{b}|| = 0\\), then (2) select the solution that minimizes \\(||\mathbf{x}||\\). Both solutions can be obtained using the Moore-Penrose pseudo-inverse (which is denoted using the operator \\(\ ^+\\), which has some of the properties of the inverse (I'll only list a few below):
+_Two_ least squares problems become evident: (1) select \\(\mathbf{x}\\) such that  \\(\|\|\mathbf{Ax} - \mathbf{b}\|\|\\) is minimized. If \\(\|\|\mathbf{Ax} - \mathbf{b}\|\| = 0\\), then (2) select the solution that minimizes \\(\|\|\mathbf{x}\|\|\\). Both solutions can be obtained using the Moore-Penrose pseudo-inverse (which is denoted using the operator \\(\ ^+\\), which has some of the properties of the inverse (I'll only list a few below):
 
 1. \\(\mathbf{A}\mathbf{A}^+ = \mathbf{I}\\)
 2. \\(\mathbf{A}^+\mathbf{A} = \mathbf{I}\\)
@@ -472,10 +472,10 @@ Still working under the assumption that \\(\mathbf{A}\\) is of full row rank,
 we can also use the singular value decomposition to solve least squares 
 problems.
 
-Recall that the singular value decomposition of \\(\mathbf{A} = \mathbf{U\Sigma\}mathbf{V}^{\mathsf{T}}\\). \\(\mathbf{U}\\) and \\(\mathbf{V}\\) are both orthogonal, which means that \\(\mathbf{U}^{-1} = \mathbf{U}^{\mathsf{T}}\\) and \\(\mathbf{V}^{-1} = \mathbf{V}^{\mathsf{T}}\\). From the identity above, \\(\mathbf{A}^{-1} = \mathbf{V}\Sigma^{-1}\mathbf{U}^{\mathsf{T}}\\). For non-square \\(\mathbf{A}\\), \\(\mathbf{A}^+ = \mathbf{V}\mathbf{\Sigma}^+{\mathbf{U}}^\mathsf{T}\\), where \\(\Sigma^+\\) will be defined as follows:
+Recall that the singular value decomposition of \\(\mathbf{A} = \mathbf{U\Sigma\}\mathbf{V}^{\mathsf{T}}\\). \\(\mathbf{U}\\) and \\(\mathbf{V}\\) are both orthogonal, which means that \\(\mathbf{U}^{-1} = \mathbf{U}^{\mathsf{T}}\\) and \\(\mathbf{V}^{-1} = \mathbf{V}^{\mathsf{T}}\\). From the identity above, \\(\mathbf{A}^{-1} = \mathbf{V}\Sigma^{-1}\mathbf{U}^{\mathsf{T}}\\). For non-square \\(\mathbf{A}\\), \\(\mathbf{A}^+ = \mathbf{V}\mathbf{\Sigma}^+{\mathbf{U}}^\mathsf{T}\\), where \\(\Sigma^+\\) will be defined as follows:
 
 \begin{equation}
-\Sigma\_{ij}^+ \leftarrow \begin{cases}\frac{1}{\Sigma\_{ij}} & \textrm{if } i = j, \\\\
+\Sigma\_{ij}^+ \leftarrow \begin{cases}\frac{1}{\Sigma\_{ij}} & \textrm{if } i = j, \\\
 0 & \textrm{if } i \ne j. \end{cases}
 \end{equation}
 
@@ -499,7 +499,7 @@ robustness.
 The formula for computing \\(\mathbf{\Sigma}^+\\) can be updated for a numerically robust solution:
 
 \begin{equation}
-\Sigma\_{ij}^+ \leftarrow \begin{cases}\frac{1}{\Sigma\_{ij}} & \textrm{if } i = j \textrm{ and } \Sigma\_{ij} > \epsilon, \\\\
+\Sigma\_{ij}^+ \leftarrow \begin{cases}\frac{1}{\Sigma\_{ij}} & \textrm{if } i = j \textrm{ and } \Sigma\_{ij} > \epsilon, \\\
 0 & \textrm{if } i \ne j \textrm{ or } \Sigma\_{ij} \le \epsilon. \end{cases}
 \end{equation}
 
@@ -523,7 +523,7 @@ and, in statistics applications, as _Ridge Regression_. Consider the system of l
 for \\(\mathbf{A} \in \mathbb{R}^{n \times n}\\) and \\(\mathbf{x}, \mathbf{b} \in \mathbb{R}^{n \times 1}\\). The
 matrix \\(\mathbf{A} + \epsilon\mathbf{I}\\), where \\(\mathbf{I}\\) is the identity matrix will always be invertible for sufficiently large \\(\epsilon \ge 0\\). Tikhonov Regularization solves the nearby system \\((\mathbf{A} + \epsilon\mathbf{I})\mathbf{x} = \mathbf{b}\\) for \\(\mathbf{x}\\).
 
-The obvious question at this point: what is the optimal value of \\(\epsilon\\)? If \\(\epsilon\\) is too small, the relevant factorization algorithm (e.g., Cholesky factorization, LU factorization) will fail with an error (at best). If \\(epsilon\\) is too large, the residual error \\(||\mathbf{Ax} - \mathbf{b}||\\) will be greater than is necessary. The optimal value of \\(\epsilon\\) can be
+The obvious question at this point: what is the optimal value of \\(\epsilon\\)? If \\(\epsilon\\) is too small, the relevant factorization algorithm (e.g., Cholesky factorization, LU factorization) will fail with an error (at best). If \\(epsilon\\) is too large, the residual error \\(\|\|\mathbf{Ax} - \mathbf{b}\|\|\\) will be greater than is necessary. The optimal value of \\(\epsilon\\) can be
 computed with a singular value decomposition, but- one might as well just use the result from the SVD to compute a regularization solution (as described above)- if one goes down this computationally expensive route.
 
 An effective \\(\epsilon\\) will keep the condition number (the ratio of
@@ -531,12 +531,12 @@ largest to smallest singular values) relatively small: \\(10^6\\) or so. An
 example of a quick and dirty way to compute \\(\epsilon\\) is:
 
 \begin{equation}
-\epsilon = \epsilon_{\textrm{mach}} \cdot \max{(m,n)} \cdot ||\mathbf{A}||\_\infty
+\epsilon = \epsilon_{\textrm{mach}} \cdot \max{(m,n)} \cdot \|\|\mathbf{A}\|\|\_\infty
 \end{equation} 
 
 where \\(\epsilon_{\textrm{mach}}\\) is machine epsilon and
 
 \begin{equation}
-||\mathbf{A}||\_\infty = \max_{i \in m, j \in n} |A_{ij}|
+\|\|\mathbf{A}\|\|\_\infty = \max_{i \in m, j \in n} \|A_{ij}\|
 \end{equation} 
 

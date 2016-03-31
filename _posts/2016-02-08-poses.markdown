@@ -12,7 +12,7 @@ The rigid body assumption is a common simplification used to easily and quickly 
 The rigid body assumption requires that, for any two points \\(\mathbf{p}\_1\\) and \\(\mathbf{p}\_2\\) on a rigid body, the distance between the two points remains constant for all time:
 
 \begin{equation}
-||p\_1 - p\_2|| = c
+\|\|p\_1 - p\_2\|\| = c
 \end{equation}
 
 ### Kinematics
@@ -46,12 +46,12 @@ which has the same orientation as \\(w\\), but is located in a different place _
 Let's now assume a new frame of reference, which we denote \\(s\\), and which is collocated with \\(w\\) but is rotated. If we assume that the first axis of \\(w\\) is named \\(\mathbf{a}\_x\\) and the second axis is named \\(\mathbf{a}\_y\\), we can similarly denote the first and second axes of \\(s\\) as \\(\mathbf{a}'\_x\\) and \\(\mathbf{a}'\_y\\). Since we are considering only two dimensions, each vector is two-dimensional. We can represent \\(\mathbf{a}\_x\\) using the vector \\(\begin{bmatrix}1 & 0\end{bmatrix}^T\\) and \\(\mathbf{a}\_y\\) using the vector \\(\begin{bmatrix}0 & 1\end{bmatrix}^T\\). We can transform vectors between the two reference frames using a matrix:
 
 \begin{equation} 
-\ \_{w}\mathbf{R}\_{s} \triangleq \begin{bmatrix}\mathbf{a}'\_{x\_1} & \mathbf{a}'\_{y\_1} \\\\ \mathbf{a}'\_{x\_2} & \mathbf{a}'\_{y\_2} \end{bmatrix}
+\ \_{w}\mathbf{R}\_{s} \triangleq \begin{bmatrix}\mathbf{a}'\_{x\_1} & \mathbf{a}'\_{y\_1} \\\ \mathbf{a}'\_{x\_2} & \mathbf{a}'\_{y\_2} \end{bmatrix}
 \end{equation}
 
 For example, try \\(\mathbf{a}'\_x \triangleq \begin{bmatrix}0 & 1\end{bmatrix}^T\\) and \\(\mathbf{a}'\_y \triangleq \begin{bmatrix}-1 & 0\end{bmatrix}^T\\). This corresponds to the matrix: 
 
-\begin{equation}\ \_{w}\mathbf{R}\_{s} \triangleq \begin{bmatrix}0 & -1 \\\\ 1 & 0\end{bmatrix}
+\begin{equation}\ \_{w}\mathbf{R}\_{s} \triangleq \begin{bmatrix}0 & -1 \\\ 1 & 0\end{bmatrix}
 \end{equation}
 
 These vectors should both be unit vectors and should be orthogonal, which makes this matrix an _orthogonal_ matrix, giving it a determinant of \\(\pm 1\\). To keep everything consistent for our work, we henceforth require that the determinant always be equal to \\(+1\\).
@@ -59,18 +59,18 @@ These vectors should both be unit vectors and should be orthogonal, which makes 
 We can set \\(\ \_{w}\mathbf{R}\_{s}\\) more simply using an angular rotation by \\(\theta\\) in the plane:
 
 \begin{equation}
-\ \_{w}\mathbf{R}\_{s} = \begin{bmatrix} \cos{\theta} & -\sin{\theta} \\\\ \sin{\theta} & \cos{\theta} \end{bmatrix}
+\ \_{w}\mathbf{R}\_{s} = \begin{bmatrix} \cos{\theta} & -\sin{\theta} \\\ \sin{\theta} & \cos{\theta} \end{bmatrix}
 \end{equation}
 
 **Example**:
 
 Given \\(\theta = \frac{\pi}{2}\\), \\(\ \_{w}\mathbf{R}\_{s}\\) will be the matrix:
-\begin{equation*}
+\begin{equation}
 \begin{bmatrix}
-0 & -1 \\\\
+0 & -1 \\\
 1 & 0
 \end{bmatrix}
-\end{equation*}
+\end{equation}
 
 The two frames \\(s\\) and \\(w\\) are depicted in the figure below. 
 
@@ -134,15 +134,15 @@ This is easier to look at, use, and debug than the previous sequence of operatio
 The key is to use [homogeneous coordinates](https://en.wikipedia.org/wiki/Homogeneous_coordinates). For example, the Cartesian coordinates:
 $$
 \begin{bmatrix}
-x \\\\
+x \\\
 y 
 \end{bmatrix}
 $$
 become
 $$
 \begin{bmatrix}
-x \\\\
-y \\\\
+x \\\
+y \\\
 1
 \end{bmatrix}
 $$
@@ -150,8 +150,8 @@ $$
 The form of the \\(\mathbf{T}\\) matrices above is now \\(3 \times 3\\) and represents a two-dimensional rotation about \\(\theta\\) _followed by_ a translation by \\((t\_x,t\_y)\\):
 \begin{equation}
 \begin{bmatrix}
-\cos{\theta} & -\sin{\theta} & t\_x \\\\
-\sin{\theta} & \cos{\theta} & t\_y \\\\
+\cos{\theta} & -\sin{\theta} & t\_x \\\
+\sin{\theta} & \cos{\theta} & t\_y \\\
 0 & 0 & 1
 \end{bmatrix}
 \label{eqn:homogeneous}
@@ -164,7 +164,7 @@ Another way to write this matrix is in [block form](https://en.wikipedia.org/wik
 \begin{align}
 \mathbf{T} \equiv
 \begin{bmatrix}
-\mathbf{R} & \mathbf{t} \\\\
+\mathbf{R} & \mathbf{t} \\\
 \mathbf{0} & 1
 \end{bmatrix}
 \label{eqn:homogeneous2}
@@ -182,7 +182,7 @@ ordering is correct using intuition.
 One of the great things about a rotation matrix is that its orthogonality makes it [easy and fast to invert](../linear-algebra). Unfortunately, a homogeneous transformation matrix is not orthogonal. However, we can still invert the matrix easily using the following formula:
 \begin{equation}
 \mathbf{T}^{-1} = \begin{bmatrix}
-\mathbf{R}^\mathsf{T} & -\mathbf{R}^\mathsf{T}\mathbf{t} \\\\
+\mathbf{R}^\mathsf{T} & -\mathbf{R}^\mathsf{T}\mathbf{t} \\\
 \mathbf{0} & 1
 \end{bmatrix}
 \end{equation}
@@ -200,28 +200,28 @@ When we transform points (as might compose vertices in [polytopic shapes](https:
 change. When we transform vectors (as might describe the angular velocity
 of a body), *we wish to preserve lengths*. Consider the figure above where
 \\(\theta = \frac{\pi}{2}\\). The homogeneous transformation matrix corresponding to this figure is:
-\begin{equation*}
+\begin{equation}
 \ \_w\mathbf{T}\_s \equiv 
 \begin{bmatrix}
-0 & -1 & 1 \\\\
-1 & 0 & 1 \\\\
+0 & -1 & 1 \\\
+1 & 0 & 1 \\\
 0 & 0 & 1
 \end{bmatrix}
-\end{equation*}
+\end{equation}
 
 If we define the vector \\(\mathbf{v}\_s \equiv \begin{bmatrix} 1 & 1 & 1 \end{bmatrix}^{\mathsf{T}}\\), then:
-\begin{equation*}
-\ \_w\mathbf{T}\_s \mathbf{v}\_s = \mathbf{v}\_w = \begin{bmatrix} 0 \\\\ 2 \\\\ 1 \end{bmatrix}
-\end{equation*}
-and we notice that the lengths of the two vectors are not equal (ignoring the homogeneous components of course): \\(||\mathbf{v}\_s|| = \sqrt{2} \neq 2 = ||\mathbf{v}\_w||\\). If we want to preserve magnitudes, we only apply the rotational part of the matrix:
-\begin{equation*}
+\begin{equation}
+\ \_w\mathbf{T}\_s \mathbf{v}\_s = \mathbf{v}\_w = \begin{bmatrix} 0 \\\ 2 \\\ 1 \end{bmatrix}
+\end{equation}
+and we notice that the lengths of the two vectors are not equal (ignoring the homogeneous components of course): \\(\|\|\mathbf{v}\_s\|\| = \sqrt{2} \neq 2 = \|\|\mathbf{v}\_w\|\|\\). If we want to preserve magnitudes, we only apply the rotational part of the matrix:
+\begin{equation}
 \ \_w\mathbf{R}\_s \equiv
 \begin{bmatrix}
-0 & -1 \\\\
+0 & -1 \\\
 1 & 1
 \end{bmatrix}
-\end{equation*}
-Then \\(||\ \_w\mathbf{R}\_s \cdot \begin{bmatrix} 1 & 1 \end{bmatrix}^{\mathsf{T}}|| = ||\begin{bmatrix} 1 & 1 \end{bmatrix}^{\mathsf{T}}||\\).
+\end{equation}
+Then \\(\|\|\ \_w\mathbf{R}\_s \cdot \begin{bmatrix} 1 & 1 \end{bmatrix}^{\mathsf{T}}\|\| = \|\|\begin{bmatrix} 1 & 1 \end{bmatrix}^{\mathsf{T}}\|\|\\).
 
 #### Concatenating transformations
 
@@ -236,29 +236,29 @@ reason we mark the frame of reference for transformations.
 
 The transformation from Frame 1 (defined at the endpoint of the pendulum) to Frame 0 (the world frame) is determined like so:
 
-\begin{equation*}
+\begin{equation}
 \ \_0\mathbf{T}\_1 = \ \_0\mathbf{T}\_{0'} \cdot \ \_{0'}\mathbf{T}\_1
-\end{equation*}
+\end{equation}
 
 where
 
-\begin{equation*}
+\begin{equation}
 \_0\mathbf{T}\_{0'} \equiv
 \begin{bmatrix}
-\cos{\theta} & -\sin{\theta} & 0 \\\\
-\sin{\theta} & \cos{\theta} & 0 \\\\
+\cos{\theta} & -\sin{\theta} & 0 \\\
+\sin{\theta} & \cos{\theta} & 0 \\\
 0 & 0 & 1
 \end{bmatrix}
-\end{equation*}
+\end{equation}
 and
-\begin{equation*}
+\begin{equation}
 \_{0'}\mathbf{T}\_{1} \equiv
 \begin{bmatrix}
-1 & 0 & 0 \\\\
-0 & 1 & -\ell \\\\
+1 & 0 & 0 \\\
+0 & 1 & -\ell \\\
 0 & 0 & 1
 \end{bmatrix}
-\end{equation*}
+\end{equation}
 
 **Make sure you understand why the \\(\ell\\) in \\(\ \_{0'}\mathbf{T}\_1\\)
 is translated along -y**.
@@ -266,7 +266,7 @@ is translated along -y**.
 Given the relationship \\(\ \_0\mathbf{T}\_1\\), we can transform points from Frame 1 to Frame 0. For instance, if I want to know the position of the pendulum bob in the world frame, I can do this:
 
 \begin{align}
-\mathbf{p}\_1 & \equiv \begin{bmatrix} 0 \\\\ 0 \\\\ 1 \end{bmatrix} \\\\
+\mathbf{p}\_1 & \equiv \begin{bmatrix} 0 \\\ 0 \\\ 1 \end{bmatrix} \\\
 \mathbf{p}\_0 & = \ \_0\mathbf{T}\_1 \cdot \mathbf{p}\_1
 \end{align}
 
@@ -285,7 +285,7 @@ Modeling particles doesn't require consideration of orientation because particle
 Let's first look at the generalized coordinates for a body defined in the global reference frame, \\(w\\):
 
 \begin{equation}
-\mathbf{q}\_w = \begin{bmatrix} \bar{x}\_w \\\\ \bar{y}\_w \\\\ \theta\_w \end{bmatrix}
+\mathbf{q}\_w = \begin{bmatrix} \bar{x}\_w \\\ \bar{y}\_w \\\ \theta\_w \end{bmatrix}
 \end{equation}
 
 where \\(\{ \bar{x}\_w, \bar{y}\_w \}\\) is the position of the center-of-mass in frame \\(w\\). 
@@ -295,13 +295,13 @@ where \\(\{ \bar{x}\_w, \bar{y}\_w \}\\) is the position of the center-of-mass i
 For comparison, we now examine how the body is defined in another reference frame, \\(s\\), which is defined relative to frame \\(\mathbf{w}\\) by a translation of \\(\mathbf{x}\_w^s\\) and by an orientation by an angle of \\(\varphi\_w^s\\). We can then define the matrix \\(\ \_s\mathbf{R}\_w\\) as:
 
 \begin{equation}
-\ \_s\mathbf{R}\_w = \begin{bmatrix} \cos{\varphi\_w^s} & -\sin{\varphi\_w^s} \\\\ \sin{\varphi\_w^s} & \cos{\varphi\_w^s} \end{bmatrix}
+\ \_s\mathbf{R}\_w = \begin{bmatrix} \cos{\varphi\_w^s} & -\sin{\varphi\_w^s} \\\ \sin{\varphi\_w^s} & \cos{\varphi\_w^s} \end{bmatrix}
 \end{equation}
 
 and the generalized coordinates in frame \\(s\\) are now:
 
 \begin{equation}
-\mathbf{q}\_s = \begin{bmatrix}\ \_s\mathbf{R}\_w \begin{bmatrix}\bar{x}\_w \\\\ \bar{y}\_w \end{bmatrix} + \mathbf{x}\_w^s \\\\ \theta\_w + \varphi\_w^s \end{bmatrix}
+\mathbf{q}\_s = \begin{bmatrix}\ \_s\mathbf{R}\_w \begin{bmatrix}\bar{x}\_w \\\ \bar{y}\_w \end{bmatrix} + \mathbf{x}\_w^s \\\ \theta\_w + \varphi\_w^s \end{bmatrix}
 \end{equation}
 {% endcomment %}
 
@@ -309,7 +309,7 @@ and the generalized coordinates in frame \\(s\\) are now:
 Let's now compute the time-derivatives:
 
 \begin{equation}
-\dot{\mathbf{q}}\_w = \begin{bmatrix} \dot{\bar{x}}\_w \\\\ \dot{\bar{y}}\_w \\\\ \dot{\theta}\_w \end{bmatrix}
+\dot{\mathbf{q}}\_w = \begin{bmatrix} \dot{\bar{x}}\_w \\\ \dot{\bar{y}}\_w \\\ \dot{\theta}\_w \end{bmatrix}
 \end{equation}
 
 This is just the velocity of the body at its center-of-mass (the _linear velocity_) and its rate of angular rotation (the _angular velocity_). 
@@ -319,7 +319,7 @@ This is just the velocity of the body at its center-of-mass (the _linear velocit
 Things do not change appreciably when we look at the generalized velocity in frame \\(s\\).
 
 \begin{equation}
-\dot{\mathbf{q}}\_s = \begin{bmatrix}\ \_s\mathbf{R}\_w \begin{bmatrix}\dot{\bar{x}}\_w \\\\ \dot{\bar{y}}\_w \end{bmatrix} \\\\ \dot{\theta}\_w \end{bmatrix}
+\dot{\mathbf{q}}\_s = \begin{bmatrix}\ \_s\mathbf{R}\_w \begin{bmatrix}\dot{\bar{x}}\_w \\\ \dot{\bar{y}}\_w \end{bmatrix} \\\ \dot{\theta}\_w \end{bmatrix}
 \end{equation}
 
 Here we are assuming that frame \\(s\\) is fixed (and we already know that frame \\(w\\) is fixed, since it is the "global" frame of reference), because both \\(\mathbf{x}\_w^s\\) and \\(\varphi\_w^s\\) disappear upon taking the derivative.
@@ -328,19 +328,19 @@ Here we are assuming that frame \\(s\\) is fixed (and we already know that frame
 What if frame \\(s\\) is _not_ fixed but instead moves relative to frame \\(w\\) with linear velocity \\(\dot{\mathbf{x}}\_w^s\\) and angular velocity \\(\dot{\varphi\_w^s}\\)? Then: 
 
 \begin{equation}
-\dot{\mathbf{q}}\_s = \begin{bmatrix}\ \_s\dot{\mathbf{R}}\_w \begin{bmatrix}\dot{\bar{x}}\_w \\\\ \dot{\bar{y}}\_w \end{bmatrix} + \dot{\mathbf{x}}^s\_w  \\\\ \dot{\theta}\_w + \dot{\varphi}^s\_w \end{bmatrix}
+\dot{\mathbf{q}}\_s = \begin{bmatrix}\ \_s\dot{\mathbf{R}}\_w \begin{bmatrix}\dot{\bar{x}}\_w \\\ \dot{\bar{y}}\_w \end{bmatrix} + \dot{\mathbf{x}}^s\_w  \\\ \dot{\theta}\_w + \dot{\varphi}^s\_w \end{bmatrix}
 \end{equation}
 
 The matrix \\(\ _s\dot{\mathbf{R}}\_w\\) has a fairly simple form, derived from the chain rule:
 
 \begin{equation}
- \ \_s\dot{\mathbf{R}}\_w = \dot{\varphi\_w^s}\begin{bmatrix} -\sin{\varphi\_w^s} & -\cos{\varphi\_w^s}  \\\\ \cos{\varphi\_w^s} & -\sin{\varphi\_w^s}\end{bmatrix}
+ \ \_s\dot{\mathbf{R}}\_w = \dot{\varphi\_w^s}\begin{bmatrix} -\sin{\varphi\_w^s} & -\cos{\varphi\_w^s}  \\\ \cos{\varphi\_w^s} & -\sin{\varphi\_w^s}\end{bmatrix}
 \end{equation}
 
 Using trigonometric identities, we get:
 
 \begin{equation}
- \ \_w\dot{\mathbf{R}}\_i = \dot{\varphi\_w^s}\begin{bmatrix} \cos{(\varphi\_w^s+\frac{\pi}{2})} & -\sin{(\varphi\_w^s+\frac{\pi}{2})}  \\\\ \sin{(\varphi\_w^s+\frac{\pi}{2})} & \cos{(\varphi\_w^s+\frac{\pi}{2})}\end{bmatrix}
+ \ \_w\dot{\mathbf{R}}\_i = \dot{\varphi\_w^s}\begin{bmatrix} \cos{(\varphi\_w^s+\frac{\pi}{2})} & -\sin{(\varphi\_w^s+\frac{\pi}{2})}  \\\ \sin{(\varphi\_w^s+\frac{\pi}{2})} & \cos{(\varphi\_w^s+\frac{\pi}{2})}\end{bmatrix}
  \end{equation}
  Note that this takes exactly the same form as a rotation matrix in the plane by \\(\theta + \frac{\pi}{2}\\) radians scaled by the angular velocity.
 
@@ -352,21 +352,21 @@ Using trigonometric identities, we get:
 How do the kinematic equations change if the generalized coordinates are defined with respect to a point on the rigid body, rather than with respect to the body's center-of-mass? First of all, we have to define our point such that we can always identify it! Let us call this point of interest \\(\mathbf{p}\\) and define it in Frame \\(w\\) as follows:
 
 \begin{equation}
-\mathbf{p}\_w = \begin{bmatrix}\bar{x}\_w \\\\ \bar{y}\_w \end{bmatrix} + \ \_w\mathbf{R}\_i(\theta\_w)\cdot \mathbf{r}\_i
+\mathbf{p}\_w = \begin{bmatrix}\bar{x}\_w \\\ \bar{y}\_w \end{bmatrix} + \ \_w\mathbf{R}\_i(\theta\_w)\cdot \mathbf{r}\_i
 \end{equation}
 
 where \\(\ \_w\mathbf{R}\_i\\) is the matrix encoding the orientation of the body and \\(\mathbf{r}\_i\\) is a vector from the center-of-mass to the point on the body _in the body frame_, which we denote as \\(i\\): since this vector is defined in the body frame, \\(\mathbf{r}\\) does not change as the body moves or rotates.  
 
 We can then derive \\(\dot{\mathbf{p}}\_w\\):
 \begin{equation}
-\dot{\mathbf{p}}\_w = \begin{bmatrix}\dot{\bar{x}}\_w \\\\ \dot{\bar{y}}\_w \end{bmatrix} + \ \_w\dot{\mathbf{R}}\_i(\theta\_w, \dot{\theta}\_w)\cdot \mathbf{r}\_i
+\dot{\mathbf{p}}\_w = \begin{bmatrix}\dot{\bar{x}}\_w \\\ \dot{\bar{y}}\_w \end{bmatrix} + \ \_w\dot{\mathbf{R}}\_i(\theta\_w, \dot{\theta}\_w)\cdot \mathbf{r}\_i
 \end{equation}
 where
 \begin{equation}
 \ \_w\dot{\mathbf{R}}\_i \equiv
 \dot{\theta}\_w 
 \begin{bmatrix}
-\cos{(\theta\_w + \frac{\pi}{2})} & -\sin{(\theta\_w + \frac{\pi}{2})} \\\\
+\cos{(\theta\_w + \frac{\pi}{2})} & -\sin{(\theta\_w + \frac{\pi}{2})} \\\
 \sin{(\theta\_w + \frac{\pi}{2})} & \cos{(\theta\_w + \frac{\pi}{2})}
 \end{bmatrix}
 \end{equation}
@@ -382,26 +382,26 @@ using derivative calculus and trigonometric identities.
 We can define the generalized coordinates as below, though note that \\(\mathbf{p}\\) is not independent of \\(\theta\_w\\):
 
 \begin{equation}
-\mathbf{q}\_w^{\mathbf{p}\_w} = \begin{bmatrix} \mathbf{p}\_w \\\\ \theta\_w \end{bmatrix}
+\mathbf{q}\_w^{\mathbf{p}\_w} = \begin{bmatrix} \mathbf{p}\_w \\\ \theta\_w \end{bmatrix}
 \end{equation}
 
 #### Generalized velocities defined with respect to a point on a rigid body
 We now derive the generalized velocities:
 
 \begin{equation}
-\dot{\mathbf{q}}\_w^{\mathbf{p}\_w} = \begin{bmatrix} \dot{\mathbf{p}}\_w  \\\\ \dot{\theta}\_w \end{bmatrix}
+\dot{\mathbf{q}}\_w^{\mathbf{p}\_w} = \begin{bmatrix} \dot{\mathbf{p}}\_w  \\\ \dot{\theta}\_w \end{bmatrix}
 \end{equation}
 
 and we derive \\(\dot{\mathbf{p}}\_w\\) as follows:
 
 \begin{equation}
-\dot{\mathbf{p}}\_w = \begin{bmatrix}\dot{\bar{x}}\_w \\\\ \dot{\bar{y}}\_w \end{bmatrix} + \ \_w\dot{\mathbf{R}}\_i \cdot \mathbf{r}\_i
+\dot{\mathbf{p}}\_w = \begin{bmatrix}\dot{\bar{x}}\_w \\\ \dot{\bar{y}}\_w \end{bmatrix} + \ \_w\dot{\mathbf{R}}\_i \cdot \mathbf{r}\_i
 \end{equation}
 
 As in the previous section, \\(\ \_w\dot{\mathbf{R}}\_i\\) has a simple form:
 
 \begin{equation}
- \ \_w\dot{\mathbf{R}}\_i = \dot{\theta}\begin{bmatrix} -\sin{\theta} & -\cos{\theta}  \\\\ \cos{\theta} & -\sin{\theta}\end{bmatrix}
+ \ \_w\dot{\mathbf{R}}\_i = \dot{\theta}\begin{bmatrix} -\sin{\theta} & -\cos{\theta}  \\\ \cos{\theta} & -\sin{\theta}\end{bmatrix}
 \end{equation}
 
 
@@ -409,13 +409,13 @@ As in the previous section, \\(\ \_w\dot{\mathbf{R}}\_i\\) has a simple form:
 Let us now define \\(\mathbf{p}\\) in frame \\(s\\), which we'll assume is moving:
 
 \begin{equation}
-\mathbf{p}\_s = \_s\mathbf{R}\_w\Big(\begin{bmatrix}\bar{x}\_w \\\\ \bar{y}\_w \end{bmatrix} + \ \_w\mathbf{R}\_i(\theta\_w)\cdot \mathbf{r}\_i\Big) + \mathbf{x}\_w^s
+\mathbf{p}\_s = \_s\mathbf{R}\_w\Big(\begin{bmatrix}\bar{x}\_w \\\ \bar{y}\_w \end{bmatrix} + \ \_w\mathbf{R}\_i(\theta\_w)\cdot \mathbf{r}\_i\Big) + \mathbf{x}\_w^s
 \end{equation}
 
 The time derivative of \\(\mathbf{p}_s\\) is:
 
 \begin{equation}
-\dot{\mathbf{p}}\_s =\ \_s\dot{\mathbf{R}}\_{w}\Big(\begin{bmatrix}\dot{\bar{x}}\_w \\\\ \dot{\bar{y}}\_w \end{bmatrix} + \ \_w\dot{\mathbf{R}}\_{i} \cdot \mathbf{r}\_i\Big) + \dot{\mathbf{x}}\_w^s
+\dot{\mathbf{p}}\_s =\ \_s\dot{\mathbf{R}}\_{w}\Big(\begin{bmatrix}\dot{\bar{x}}\_w \\\ \dot{\bar{y}}\_w \end{bmatrix} + \ \_w\dot{\mathbf{R}}\_{i} \cdot \mathbf{r}\_i\Big) + \dot{\mathbf{x}}\_w^s
 \end{equation}
 
 \problem{Derive $\ddot{\mathbf{p}_s}$ from the equation above.}

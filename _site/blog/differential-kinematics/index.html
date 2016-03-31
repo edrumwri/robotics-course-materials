@@ -240,45 +240,11 @@ process converges to an answer.</p>
 
 <ol>
   <li>\(\mathbf{q} \leftarrow \mathbf{q}_{\textrm{init}}\)</li>
-  <li>Compute \(\Delta\mathbf{x} = \mathbf{x}_{\textrm{des}} - f(\mathbf{q}\))</li>
-  <li>
-    <table>
-      <tbody>
-        <tr>
-          <td>If \(</td>
-          <td> </td>
-          <td>\Delta \mathbf{x}</td>
-          <td> </td>
-          <td>&lt; \epsilon \) <strong>return</strong> <em>success</em></td>
-        </tr>
-      </tbody>
-    </table>
-  </li>
+  <li>Compute \(\Delta\mathbf{x} = \mathbf{x}_{\textrm{des}} - f(\mathbf{q})\)</li>
+  <li>If \(||\Delta \mathbf{x}|| \le \epsilon \) <strong>return</strong> <em>success</em></li>
   <li>Compute Jacobian (\(\mathbf{J}\)), evaluated at \(\mathbf{q}\)</li>
-  <li>
-    <table>
-      <tbody>
-        <tr>
-          <td>Solve least squares problem, \(\min_{\mathbf{q}}</td>
-          <td> </td>
-          <td>\mathbf{J}\Delta \mathbf{q} - \Delta \mathbf{x}</td>
-          <td> </td>
-          <td>\)</td>
-        </tr>
-      </tbody>
-    </table>
-  </li>
-  <li>
-    <table>
-      <tbody>
-        <tr>
-          <td>Determine \(t \le 1\) such that \(</td>
-          <td> </td>
-          <td>\mathbf{x}_{\textrm{des}} - \mathbf{f}(\mathbf{q + t\Delta \mathbf{q}}\)) is minimized</td>
-        </tr>
-      </tbody>
-    </table>
-  </li>
+  <li>Solve least squares problem, \(\min_{\mathbf{q}} ||\mathbf{J}\Delta \mathbf{q} - \Delta \mathbf{x}||\)</li>
+  <li>Determine \(t \le 1\) such that \(||\mathbf{x}_{\textrm{des}} - \mathbf{f}(\mathbf{q + t\Delta \mathbf{q}})||\) is minimized</li>
   <li>Update \(\mathbf{q}\): \(\mathbf{q} \leftarrow \mathbf{q} + t\Delta \mathbf{q}\)</li>
   <li>Repeat (2) until maximum iterations exceeded</li>
   <li><strong>return</strong> <em>failure</em></li>
@@ -300,10 +266,10 @@ approach: \(\mathbf{A}^\mathsf{T}\mathbf{b}\) does not generally yield a
 <em>descent direction</em> (a change in \(\mathbf{x}\)) that reduces \(||\mathbf{Ax} - \mathbf{b}||\). The Jacobian transpose method is able to leverage rigid body dynamics’ duality between force and
 velocity:</p>
 
-<p>\begin{align<em>}
-\mathbf{J}\dot{\mathbf{q}} &amp; = \dot{\mathbf{x}} \<br />
+<p>\begin{align}
+\mathbf{J}\dot{\mathbf{q}} &amp; = \dot{\mathbf{x}} \\
 \mathbf{J}^\mathsf{T}\mathbf{f} &amp; = \mathbf{\tau}
-\end{align</em>}</p>
+\end{align}</p>
 
 <p>The Jacobian transpose approach functions as if there were a spring attached 
 between frame \(p\) and \(\mathbf{x}_{\textrm{des}}\). Proof
@@ -311,17 +277,7 @@ that the Jacobian transpose approach yields a descent direction follows.</p>
 
 <p><strong>Theorem</strong>: \((\mathbf{JJ}^\mathsf{T}\Delta \mathbf{x})^\mathsf{T}\Delta \mathbf{x} \ge 0\)</p>
 
-<table>
-  <tbody>
-    <tr>
-      <td><em>Proof</em>: \((\mathbf{JJ}^\mathsf{T}\Delta \mathbf{x})^\mathsf{T}\Delta \mathbf{x} = (\mathbf{J}^\textsf{T}\Delta \mathbf{x})^\mathsf{T}(\mathbf{J}^\textsf{T}\Delta \mathbf{x}) =</td>
-      <td> </td>
-      <td>\mathbf{J}^\textsf{T}\Delta \mathbf{x}</td>
-      <td> </td>
-      <td>^2\)</td>
-    </tr>
-  </tbody>
-</table>
+<p><em>Proof</em>: \((\mathbf{JJ}^\mathsf{T}\Delta \mathbf{x})^\mathsf{T}\Delta \mathbf{x} = (\mathbf{J}^\textsf{T}\Delta \mathbf{x})^\mathsf{T}(\mathbf{J}^\textsf{T}\Delta \mathbf{x}) = ||\mathbf{J}^\textsf{T}\Delta \mathbf{x}||^2\)</p>
 
 <p>Properties of the Jacobian transpose method:</p>
 
@@ -335,7 +291,7 @@ that the Jacobian transpose approach yields a descent direction follows.</p>
 <p>Alternatively, we can use the right pseudo inverse to solve the least squares problem.</p>
 
 <p>\begin{align}
-\Delta \mathbf{q} &amp; = \mathbf{J}^+\Delta \mathbf{x} \<br />
+\Delta \mathbf{q} &amp; = \mathbf{J}^+\Delta \mathbf{x} \\
  &amp; = \mathbf{J}^\mathsf{T}(\mathbf{JJ}^\mathsf{T})^{-1}\Delta \mathbf{x}
 \end{align}</p>
 
@@ -375,17 +331,7 @@ solution to \(||\mathbf{J}\Delta \mathbf{q} - \Delta \mathbf{x}||\), the nullspa
 \mathbf{R} \equiv (\mathbf{I} - \mathbf{J}^+\mathbf{J})
 \end{equation}</p>
 
-<table>
-  <tbody>
-    <tr>
-      <td>If \(\Delta \mathbf{q}\) minimizes the residual \(</td>
-      <td> </td>
-      <td>\mathbf{J\Delta q} = \mathbf{\Delta x}</td>
-      <td> </td>
-      <td>\), then \(\mathbf{\Delta q} + \mathbf{Ry}\), where \(\mathbf{R} \in \mathbb{R}^{n \times m}, \mathbf{y} \in \mathbb{R}^m\) also minimizes the residual.</td>
-    </tr>
-  </tbody>
-</table>
+<p>If \(\Delta \mathbf{q}\) minimizes the residual \(||\mathbf{J\Delta q} = \mathbf{\Delta x}||\), then \(\mathbf{\Delta q} + \mathbf{Ry}\), where \(\mathbf{R} \in \mathbb{R}^{n \times m}, \mathbf{y} \in \mathbb{R}^m\) also minimizes the residual.</p>
 
 <p><em>Proof</em>:</p>
 
@@ -401,19 +347,7 @@ solution to \(||\mathbf{J}\Delta \mathbf{q} - \Delta \mathbf{x}||\), the nullspa
 <ul>
   <li>Maximizing a manipulability measure: \(g(\mathbf{q}) \equiv \sqrt{\textrm{det}(\mathbf{J(q)J}^\mathsf{T}(\mathbf{q})}\). Moves the robot away from singular configurations.</li>
   <li>Maximizing distance from joint limits: \(g(\mathbf{q}) \equiv \sum_{i=1}^n (q^{i^u} - q^i)^2 + (q^i - q^{i^l})^2\)</li>
-  <li>
-    <table>
-      <tbody>
-        <tr>
-          <td>Maximizing distance to an objstacle: \(g(\mathbf{q}) \equiv \min_{\mathbf{p}, \mathbf{o}}</td>
-          <td> </td>
-          <td>\mathbf{p}(\mathbf{q}) - \mathbf{o}</td>
-          <td> </td>
-          <td>\)</td>
-        </tr>
-      </tbody>
-    </table>
-  </li>
+  <li>Maximizing distance to an objstacle: \(g(\mathbf{q}) \equiv \min_{\mathbf{p}, \mathbf{o}} ||\mathbf{p}(\mathbf{q}) - \mathbf{o}||\)</li>
 </ul>
 
 <p>Finally, satisfying a hierarchy of task goals is possible using multiple nullspace projections.</p>
@@ -447,8 +381,8 @@ first order approximation and lack of re-orthogonalization mean that it
 generally will not be. So, to get \(\omega\), we use the skew-symmetric form of \(\mathbf{\omega} \times\) (again, <a href="../poses3">as you should recall</a>) resulting in:
 \begin{equation}
 \Delta \mathbf{x} = \frac{1}{2} \begin{bmatrix}
-\tilde{\omega}_{32} - \tilde{\omega}_{23} \<br />
-\tilde{\omega}_{13} - \tilde{\omega}_{31} \<br />
+\tilde{\omega}_{32} - \tilde{\omega}_{23} \\
+\tilde{\omega}_{13} - \tilde{\omega}_{31} \\
 \tilde{\omega}_{21} - \tilde{\omega}_{12}
 \end{bmatrix}
 \end{equation}</p>
@@ -544,7 +478,7 @@ for the Jacobian matrix that we compute below is the global reference frame.</p>
 
 <p>\begin{equation}
 \begin{bmatrix}
-j_{i_2} - p^o_2\<br />
+j_{i_2} - p^o_2\\
 p^o_1 - j_{i_1}
 \end{bmatrix}
 \end{equation}</p>
@@ -631,11 +565,11 @@ in the equation below:</p>
 
 <p>\begin{equation}
 \begin{bmatrix}
-\dot{\overrightarrow{\mathbf{x}}} \<br />
+\dot{\overrightarrow{\mathbf{x}}} \\
 \mathbf{\omega}
 \end{bmatrix} = 
 \begin{bmatrix}
-\mathbf{J}_{\overrightarrow{\mathbf{x}}} \<br />
+\mathbf{J}_{\overrightarrow{\mathbf{x}}} \\
 \mathbf{J}_{\mathbf{\omega}}
 \end{bmatrix}
 \dot{\mathbf{q}}
@@ -663,8 +597,8 @@ same entries in \(\dot{\mathbf{q}}\).</p>
 <p>Finally, we also have to determine the form of the Jacobian that we want: I’ll say that we want a \(3 \times 2\) Jacobian matrix so that \(\dot{\mathbf{x}}\) corresponds to:
 \begin{equation}
 \begin{bmatrix}
-\dot{x}\<br />
-\dot{y}\<br />
+\dot{x}\\
+\dot{y}\\
 \dot{\theta}
 \end{bmatrix}
 \end{equation}</p>
@@ -677,32 +611,32 @@ is:</p>
 <p>\begin{align}
 _w\mathbf{T}_1 \cdot\ _1\mathbf{T}_{1’} = 
 \begin{bmatrix} 
-c_1 &amp; -s_1 &amp; 0 \<br />
-s_1 &amp; c_1 &amp; 0 \<br />
+c_1 &amp; -s_1 &amp; 0 \\
+s_1 &amp; c_1 &amp; 0 \\
 0 &amp; 0 &amp; 1
 \end{bmatrix} \cdot
 \begin{bmatrix} 
-1 &amp; 0 &amp; \ell_1 \<br />
-0 &amp; 1 &amp; 0 \<br />
+1 &amp; 0 &amp; \ell_1 \\
+0 &amp; 1 &amp; 0 \\
 0 &amp; 0 &amp; 1
 \end{bmatrix} = 
 \begin{bmatrix} 
-c_1 &amp; -s_1 &amp; l_1 c_1 \<br />
-s_1 &amp; c_1 &amp; l_1 s_1 \<br />
+c_1 &amp; -s_1 &amp; l_1 c_1 \\
+s_1 &amp; c_1 &amp; l_1 s_1 \\
 0 &amp; 0 &amp; 1
 \end{bmatrix}
 \end{align}</p>
 
 <p>Summarizing:
 \begin{align}
-\mathbf{j}_1 &amp; = \begin{bmatrix} 0 \\ 0 \end{bmatrix} \<br />
+\mathbf{j}_1 &amp; = \begin{bmatrix} 0 \\ 0 \end{bmatrix} \\
 \mathbf{j}_2 &amp; = \begin{bmatrix} l_1 c_1 \\ l_1 s_1 \end{bmatrix}
 \end{align}</p>
 
 <p>\begin{equation}
 \begin{bmatrix}
--(l_1 s_1 + l_2 s_{1+2}) &amp; -l_2 s_{12}  \<br />
-l_1 c_1 + l_2 c_{1+2} &amp; l_2 c_{12} \<br />
+-(l_1 s_1 + l_2 s_{1+2}) &amp; -l_2 s_{12}  \\
+l_1 c_1 + l_2 c_{1+2} &amp; l_2 c_{12} \\
 1 &amp; 1
 \end{bmatrix}
 \end{equation}</p>
@@ -710,11 +644,11 @@ l_1 c_1 + l_2 c_{1+2} &amp; l_2 c_{12} \<br />
 <p>Note that this is equivalent to the 3D Jacobian:
 \begin{equation}
 \begin{bmatrix}
--(l_1 s_1 + l_2 s_{1+2}) &amp; -l_2 s_{12}  \<br />
-l_1 c_1 + l_2 c_{1+2} &amp; l_2 c_{12} \<br />
-0 &amp; 0 \<br />
-0 &amp; 0 \<br />
-0 &amp; 0 \<br />
+-(l_1 s_1 + l_2 s_{1+2}) &amp; -l_2 s_{12}  \\
+l_1 c_1 + l_2 c_{1+2} &amp; l_2 c_{12} \\
+0 &amp; 0 \\
+0 &amp; 0 \\
+0 &amp; 0 \\
 1 &amp; 1
 \end{bmatrix}
 \end{equation}</p>

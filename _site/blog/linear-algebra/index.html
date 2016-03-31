@@ -73,56 +73,56 @@ in matrix arithmetic and numerical linear algebra that I have found useful.</p>
 same dimensionality. Then, addition and subtraction are performed
 elementwise:</p>
 
-<p>\begin{equation<em>}
+<p>\begin{equation}
 \begin{bmatrix}
-u_1 \<br />
-u_2 \<br />
+u_1 \\
+u_2 \\
 u_3 
 \end{bmatrix} + 
 \begin{bmatrix}
-v_1 \<br />
-v_2 \<br />
+v_1 \\
+v_2 \\
 v_3
 \end{bmatrix} =
 \begin{bmatrix}
-u_1 + v_1 \<br />
-u_2 + v_2 \<br />
+u_1 + v_1 \\
+u_2 + v_2 \\
 u_3 + v_3 
 \end{bmatrix}
-\end{equation</em>}</p>
+\end{equation}</p>
 
-<p>\begin{equation<em>}
+<p>\begin{equation}
 \begin{bmatrix}
-m_{11} &amp; m_{12} &amp; m_{13} \<br />
-m_{21} &amp; m_{22} &amp; m_{23} \<br />
+m_{11} &amp; m_{12} &amp; m_{13} \\
+m_{21} &amp; m_{22} &amp; m_{23} \\
 m_{31} &amp; m_{32} &amp; m_{33}
 \end{bmatrix} + 
 \begin{bmatrix}
-n_{11} &amp; n_{12} &amp; n_{13} \<br />
-n_{21} &amp; n_{22} &amp; n_{23} \<br />
+n_{11} &amp; n_{12} &amp; n_{13} \\
+n_{21} &amp; n_{22} &amp; n_{23} \\
 n_{31} &amp; n_{32} &amp; n_{33}
 \end{bmatrix} = 
 \begin{bmatrix}
-m_{11} + n_{11} &amp; m_{12} + n_{12} &amp; m_{13} + n_{13} \<br />
-m_{21} + n_{21} &amp; m_{22} + n_{22} &amp; m_{23} + n_{23} \<br />
+m_{11} + n_{11} &amp; m_{12} + n_{12} &amp; m_{13} + n_{13} \\
+m_{21} + n_{21} &amp; m_{22} + n_{22} &amp; m_{23} + n_{23} \\
 m_{31} + n_{31} &amp; m_{32} + n_{32} &amp; m_{33} + n_{33}
 \end{bmatrix}
-\end{equation</em>}</p>
+\end{equation}</p>
 
 <h4 id="matrix-and-vector-scaling">Matrix and vector scaling</h4>
 
 <p>Matrix and vectors can be scaled by multiplying every element in the matrix or vector by the scalar, as seen below:</p>
 
-<p>\begin{align<em>}
+<p>\begin{align}
 \mathbf{M} &amp; \equiv \begin{bmatrix} 
-m_{11} &amp; m_{12} &amp; m_{13} \<br />
-m_{21} &amp; m_{22} &amp; m_{23} \<br />
+m_{11} &amp; m_{12} &amp; m_{13} \\
+m_{21} &amp; m_{22} &amp; m_{23} \\
 m_{31} &amp; m_{32} &amp; m_{33} \end{bmatrix} \\ 
 s \mathbf{M} &amp; = \begin{bmatrix}
-s m_{11} &amp; sm_{12} &amp; sm_{13} \<br />
-s m_{21} &amp; sm_{22} &amp; sm_{23} \<br />
+s m_{11} &amp; sm_{12} &amp; sm_{13} \\
+s m_{21} &amp; sm_{22} &amp; sm_{23} \\
 s m_{31} &amp; sm_{32} &amp; sm_{33} \end{bmatrix} 
-\end{align</em>}
+\end{align}
 for \(s \in \mathbb{R}\)</p>
 
 <h4 id="special-matrices">Special matrices</h4>
@@ -149,18 +149,20 @@ For two vectors \(\mathbf{a}, \mathbf{b} \in \mathbb{R}^3\), \(\mathbf{a} \times
 
 <p>The cross product is distributive over addition:</p>
 
-<p>\begin{equation<em>}
+<p>\begin{equation}
 \mathbf{a} \times (\mathbf{b} + \mathbf{c}) = \mathbf{a} \times \mathbf{b} + \mathbf{a} \times \mathbf{c}
-\end{equation</em>}</p>
+\end{equation}</p>
 
 <h5 id="computing-the-cross-product">Computing the cross product</h5>
 
 <p>For the right handed cross product, 
-<script type="math/tex">\mathbf{a} \times \mathbf{b} = \begin{bmatrix}
-a\_2b\_3 - a\_3b\_2 \\\\
-a\_3b\_1 - a\_1b\_3 \\\\
-a\_1b\_2 - a\_2b\_1
-\end{bmatrix}</script></p>
+\begin{equation}
+\mathbf{a} \times \mathbf{b} = \begin{bmatrix}
+a_2b_3 - a_3b_2 \\
+a_3b_1 - a_1b_3 \\
+a_1b_2 - a_2b_1
+\end{bmatrix}
+\end{equation}</p>
 
 <p>The left handed cross product is just the negation of this vector.</p>
 
@@ -168,11 +170,11 @@ a\_1b\_2 - a\_2b\_1
 
 <p>The inner product operation (also called the <em>dot product</em>) between two vectors \(\mathbf{a}\) and \(\mathbf{b}\) is written \(\lt \mathbf{a}, \mathbf{b}\gt \), \(\mathbf{a}^{\textsf{T}}\mathbf{b}\), or \(\mathbf{a} \cdot \mathbf{b}\). The inner product is only defined for vectors of equal dimension and consists of the sum of the products of the corresponding elements from the two vectors. An example is given below:</p>
 
-<p>\begin{align<em>}
-\mathbf{a} &amp; \equiv \begin{bmatrix} a_1 \\ a_2 \\ a_3 \\ a_4 \end{bmatrix} \<br />
-\mathbf{b} &amp; \equiv \begin{bmatrix} b_1 \\ b_2 \\ b_3 \\ b_4 \end{bmatrix} \<br />
+<p>\begin{align}
+\mathbf{a} &amp; \equiv \begin{bmatrix} a_1 \\ a_2 \\ a_3 \\ a_4 \end{bmatrix} \\
+\mathbf{b} &amp; \equiv \begin{bmatrix} b_1 \\ b_2 \\ b_3 \\ b_4 \end{bmatrix} \\
 \mathbf{a}^\textsf{T}\mathbf{b} &amp; = a_1 b_1 + a_2 b_2 + a_3 b_3 + a_4 b_4
-\end{align</em>}</p>
+\end{align}</p>
 
 <p>Some properties of the inner product follow, for real vectors \(\mathbf{a}, \mathbf{b}, \mathbf{c}\):</p>
 
@@ -189,23 +191,23 @@ a\_1b\_2 - a\_2b\_1
 <p>Matrix/vector multiplication is identical to multiple inner (dot) product
 operations over the rows of \(\mathbf{A}\). Assume we define matrix \(\mathbf{A}\) as follows:</p>
 
-<p>\begin{equation<em>}
+<p>\begin{equation}
 \mathbf{A} \equiv \begin{bmatrix} \mathbf{a}_1 \\ \vdots \\ \mathbf{a}_m \end{bmatrix}
-\end{equation</em>}</p>
+\end{equation}</p>
 
 <p>We can then compute the matix vector product \(\mathbf{Av}\) using \(m\) inner products:</p>
 
-<p>\begin{equation<em>}
+<p>\begin{equation}
 \mathbf{Av} = \begin{bmatrix} \mathbf{a}_1\mathbf{v} \\ \vdots \\ \mathbf{a}_m\mathbf{v} \end{bmatrix}
-\end{equation</em>}</p>
+\end{equation}</p>
 
 <p>As a concrete example, we define:</p>
 
-<p>\begin{align<em>}
-\mathbf{A} &amp; \equiv \begin{bmatrix} a &amp; b &amp; c \\ d &amp; e &amp; f \end{bmatrix} \<br />
-\mathbf{v} &amp; \equiv \begin{bmatrix} g \\ h \\ i \end{bmatrix} \<br />
+<p>\begin{align}
+\mathbf{A} &amp; \equiv \begin{bmatrix} a &amp; b &amp; c \\ d &amp; e &amp; f \end{bmatrix} \\
+\mathbf{v} &amp; \equiv \begin{bmatrix} g \\ h \\ i \end{bmatrix} \\
 \mathbf{Av} &amp; = \begin{bmatrix} ag + bh + ci \\ dg + eh + fi \end{bmatrix}
-\end{align</em>}</p>
+\end{align}</p>
 
 <h4 id="matrixmatrix-multiplication">Matrix/matrix multiplication</h4>
 
@@ -218,18 +220,18 @@ over multiple columns:</p>
 
 <p>As a concrete example:</p>
 
-<p>\begin{align<em>}
+<p>\begin{align}
 \mathbf{M} &amp; \equiv 
-\begin{bmatrix} a &amp; b \\ c &amp; d \\ e &amp; f \end{bmatrix} \<br />
-\mathbf{n}_1 &amp; \equiv \begin{bmatrix} g \\ j \end{bmatrix}  \<br />
-\mathbf{n}_2 &amp; \equiv \begin{bmatrix} h \\ k \end{bmatrix}  \<br />
-\mathbf{n}_3 &amp; \equiv \begin{bmatrix} i \\ l \end{bmatrix}  \<br />
-\mathbf{N} &amp; \equiv \begin{bmatrix} \mathbf{n}_1 &amp; \mathbf{n}_2 &amp; \mathbf{n}_3 \end{bmatrix} \<br />
-\mathbf{Mn}_1 &amp; \equiv \begin{bmatrix} ag + bj \\ cg + dj \\ eg + fj \end{bmatrix} \<br />
-\mathbf{Mn}_2 &amp; \equiv \begin{bmatrix} ah + bk \\ ch + dk \\ eh + fk \end{bmatrix} \<br />
-\mathbf{Mn}_3 &amp; \equiv \begin{bmatrix} ai + bl \\ ci + dl \\ ei + fl \end{bmatrix} \<br />
+\begin{bmatrix} a &amp; b \\ c &amp; d \\ e &amp; f \end{bmatrix} \\
+\mathbf{n}_1 &amp; \equiv \begin{bmatrix} g \\ j \end{bmatrix}  \\
+\mathbf{n}_2 &amp; \equiv \begin{bmatrix} h \\ k \end{bmatrix}  \\
+\mathbf{n}_3 &amp; \equiv \begin{bmatrix} i \\ l \end{bmatrix}  \\
+\mathbf{N} &amp; \equiv \begin{bmatrix} \mathbf{n}_1 &amp; \mathbf{n}_2 &amp; \mathbf{n}_3 \end{bmatrix} \\
+\mathbf{Mn}_1 &amp; \equiv \begin{bmatrix} ag + bj \\ cg + dj \\ eg + fj \end{bmatrix} \\
+\mathbf{Mn}_2 &amp; \equiv \begin{bmatrix} ah + bk \\ ch + dk \\ eh + fk \end{bmatrix} \\
+\mathbf{Mn}_3 &amp; \equiv \begin{bmatrix} ai + bl \\ ci + dl \\ ei + fl \end{bmatrix} \\
 \mathbf{MN} &amp; \equiv \begin{bmatrix} ag+bj &amp; ah+bk &amp; ai+bl \\ cg+dj &amp; ch+dk &amp; ci + dl\\ eg+fj &amp; eh+fk &amp; ei+fl \end{bmatrix}
-\end{align</em>}</p>
+\end{align}</p>
 
 <p>Note that <strong>matrix multiplication is not commutative</strong>: \(\mathbf{AB} \ne \mathbf{BA}\) (generally), even when the dimensions are compatible.</p>
 
@@ -267,7 +269,7 @@ over multiple columns:</p>
 <p>The inverse of a matrix \(\mathbf{A}\), written \(\mathbf{A}^{-1}\), is characterized by the following properties:</p>
 
 <p>\begin{align}
-\mathbf{AA}^{-1} &amp; = \mathbf{I} \<br />
+\mathbf{AA}^{-1} &amp; = \mathbf{I} \\
 \mathbf{A}^{-1}\mathbf{A} &amp; = \mathbf{I}
 \end{align}</p>
 
@@ -397,42 +399,13 @@ with definite matrices.</p>
 
 <p>I like to consider matrix factorizations in ascending order of computational expense. Correlated with computational expense is numerical robustness. A list of the factorizations follows:</p>
 
-<table>
-  <thead>
-    <tr>
-      <th>Factorization</th>
-      <th>Flops</th>
-      <th>Applicability</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Cholesky factorization</td>
-      <td>\(n^3/3\)</td>
-      <td>Positive-definite matrices only</td>
-    </tr>
-    <tr>
-      <td>LDL\(^\mathsf{T}\) factorization</td>
-      <td>\(n^3/2 + O(n^2)\)</td>
-      <td>Symmetric matrices only</td>
-    </tr>
-    <tr>
-      <td>LU factorization</td>
-      <td>\(2n^3/3\)</td>
-      <td>Non-singular matrices (no least squares)</td>
-    </tr>
-    <tr>
-      <td>QR factorization</td>
-      <td>\(4n^3/3\)</td>
-      <td>Singular and non-singular matrices (least squares ok)</td>
-    </tr>
-    <tr>
-      <td>Singular value decomposition</td>
-      <td>\(8n^3/3\)</td>
-      <td>Singular and non-singular matrices (least squares ok)</td>
-    </tr>
-  </tbody>
-</table>
+<p>Factorization | Flops | Applicability
+—- | —- | —-
+Cholesky factorization | \(n^3/3\) | Positive-definite matrices only
+LDL\(^\mathsf{T}\) factorization | \(n^3/2 + O(n^2)\) | Symmetric matrices only
+LU factorization | \(2n^3/3\) | Non-singular matrices (no least squares)
+QR factorization | \(4n^3/3\) | Singular and non-singular matrices (least squares ok) 
+Singular value decomposition | \(8n^3/3\) | Singular and non-singular matrices (least squares ok)</p>
 
 <h4 id="nullspace">Nullspace</h4>
 
@@ -463,9 +436,9 @@ hierarchical fashion.</p>
 <p>\begin{equation}
 \nabla f_{\mathbf{x}} \equiv
 \begin{bmatrix}
-\frac{\partial f}{\partial x_1} \<br />
-\vdots \<br />
-\frac{\partial f}{\partial x_n} \<br />
+\frac{\partial f}{\partial x_1} \\
+\vdots \\
+\frac{\partial f}{\partial x_n} \\
 \end{bmatrix}
 \end{equation}</p>
 
@@ -475,9 +448,9 @@ hierarchical fashion.</p>
 <p>\begin{equation}
 \nabla f_{\mathbf{xx}} \equiv 
 \begin{bmatrix}
-\frac{\partial^2 f}{\partial x_1^2} &amp; \ldots &amp; \frac{\partial^2 f}{\partial x_1 \partial x_n}\<br />
-\vdots \<br />
-\frac{\partial^2 f}{\partial x_n \partial x_1} &amp; \ldots &amp; \frac{\partial^2 f}{\partial x_n^2}\<br />
+\frac{\partial^2 f}{\partial x_1^2} &amp; \ldots &amp; \frac{\partial^2 f}{\partial x_1 \partial x_n}\\
+\vdots \\
+\frac{\partial^2 f}{\partial x_n \partial x_1} &amp; \ldots &amp; \frac{\partial^2 f}{\partial x_n^2}\\
 \end{bmatrix}
 \end{equation}</p>
 
@@ -489,12 +462,12 @@ hierarchical fashion.</p>
 of each function output dimension taken with respect to the partial derivative of each function input dimension. Let us examine a contrived function, \(f : \mathbb{R}^3 \to \mathbb{R}^2\); \(f(.)\) might represent a vector flow for
 points in three dimensional Cartesian space. The Jacobian of \(f(.)\) is then:</p>
 
-<p>\begin{equation<em>}
+<p>\begin{equation}
 \frac{\partial f}{\partial \mathbf{x}} = \begin{bmatrix} 
-\frac{\partial f_1}{\partial x_1} &amp; \frac{\partial f_1}{\partial x_2} &amp; \frac{\partial f_1}{\partial x_3} \<br />
+\frac{\partial f_1}{\partial x_1} &amp; \frac{\partial f_1}{\partial x_2} &amp; \frac{\partial f_1}{\partial x_3} \\
 \frac{\partial f_2}{\partial x_1} &amp; \frac{\partial f_2}{\partial x_2} &amp; \frac{\partial f_2}{\partial x_3} 
 \end{bmatrix} 
-\end{equation</em>}</p>
+\end{equation}</p>
 
 <p>Just like the standard derivative, the Jacobian matrix gives the instantaneous change in \(f(.)\) at \(\mathbf{x}\).</p>
 
@@ -520,25 +493,7 @@ to be multiple (infinite) assignments to \(\mathbf{x}\) that make \(||\mathbf{Ax
 
 <h5 id="the-moore-penrose-pseudo-inverse">The Moore-Penrose pseudo-inverse</h5>
 
-<table>
-  <tbody>
-    <tr>
-      <td><em>Two</em> least squares problems become evident: (1) select \(\mathbf{x}\) such that  \(</td>
-      <td> </td>
-      <td>\mathbf{Ax} - \mathbf{b}</td>
-      <td> </td>
-      <td>\) is minimized. If \(</td>
-      <td> </td>
-      <td>\mathbf{Ax} - \mathbf{b}</td>
-      <td> </td>
-      <td>= 0\), then (2) select the solution that minimizes \(</td>
-      <td> </td>
-      <td>\mathbf{x}</td>
-      <td> </td>
-      <td>\). Both solutions can be obtained using the Moore-Penrose pseudo-inverse (which is denoted using the operator \(\ ^+\), which has some of the properties of the inverse (I’ll only list a few below):</td>
-    </tr>
-  </tbody>
-</table>
+<p><em>Two</em> least squares problems become evident: (1) select \(\mathbf{x}\) such that  \(||\mathbf{Ax} - \mathbf{b}||\) is minimized. If \(||\mathbf{Ax} - \mathbf{b}|| = 0\), then (2) select the solution that minimizes \(||\mathbf{x}||\). Both solutions can be obtained using the Moore-Penrose pseudo-inverse (which is denoted using the operator \(\ ^+\), which has some of the properties of the inverse (I’ll only list a few below):</p>
 
 <ol>
   <li>\(\mathbf{A}\mathbf{A}^+ = \mathbf{I}\)</li>
@@ -567,10 +522,10 @@ constitutes a <em>right inverse</em> (because \(\mathbf{A}\mathbf{A}^+ = \mathbf
 we can also use the singular value decomposition to solve least squares 
 problems.</p>
 
-<p>Recall that the singular value decomposition of \(\mathbf{A} = \mathbf{U\Sigma}mathbf{V}^{\mathsf{T}}\). \(\mathbf{U}\) and \(\mathbf{V}\) are both orthogonal, which means that \(\mathbf{U}^{-1} = \mathbf{U}^{\mathsf{T}}\) and \(\mathbf{V}^{-1} = \mathbf{V}^{\mathsf{T}}\). From the identity above, \(\mathbf{A}^{-1} = \mathbf{V}\Sigma^{-1}\mathbf{U}^{\mathsf{T}}\). For non-square \(\mathbf{A}\), \(\mathbf{A}^+ = \mathbf{V}\mathbf{\Sigma}^+{\mathbf{U}}^\mathsf{T}\), where \(\Sigma^+\) will be defined as follows:</p>
+<p>Recall that the singular value decomposition of \(\mathbf{A} = \mathbf{U\Sigma}\mathbf{V}^{\mathsf{T}}\). \(\mathbf{U}\) and \(\mathbf{V}\) are both orthogonal, which means that \(\mathbf{U}^{-1} = \mathbf{U}^{\mathsf{T}}\) and \(\mathbf{V}^{-1} = \mathbf{V}^{\mathsf{T}}\). From the identity above, \(\mathbf{A}^{-1} = \mathbf{V}\Sigma^{-1}\mathbf{U}^{\mathsf{T}}\). For non-square \(\mathbf{A}\), \(\mathbf{A}^+ = \mathbf{V}\mathbf{\Sigma}^+{\mathbf{U}}^\mathsf{T}\), where \(\Sigma^+\) will be defined as follows:</p>
 
 <p>\begin{equation}
-\Sigma_{ij}^+ \leftarrow \begin{cases}\frac{1}{\Sigma_{ij}} &amp; \textrm{if } i = j, \<br />
+\Sigma_{ij}^+ \leftarrow \begin{cases}\frac{1}{\Sigma_{ij}} &amp; \textrm{if } i = j, \\
 0 &amp; \textrm{if } i \ne j. \end{cases}
 \end{equation}</p>
 
@@ -589,7 +544,7 @@ robustness.</p>
 <p>The formula for computing \(\mathbf{\Sigma}^+\) can be updated for a numerically robust solution:</p>
 
 <p>\begin{equation}
-\Sigma_{ij}^+ \leftarrow \begin{cases}\frac{1}{\Sigma_{ij}} &amp; \textrm{if } i = j \textrm{ and } \Sigma_{ij} &gt; \epsilon, \<br />
+\Sigma_{ij}^+ \leftarrow \begin{cases}\frac{1}{\Sigma_{ij}} &amp; \textrm{if } i = j \textrm{ and } \Sigma_{ij} &gt; \epsilon, \\
 0 &amp; \textrm{if } i \ne j \textrm{ or } \Sigma_{ij} \le \epsilon. \end{cases}
 \end{equation}</p>
 

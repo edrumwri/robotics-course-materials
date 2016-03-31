@@ -139,8 +139,8 @@ Brazil.</p>
 <p>The Lorenz equations follow:</p>
 
 <p>\begin{align}
-\frac{dx}{dt} &amp; = \sigma(y - x) \<br />
-\frac{dy}{dt} &amp; = x(\rho - z) - y \<br />
+\frac{dx}{dt} &amp; = \sigma(y - x) \\
+\frac{dy}{dt} &amp; = x(\rho - z) - y \\
 \frac{dz}{dt} &amp; = xy - \beta z 
 \end{align}</p>
 
@@ -493,7 +493,7 @@ both real and imaginary eigenvalues.</p>
 first look for equilibrium points. Equilibrium points for the pendulum exist where \(\dot{\theta} = 0, \dot{\varphi} = 0\). \(\dot{\theta} = 0\) when the velocity of the pendulum is zero,
 so that part is easy. We next solve Equation \ref{eqn:varphi} for \(\dot{\varphi} = 0\):
 \begin{align}
-\dot{\varphi} &amp; = -g/L \sin \theta \<br />
+\dot{\varphi} &amp; = -g/L \sin \theta \\
 0 &amp; = -g/L \sin \theta
 \end{align}
 \(\sin \theta\) is zero for \(\theta = \{ 0, \pi \}\). Therefore, the
@@ -504,7 +504,7 @@ because of the presence of the \(\sin\) term, which means that it seems that we 
 if we notice that \(\sin \theta \approx \theta\) for \(\theta \approx 0\) and \(\sin \theta \approx \pi - \theta\) for \(\theta \approx \pi\), then
 we can get a <em>linearization</em> for \(\dot{\varphi}\):
 \begin{equation}
-\dot{\varphi} \approx \begin{cases} -g/L\ \theta &amp; \textrm{ if } \theta \approx 0 \<br />
+\dot{\varphi} \approx \begin{cases} -g/L\ \theta &amp; \textrm{ if } \theta \approx 0 \\
 -g/L\ (\pi - \theta) &amp; \textrm{ if } \theta \approx \pi \end{cases}
 \end{equation}</p>
 
@@ -514,12 +514,12 @@ we can get a <em>linearization</em> for \(\dot{\varphi}\):
 
 <p>\begin{equation}
 \begin{bmatrix}
-\dot{\theta} \<br />
+\dot{\theta} \\
 \dot{\varphi}
 \end{bmatrix} =
 \mathbf{A}
 \begin{bmatrix}
-\theta \<br />
+\theta \\
 \varphi
 \end{bmatrix}
 \end{equation}</p>
@@ -528,11 +528,11 @@ we can get a <em>linearization</em> for \(\dot{\varphi}\):
 
 <p>\begin{align}
 \mathbf{A}_0 &amp; = \begin{bmatrix} 
-0 &amp; 1 \<br />
+0 &amp; 1 \\
 -g/L &amp; 0
-\end{bmatrix}\<br />
+\end{bmatrix}\\
 \mathbf{A}_\pi &amp; = \begin{bmatrix}
-0 &amp; 1 \<br />
+0 &amp; 1 \\
 g/L &amp; 0
 \end{bmatrix} 
 \end{align}</p>
