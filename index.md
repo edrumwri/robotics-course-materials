@@ -20,3 +20,5 @@ layout: default
 
 #### [Differential kinematics](blog/differential-kinematics)
 
+#### [Trajectory formation](blog/traj)
+
