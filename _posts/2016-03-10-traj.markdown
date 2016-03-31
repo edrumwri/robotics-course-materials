@@ -360,12 +360,12 @@ TODO: make sure we point out how it can be difficult to ensure that we start exe
 TODO: talk about very, very small timespans
 {% endcomment %}
 
-## Further reading
 {% comment %}
+## Further reading
 TODO: fill these in
 * Trajectory scaling
-{% endcomment %}
 
 * Trajectory optimization. Numerical methods. [Dido's Problem](http://galileo.phys.virginia.edu/classes/321.jvn.fall02/var_meth.pdf) 
+{% endcomment %}
 
 
