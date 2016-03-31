@@ -5,8 +5,8 @@
     <description>Robotics</description>
     <link>/robotics-course-materials/robotics-course-materials/</link>
     <atom:link href="/robotics-course-materials/robotics-course-materials/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 09 Mar 2016 12:49:30 -0500</pubDate>
-    <lastBuildDate>Wed, 09 Mar 2016 12:49:30 -0500</lastBuildDate>
+    <pubDate>Wed, 30 Mar 2016 21:27:20 -0400</pubDate>
+    <lastBuildDate>Wed, 30 Mar 2016 21:27:20 -0400</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       
@@ -3480,6 +3480,386 @@ rather than more general robots (like humanoids). &lt;/p&gt;
         <pubDate>Fri, 11 Dec 2015 00:00:00 -0500</pubDate>
         <link>/robotics-course-materials/robotics-course-materials/blog/differential-kinematics/</link>
         <guid isPermaLink="true">/robotics-course-materials/robotics-course-materials/blog/differential-kinematics/</guid>
+        
+        
+      </item>
+      
+    
+      
+      <item>
+        <title>Trajectory formation</title>
+        <description>&lt;p&gt;The problem of &lt;em&gt;trajectory formation&lt;/em&gt; seeks a geometric path that is a function
+of time. In robotics, this problem encompasses many problems, as examples:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Point to point motion for a joint&lt;/em&gt;: Given a desired movement time \(\Delta t = t_f - t_0\) and current \(\theta_0\) and desired configuration \(\theta_f\) of a joint in a robot, find a function \(\tau : \mathbb{R} \to \mathbb{R}\) such that (1) \(\tau(t_0) = \theta_0, \tau(t_f) = \theta_f\); (2) \(\dot{\tau}\) and \(\ddot{\tau}\) exist; and (3) \(\dot{\tau}(t) = \ddot{\tau}(t) = 0\) for \(t \ge t_f\). &lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Point to point motion for a joint with one or more intermediate points&lt;/em&gt;: Given current \(\theta_0\) and desired intermediate and final configurations \(\theta_{i_1}, \ldots, \theta_{i_n}\), and \(\theta_f\), respectively- with corresponding desired arrival times \(t_{i_1}, \ldots, t_{t_n}\) and \(t_f\)-  of a joint in a robot, find a function \(\tau : \mathbb{R} \to \mathbb{R}\) such that (1) \(\tau(t_0) = \theta_0, \tau(t_{i_j}) = \theta(t_{i_j}) (\textrm{ for } j=1,\ldots,n), \tau(t_f) = \theta_f\); (2) \(\dot{\tau}\) and \(\ddot{\tau}\) exist; and (3) \(\dot{\tau}(t) = \ddot{\tau}(t) = 0\) for \(t \ge t_f\). &lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Point to point motion for a point on the robot&lt;/em&gt; (like an end-effector): Given a desired movement time \(\Delta t = t_f - t_0\) and current \(\mathbf{x}_0\) and desired configuration \(\mathbf{x}_f\) of a specified point on a robot link, find a function \(\tau : \mathbb{R} \to \mathbb{R}\) such that (1) \(\tau(t_0) = \mathbf{x}_0, \tau(t_f) = \mathbf{x}_f\); (2) \(\dot{\tau}\) and \(\ddot{\tau}\) exist; and (3) \(\dot{\tau}(t) = \ddot{\tau}(t) = 0\) for \(t \ge t_f\). &lt;em&gt;This problem requires inverse kinematics&lt;/em&gt;. &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The trajectory formation problem is specified as follows:&lt;/p&gt;
+
+&lt;p&gt;Given a desired movement time \(\Delta t = t_f - t_0\) and current \(\theta_0\) and desired configuration \(\theta_f\) of a joint in a robot, find a function \(\tau : \mathbb{R} \to \mathbb{R}\) such that (1) \(\tau(t_0) = \theta_0, \tau(t_f) = \theta_f\); (2) \(\dot{\tau}\) and \(\ddot{\tau}\) exist; and (3) \(\dot{\tau}(t) = \ddot{\tau}(t) = 0\) for \(t \ge t_f\)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Testing your understanding&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;p&gt;Identify the types of trajectories in the videos below. First segment the
+trajectories into point-to-point motions (where velocities are zero). Now
+try to answer the following questions: (1) Is the trajectory planned in joint space or in operational space? (2) Does the motion include any intermediate points (or does it just move between a starting and an ending point?) &lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=z5U9QRiY46I&quot;&gt;QRIO humanoid&lt;/a&gt;- consider upper body motion only&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://robotics.gwu.edu/videos/irex2015/MVI_0790.MP4&quot;&gt;Industrial robot&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;polynomials-and-spline-based-trajectories&quot;&gt;Polynomials and spline-based trajectories&lt;/h2&gt;
+
+&lt;p&gt;The straightest path between two points (in Euclidean space) is a line
+segment. Robots generally do not use linear trajectories, though, because
+the velocity will be constant over the execution, meaning that there is no
+time to &amp;quot;ramp up&amp;quot; to the desired velocity at the end of the movement 
+(if necessary) and &amp;quot;ramp down&amp;quot; to zero velocity (again, if necessary).
+&lt;em&gt;Those discontinuities are more liable to result in damage to the robot&lt;/em&gt;&amp;#39;s motors.&lt;/p&gt;
+
+&lt;p&gt;A straightforward way to address this problem is to use a trapezoidal velocity profile, as depicted below, which gives the robot time to reach the peak
+velocity, which may even be the maximum velocity of the actuator. &lt;/p&gt;
+
+&lt;P&gt;
+&lt;table class=&quot;image&quot;&gt;
+&lt;caption align=&quot;bottom&quot;&gt;A trapezoidal velocity profile.&lt;/caption&gt;
+&lt;img src=&quot;http://i.stack.imgur.com/elGpP.gif&quot; alt=&quot;A trapezoidal velocity profile.&quot; width=&quot;&quot;/&gt;
+&lt;/table&gt;
+&lt;/P&gt;
+
+&lt;p&gt;The picture also plots the acceleration profile, which is clearly not smooth,
+and robots operate more accurately and exhibit less wear under smooth commands.
+Rather than trying to pose paths and velocity profiles, we can start by
+stating the constraints- position and velocity- that should be satisfied at each endpoint: &lt;/p&gt;
+
+&lt;p&gt;\begin{align}
+\tau(t_0) &amp;amp; = \theta_0 \\
+\tau(t_f) &amp;amp; = \theta_f \\
+\dot{\tau(t_0)} &amp;amp; = \dot{\theta_0} \\
+\dot{\tau(t_f)} &amp;amp; = \dot{\theta_f} \\
+\end{align}&lt;/p&gt;
+
+&lt;p&gt;This case only considers the path that a single joint follows over time.
+For the \(n\) joints of a robot, \(4n\) constraints would be necessary.
+&lt;strong&gt;Question: are the constraints for each joint independent of the constraints
+of each other joint? In other words, do I have to solve \(4n\) equations
+simultaneously or 4 simultaneous equations \(n\) times (and which is faster?)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;cubic-polynomials&quot;&gt;Cubic polynomials&lt;/h3&gt;
+
+&lt;p&gt;A line segment is just a polynomial of degree one, and a cubic polynomial is defined by four constants: 
+\begin{equation}
+\tau(t) \equiv a_3t^3 + a_2t^2 + a_1t + a_0
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;which means that we can 
+evaluate the cubic polynomial at \(t_0)\) and \(t_f)\) and solve for
+these constants. Not only that, but the cubic polynomial is a linear function
+of its constants, indicating that we can obtain a guaranteed solution to the
+value of the constants using linear algebra (assuming that the four equations
+are independent, which they are).&lt;/p&gt;
+
+&lt;P&gt;
+&lt;table class=&quot;image&quot;&gt;
+&lt;caption align=&quot;bottom&quot;&gt;Plot of the function (x^3 + 3x^2 - 6x - 8)/4&lt;/caption&gt;
+&lt;img src=&quot;https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Polynomialdeg3.svg/210px-Polynomialdeg3.svg.png&quot; alt=&quot;Plot of the function (x^3 + 3x^2 - 6x - 8)/4&quot; width=&quot;&quot;/&gt;
+&lt;/table&gt;
+&lt;/P&gt;
+
+&lt;p&gt;A nice property of cubic polynomials is that they have a smooth bell-shaped velocity profile as seen in the equation below and the plot following:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+\dot{\tau}(t) = 3a_3t^2 + 2a_2t + a_t
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../../assets/img/bell-shaped.jpg&quot; alt=&quot;bell shaped trajectory profile&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;In other words, the cubic polynomial satisfies our smoothness requirement and satisfies all of our endpoint constraints as well.&lt;/p&gt;
+
+&lt;p&gt;Evaluating the cubic polynomial and its derivative at \(t_0\) and \(t_f\), we now formulate the system of linear equations, solving for the &lt;em&gt;a&lt;/em&gt; parameters:&lt;/p&gt;
+
+&lt;p&gt;\begin{align}
+a_3t_0^3 + a_2t_0^2 + a_1t_0 + a_0 &amp;amp; = \theta_0 \\
+a_3t_f^3 + a_2t_f^2 + a_1t_f + a_0 &amp;amp; = \theta_f \\
+3a_3t_0^2 + 2a_2t_0 + a_1 &amp;amp; = \dot{\theta_0} \\
+3a_3t_2^2 + 2a_2t_f + a_1 &amp;amp; = \dot{\theta_f}
+\end{align}&lt;/p&gt;
+
+&lt;p&gt;or in matrix form, showing the \(a_i\) variables to solve for:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+\begin{bmatrix}
+t_0^3 &amp;amp; t_0^2 &amp;amp; t_0 &amp;amp; 1 \\
+t_f^3 &amp;amp; t_f^2 &amp;amp; t_f &amp;amp; 1 \\
+3t_0^2 &amp;amp; 2t_0 &amp;amp; 1 &amp;amp; 0 \\
+3t_f^2 &amp;amp; 2t_f &amp;amp; 1 &amp;amp; 0
+\end{bmatrix}
+\begin{bmatrix}
+a_3 \\
+a_2 \\
+a_1 \\
+a_0 
+\end{bmatrix} =
+\begin{bmatrix}
+\theta_0 \\
+\theta_f \\
+\dot{\theta}_0 \\
+\dot{\theta}_f
+\end{bmatrix}
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;This (\(4 \times 4\) system is small enough to be solved analytically; the closed form solution is provided in &lt;a href=&quot;http://www.springer.com/us/book/9781852332211&quot;&gt;S&amp;amp;S&lt;/a&gt;, among other references. From the closed form solution presented in S&amp;amp;S, it is clear that the system is always solvable unless \(t_0 = t_f\). One
+downside to cubic polynomials is that the acceleration is not zero at endpoints, meaning that the higher derivatives of the trajectory are not smooth. Remember: smoother motions tend to increase a robot&amp;#39;s longevity. &lt;/p&gt;
+
+&lt;h3 id=&quot;quintic-polynomials&quot;&gt;Quintic polynomials&lt;/h3&gt;
+
+&lt;p&gt;A straightforward way to introduce acceleration constraints is to use a 
+higher order polynomial. A quintic polynomial:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+\tau(t) \equiv a_5t^5 + a_4t^4 + a_3t^3 + a_2t^2 + a_1t + a_0
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;will permit constraining acceleration at the beginning and end of the
+movement. Again, setting this up as a system of linear equations, and solving for &lt;em&gt;a&lt;/em&gt; params:&lt;/p&gt;
+
+&lt;p&gt;\begin{align}
+a_5t_0^5 + a_4t_0^4 + a_3t_0^3 + a_2t^2 + a_1t + a_0 &amp;amp; = \theta_0 \\
+a_5t_f^5 + a_4t_f^4 + a_3t_f^3 + a_2t^2 + a_1t + a_0 &amp;amp; = \theta_f \\
+5a_5t_0^4 + 4a_4t_0^3 + 3a_3t_0^2 + 2a_2t_0 + a_1 &amp;amp; = \dot{\theta_0} \\
+5a_5t_0^4 + 4a_4t_f^3 + 3a_3t_2^2 + 2a_2t_f + a_1 &amp;amp; = \dot{\theta_f} \\
+20a_5t_0^3 + 12a_4t_0^2 + 6a_3t_0 + 2a_2 = \ddot{\theta_0} \\
+20a_5t_0^3 + 12a_4t_f^2 + 6a_3t_2 + 2a_2 = \ddot{\theta_f}
+\end{align}&lt;/p&gt;
+
+&lt;p&gt;or in matrix form, showing the \(a_i\) variables to solve for:&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+\begin{bmatrix}
+t_0^5 &amp;amp; t_0^4 &amp;amp; t_0^3 &amp;amp; t_0^2 &amp;amp; t_0 &amp;amp; 1 \\
+t_f^5 &amp;amp; t_f^4 &amp;amp; t_f^3 &amp;amp; t_f^2 &amp;amp; t_f &amp;amp; 1 \\
+5t_0^4 &amp;amp; 4t_0^3 &amp;amp; 3t_0^2 &amp;amp; 2t_0 &amp;amp; 1 &amp;amp; 0 \\
+5t_f^4 &amp;amp; 4t_f^3 &amp;amp; 3t_f^2 &amp;amp; 2t_f &amp;amp; 1 &amp;amp; 0 \\
+20t_0^3 &amp;amp; 12t_0^2 &amp;amp; 6t_0 &amp;amp; 2 &amp;amp; 0 &amp;amp; 0 \\
+20t_f^3 &amp;amp; 12t_f^2 &amp;amp; 6t_f &amp;amp; 2 &amp;amp; 0 &amp;amp; 0 
+\end{bmatrix}
+\begin{bmatrix}
+a_5 \\
+a_4 \\
+a_3 \\
+a_2 \\
+a_1 \\
+a_0 
+\end{bmatrix} =
+\begin{bmatrix}
+\theta_0 \\
+\theta_f \\
+\dot{\theta}_0 \\
+\dot{\theta}_f \\
+\ddot{\theta}_0 \\
+\ddot{\theta}_f
+\end{bmatrix}
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;This (\(6 \times 6\) system is small enough to be solved analytically given
+sufficient computational time; again, the closed form solution is provided in &lt;a href=&quot;http://www.springer.com/us/book/9781852332211&quot;&gt;S&amp;amp;S&lt;/a&gt;, among other references. Again, the system is always solvable unless \(t_0 = t_f\). &lt;/p&gt;
+
+&lt;h2 id=&quot;intermediate-points&quot;&gt;Intermediate points&lt;/h2&gt;
+
+&lt;p&gt;It is common to want to plan a robot&amp;#39;s path through a sequence of points.
+For example, if I need to execute the pick-and-place task depicted in this
+video:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://robotics.gwu.edu/videos/irex2015/MVI_0790.MP4&quot;&gt;&lt;img src=&quot;../../assets/img/pickandplace.png&quot; alt=&quot;pick and place video&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;then I need one or more intermediate points. The naive way to approach this is
+to attempt to increase the degree of the polynomial to accommodate as
+many constraints as necessary to account for intermediate points. However,
+the presence of &lt;a href=&quot;https://en.wikipedia.org/wiki/Runge%27s_phenomenon&quot;&gt;Runge&amp;#39;s phenomenon&lt;/a&gt; means that such higher degree polynomials are likely to exhibit strange paths. Instead of higher order polynomials, we use the cubic or quintic
+polynomials already discussed and add one or more constraints to &amp;quot;join&amp;quot;
+the polynomials together. These joined polynomials are known as a &lt;a href=&quot;https://en.wikipedia.org/wiki/Spline_(mathematics)&quot;&gt;spline&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Before reading further:&lt;/strong&gt; if you want to form a cubic spline that starts
+from one point, passes through another point, and ends at another with
+velocity constraints at the first and last points, how many constraint
+equations are there? Try to form the constraint equations. How many variables
+are there? Can you add constraint equations as necessary so that the number
+of constraint equations matches the number of unknowns? &lt;/p&gt;
+
+&lt;h3 id=&quot;one-intermediate-point-with-cubic-splines&quot;&gt;One intermediate point with cubic splines&lt;/h3&gt;
+
+&lt;p&gt;The equation for the cubic spline follows:
+\begin{align}
+\tau(t) \equiv \begin{cases} 
+a_3^1t^3 + a_2^1t^2 + a_1^1t + a_0^1 &amp;amp; \textrm{ if } t \leq t_i, \\ 
+a_3^2t^3 + a_2^2t^2 + a_1^2t + a_0^2 &amp;amp; \textrm{ if } t \gt t_i.
+\end{cases} 
+\end{align}&lt;/p&gt;
+
+&lt;p&gt;This means that we have eight variables to determine.&lt;/p&gt;
+
+&lt;p&gt;Solving for the trajectory to pass through an intermediate point at a 
+particular instant in time adds at least one constraint equation (specifying
+a velocity at the intermediate point adds another, specifying an acceleration
+at the intermediate point adds a third). &lt;/p&gt;
+
+&lt;p&gt;The constraints that we have are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;2 constraints (position and velocity) at \(t_0\) and \(t_f\)&lt;/li&gt;
+&lt;li&gt;2 position constraints at the intermediate point: this ensures that the two splines match&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This leaves us with eight variables and six constraints. In other words,
+we must introduce some new constraints to make the system of linear equations
+solvable. &lt;strong&gt;Note&lt;/strong&gt;: we could solve a least squares problem instead, though
+we would not have any control over the kind of solution that would result.&lt;/p&gt;
+
+&lt;p&gt;Some options then are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Set zero velocity at the intermediate point. This would give two additional equations. &lt;/li&gt;
+&lt;li&gt;Make velocities and acccelerations equal at the intermediate point. This would also give two additional equations.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;TODO: ensure that student knows how to evaluate the spline / feed the value into the controller&lt;/p&gt;
+
+&lt;h3 id=&quot;multiple-intermediate-points-with-cubic-splines&quot;&gt;Multiple intermediate points with cubic splines&lt;/h3&gt;
+
+&lt;p&gt;For a cubic spline with one via point, a \(8 \times 8\) linear system results. For a cubic spline with two via points, a \(4(n+1) \times 4(n+1)\) system results. From &lt;a href=&quot;../linear-algebra&quot;&gt;my learning module on linear algebra&lt;/a&gt; you will recall that the asymptotic running time for solving a linear system is \(O(n^3)\). Fortunately, the cubic spline problem with \(n\) intermediate points exhibits only \(O(n)\) complexity, however; the terms in the system of linear equations can be rearranged so that the matrix is &lt;a href=&quot;https://en.wikipedia.org/wiki/Band_matrix&quot;&gt;banded&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;intermediate-points-with-quintic-splines&quot;&gt;Intermediate points with quintic splines&lt;/h3&gt;
+
+&lt;p&gt;Quintic splines with intermediate points work in exactly the same manner
+as cubic splines. The number of constraints and variables (and of course the size of the system) changes but everything else remains identical.&lt;/p&gt;
+
+&lt;h2 id=&quot;operational-space&quot;&gt;Operational space&lt;/h2&gt;
+
+&lt;p&gt;For manipulation tasks, the robot must physically interact with objects
+in its workspace. This meanst that inverse kinematics generally must be
+inserted at some point in the planning or control processes. Two options
+are to (1) convert from joint space to work space before planning and then plan in joint space or (2) plan trajectories in the workspace and then convert to joint space
+on the fly. These processes are depicted below. &lt;/p&gt;
+
+&lt;P&gt;
+&lt;table class=&quot;image&quot;&gt;
+&lt;caption align=&quot;bottom&quot;&gt;Applying inverse kinematics to transform from operational space to joint space, followed by planning in joint space.&lt;/caption&gt;
+&lt;img src=&quot;../../assets/img/nfb opspace.png&quot; alt=&quot;Applying inverse kinematics to transform from operational space to joint space, followed by planning in joint space.&quot; width=&quot;&quot;/&gt;
+&lt;/table&gt;
+&lt;/P&gt;
+
+&lt;P&gt;
+&lt;table class=&quot;image&quot;&gt;
+&lt;caption align=&quot;bottom&quot;&gt;Planning operational space with just-in-time transformations to joint space using inverse kinematics (in the control loop).&lt;/caption&gt;
+&lt;img src=&quot;../../assets/img/nfb opspace2.png&quot; alt=&quot;Planning operational space with just-in-time transformations to joint space using inverse kinematics (in the control loop).&quot; width=&quot;&quot;/&gt;
+&lt;/table&gt;
+&lt;/P&gt;
+
+&lt;p&gt;&lt;strong&gt;Which approach is better?&lt;/strong&gt; The transformation from joint space to operational space is usually highly nonlinear, meaning that planning in joint space might result in undesirable paths for the robot&amp;#39;s links in operational space. The robot&amp;#39;s control strategy may also be amenable to commands in operational space; for example, a walking robot might want to keep its foot stiff in pitch and roll dimensions, but allow movement in vertical, horizontal, and yaw directions (to accommodate sensing error). &lt;/p&gt;
+
+&lt;P&gt;
+&lt;table class=&quot;image&quot;&gt;
+&lt;caption align=&quot;bottom&quot;&gt;If a robot&#39;s foot is controlled in operational space, we can make it stiff in directions of pitch and roll (to help prevent the robot from toppling) and compliant in remaining directions (to accommodate sensing error).&lt;/caption&gt;
+&lt;img src=&quot;../../assets/img/foot.png&quot; alt=&quot;If a robot&#39;s foot is controlled in operational space, we can make it stiff in directions of pitch and roll (to help prevent the robot from toppling) and compliant in remaining directions (to accommodate sensing error).&quot; width=&quot;&quot;/&gt;
+&lt;/table&gt;
+&lt;/P&gt;
+
+&lt;p&gt;On the other hand, &lt;a href=&quot;http://www.amazon.com/Introduction-Robotics-Mechanics-Control-Edition/dp/0201543613&quot;&gt;Craig&lt;/a&gt; points out three problems with planning in
+the workspace: (1) intermediate points can be unreachable (this problem
+could be addressed using &lt;a href=&quot;../motion-planning&quot;&gt;motion planning&lt;/a&gt;), (2) high
+joint velocities may be produced if the robot is near a singularity, and (3)
+the start and goal configurations may be reachable in vastly different
+IK solutions (motion planning could address this problem also). &lt;/p&gt;
+
+&lt;p&gt;These scenarios are depicted in the figures below.&lt;/p&gt;
+
+&lt;P&gt;
+&lt;table class=&quot;image&quot;&gt;
+&lt;caption align=&quot;bottom&quot;&gt;Problem with planning in operational space: intermediate points can be unreachable. Image from J. Craig. &#39;Introduction to Robotics: Mechanics and Control&#39;, 3rd Ed., 2005.&lt;/caption&gt;
+&lt;img src=&quot;../../assets/img/os_prob1.png&quot; alt=&quot;Problem with planning in operational space: intermediate points can be unreachable. Image from J. Craig. &#39;Introduction to Robotics: Mechanics and Control&#39;, 3rd Ed., 2005.&quot; width=&quot;400&quot;/&gt;
+&lt;/table&gt;
+&lt;/P&gt;
+
+&lt;P&gt;
+&lt;table class=&quot;image&quot;&gt;
+&lt;caption align=&quot;bottom&quot;&gt;Problem with planning in operational space: high joint velocities may be produced near singularities. Image from J. Craig. &#39;Introduction to Robotics: Mechanics and Control&#39;, 3rd Ed., 2005.&lt;/caption&gt;
+&lt;img src=&quot;../../assets/img/os_prob2.png&quot; alt=&quot;Problem with planning in operational space: high joint velocities may be produced near singularities. Image from J. Craig. &#39;Introduction to Robotics: Mechanics and Control&#39;, 3rd Ed., 2005.&quot; width=&quot;400&quot;/&gt;
+&lt;/table&gt;
+&lt;/P&gt;
+
+&lt;P&gt;
+&lt;table class=&quot;image&quot;&gt;
+&lt;caption align=&quot;bottom&quot;&gt;Problem with planning in operational space: start and goal configurations may be reachable in vastly different IK solutions. Image from J. Craig. &#39;Introduction to Robotics: Mechanics and Control&#39;, 3rd Ed., 2005.&lt;/caption&gt;
+&lt;img src=&quot;../../assets/img/os_prob3.png&quot; alt=&quot;Problem with planning in operational space: start and goal configurations may be reachable in vastly different IK solutions. Image from J. Craig. &#39;Introduction to Robotics: Mechanics and Control&#39;, 3rd Ed., 2005.&quot; width=&quot;400&quot;/&gt;
+&lt;/table&gt;
+&lt;/P&gt;
+
+&lt;h3 id=&quot;planning-rotational-paths&quot;&gt;Planning rotational paths&lt;/h3&gt;
+
+&lt;p&gt;If planning is performed in operational space and includes rotational motion,
+then particular problems must be considered. If the operational space is SE(2), then the robot might be asked to go from angle \(\theta(t_0) \equiv \frac{\pi}{8}\) to \(\theta(t_f) \equiv \frac{15\pi}{8}\). Barring joint limit constraints, the shortest path is through zero. For planning, this is achieved by
+setting \(\theta(t_f) \equiv -\frac{\pi}{8}\). &lt;/p&gt;
+
+&lt;p&gt;Planning 3D rotational movements for a robot link is more involved. Our
+options are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Form a separate trajectory for all nine values of the 3D orientation matrix. Not only are six trajectories more than necessary, the combined output of the nine trajectories at a given point in time is unlikely to be an orthogonal matrix (meaning that it will not represent a rotation matrix).&lt;/li&gt;
+&lt;li&gt;Interpolate over roll-pitch-yaw or one of the other 23 Euler angle representations.&lt;/li&gt;
+&lt;li&gt;(and so on, interpolating over one of the many 3D representations for orientation)&lt;br&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Visualizations of rotational interpolation using various representations can be seen &lt;a href=&quot;https://www.youtube.com/watch?v=94USA9yMzAw&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Unit quaternions has one advantage over the other representations: linear interpolatants between two orientations lies on the &lt;a href=&quot;https://en.wikipedia.org/wiki/Great_circle&quot;&gt;great circle&lt;/a&gt; between the
+two endpoints. This means that the path between the two orientations is the straightest, shortest path between the two orientations (note: there are actually two such paths on the &amp;quot;great circle&amp;quot;, but it is easy to find the shorter one). Two options are linear interpolation between the quaternion values and &lt;a href=&quot;https://en.wikipedia.org/wiki/Slerp&quot;&gt;spherical linear interpolation&lt;/a&gt; (&amp;quot;slerp&amp;quot;). &lt;/p&gt;
+
+&lt;P&gt;
+&lt;table class=&quot;image&quot;&gt;
+&lt;caption align=&quot;bottom&quot;&gt;A depiction of a great circle, which passes through the center point of a sphere. From Wikipedia.&lt;/caption&gt;
+&lt;img src=&quot;https://upload.wikimedia.org/wikipedia/commons/0/04/Great_circle_hemispheres.png&quot; alt=&quot;A depiction of a great circle, which passes through the center point of a sphere. From Wikipedia.&quot; width=&quot;&quot;/&gt;
+&lt;/table&gt;
+&lt;/P&gt;
+
+&lt;h2 id=&quot;using-dynamical-systems-to-form-trajectories&quot;&gt;Using dynamical systems to form trajectories&lt;/h2&gt;
+
+&lt;p&gt;Polynomial / spline-based trajectory formation works well for industrial
+robots where the environment is controlled and the execution speed can be
+timed to ensure that deviation from the trajectory will be small. For
+autonomous robots, two problems can arise as the robot deviates from the 
+planned trajectory.&lt;/p&gt;
+
+&lt;p&gt;First, as the deviation becomes large, the plan becomes less viable. The
+mismatch between the controller and the plan&amp;#39;s d&lt;/p&gt;
+
+&lt;p&gt;The second problem will occur as the robot determines that it needs to
+replan as the plan is executing. The robot&amp;#39;s velocity will be changing as
+the replanning is occuring. (replanning needs to occur w/in a single
+control cycle)
+- replanning&lt;/p&gt;
+
+&lt;p&gt;TODO: make sure we point out how it can be difficult to ensure that we start executing one trajectory right after another to use velocity-level constraints (re-planning)
+TODO: talk about very, very small timespans&lt;/p&gt;
+
+&lt;h2 id=&quot;further-reading&quot;&gt;Further reading&lt;/h2&gt;
+
+&lt;p&gt;TODO: fill these in&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Trajectory optimization. Numerical methods. &lt;a href=&quot;http://galileo.phys.virginia.edu/classes/321.jvn.fall02/var_meth.pdf&quot;&gt;Dido&amp;#39;s Problem&lt;/a&gt; &lt;/li&gt;
+&lt;li&gt;Trajectory scaling&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        
+          <description></description>
+        
+        <pubDate>Thu, 10 Dec 2015 00:00:00 -0500</pubDate>
+        <link>/robotics-course-materials/robotics-course-materials/blog/traj/</link>
+        <guid isPermaLink="true">/robotics-course-materials/robotics-course-materials/blog/traj/</guid>
         
         
       </item>
