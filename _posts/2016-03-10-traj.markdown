@@ -270,7 +270,9 @@ adds a necessary eighth equation:
 \end{align}
 {% endcomment %}
 
+{% comment }
 TODO: ensure that student knows how to evaluate the spline / feed the value into the controller
+{% endcomment %}
 
 ### Multiple intermediate points with cubic splines
 
@@ -344,6 +346,7 @@ timed to ensure that deviation from the trajectory will be small. For
 autonomous robots, two problems can arise as the robot deviates from the 
 planned trajectory.
 
+{% comment %}
 First, as the deviation becomes large, the plan becomes less viable. The
 mismatch between the controller and the plan's d
 
@@ -355,12 +358,14 @@ control cycle)
 
 TODO: make sure we point out how it can be difficult to ensure that we start executing one trajectory right after another to use velocity-level constraints (re-planning)
 TODO: talk about very, very small timespans
+{% endcomment %}
 
 ## Further reading
-
+{% comment %}
 TODO: fill these in
+* Trajectory scaling
+{% endcomment %}
 
 * Trajectory optimization. Numerical methods. [Dido's Problem](http://galileo.phys.virginia.edu/classes/321.jvn.fall02/var_meth.pdf) 
-* Trajectory scaling
 
 
