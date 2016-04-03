@@ -54,13 +54,13 @@ changes in \\(\mathbf{q}\\). [Recall that \\(\mathbf{x}\\) can represent positio
 
 \begin{equation}
 \dot{\mathbf{x}} = \begin{bmatrix} 
-\frac{\partial f\_1}{\partial q\_1} & \ldots & \frac{\partial f\_1}{\partial q\_n} \\\\
-& \vdots & \\\\
+\frac{\partial f\_1}{\partial q\_1} & \ldots & \frac{\partial f\_1}{\partial q\_n} \\\
+& \vdots & \\\
 \frac{\partial f\_m}{\partial q\_1} & \ldots & \frac{\partial f\_m}{\partial q\_n}
 \end{bmatrix}
 \begin{bmatrix}
-\dot{q}\_1 \\\\
-\vdots \\\\
+\dot{q}\_1 \\\
+\vdots \\\
 \dot{q}\_n
 \end{bmatrix} \label{eqn:Jacobians-full}
 \end{equation}
