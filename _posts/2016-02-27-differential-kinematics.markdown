@@ -79,7 +79,7 @@ Consider the [double pendulum from the learning module on forward kinematics](..
 compute the Jacobian matrix of the double pendulum's endpoint. Stated another way, \\(\mathbf{f}(\mathbf{q}) \to \mathbb{R}^2\\) and is defined as:
 \begin{equation}
 \begin{bmatrix}
-l\_1 c\_1 + l\_2 c\_{1+2} \\\\
+l\_1 c\_1 + l\_2 c\_{1+2} \\\
 l\_1 s\_1 + l\_2 s\_{1+2}
 \end{bmatrix}
 \label{eqn:fkin-example}
@@ -90,7 +90,7 @@ l\_1 s\_1 + l\_2 s\_{1+2}
 The Jacobian matrix for Equation \ref{eqn:fkin-example} will be:
 \begin{equation}
 \begin{bmatrix}
-\frac{\partial f\_1}{\partial q\_1} & \frac{\partial f\_1}{\partial q\_2} \\\\
+\frac{\partial f\_1}{\partial q\_1} & \frac{\partial f\_1}{\partial q\_2} \\\
 \frac{\partial f\_2}{\partial q\_1} & \frac{\partial f\_2}{\partial q\_2}
 \end{bmatrix}
 \end{equation}
@@ -98,7 +98,7 @@ The Jacobian matrix for Equation \ref{eqn:fkin-example} will be:
 When I determine the derivatives, I get this:
 \begin{equation}
 \begin{bmatrix}
--l\_1 s\_1 - l\_2 s\_{1+2} & -l\_2 s\_{1+2} \\\\
+-l\_1 s\_1 - l\_2 s\_{1+2} & -l\_2 s\_{1+2} \\\
 l\_1 c\_1  + l\_2 c\_{1+2} & l\_2 c\_{1+2}
 \end{bmatrix}
 \end{equation}
@@ -141,7 +141,7 @@ Note the similarity with the relationship with the [couple](https://www.quora.co
 
 **These equations represent a key relationship in mechanics and robotics, between force and motion**. _Moving from single rigid bodies to robots now_, we can add the following rule in addition to Equation \ref{eqn:Jacobians}:  
 \begin{equation}
-\hat{\mathbf{\tau}} = \mathbf{J}^{\mathsf{T}}\begin{bmatrix} \mathbf{f} \\\\ \mathbf{\tau} \end{bmatrix} \label{eqn:Jacobians-torque}
+\hat{\mathbf{\tau}} = \mathbf{J}^{\mathsf{T}}\begin{bmatrix} \mathbf{f} \\\ \mathbf{\tau} \end{bmatrix} \label{eqn:Jacobians-torque}
 \end{equation}
 
 I cannot overstate the importance of Equations \ref{eqn:Jacobians} and \ref{eqn:Jacobians-torque}. These equations tell us how fast a point on the robot is moving in operational space as a function of its joint speeds (Equation \ref{eqn:Jacobians}) and how much torque acts at a robot's joints as a function of a force applied to a point on the robot (Equation \ref{eqn:Jacobians-torque}).
@@ -311,7 +311,7 @@ We can use [Euler integration ](../dynamical-systems) and this equation to solve
 \end{equation}
 Assume that \\(\Delta t = 1\\)- it doesn't matter what we set \\(\Delta t\\) to since we will not be considering how much time it requires to move between the two orientations. We want \\(\mathbf{\omega}\\): 
 \begin{align}
-\tilde{\mathbf{\omega}}\ \_w\mathbf{R}\_i & = \mathbf{x}\_{\textrm{des}} - \ \_w\mathbf{R}\_i \\\\
+\tilde{\mathbf{\omega}}\ \_w\mathbf{R}\_i & = \mathbf{x}\_{\textrm{des}} - \ \_w\mathbf{R}\_i \\\
 \tilde{\mathbf{\omega}} & = (\mathbf{x}\_{\textrm{des}} - \ \_w\mathbf{R}\_i)\ \_w\mathbf{R}\_i^\mathsf{T}
 \end{align}
 
