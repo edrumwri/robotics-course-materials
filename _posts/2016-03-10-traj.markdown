@@ -360,12 +360,13 @@ TODO: make sure we point out how it can be difficult to ensure that we start exe
 TODO: talk about very, very small timespans
 {% endcomment %}
 
-{% comment %}
 ## Further reading
-TODO: fill these in
-* Trajectory scaling
 
-* Trajectory optimization. Numerical methods. [Dido's Problem](http://galileo.phys.virginia.edu/classes/321.jvn.fall02/var_meth.pdf) 
+* [Dido's Problem](http://galileo.phys.virginia.edu/classes/321.jvn.fall02/var_meth.pdf)
+* I. M. Gelfand and S. V. Fomin. _Calculus of Variations_. Dover, 1963. 
+* C. Bianco and O. Gerelli. Online Trajectory Scaling for Manipulators Subject to High-Order Kinematic and Dynamic Constraints. _IEEE Trans. on Robotics_, 27:6, 2011.
+* C. de Boor. _A Practical Guide to Splines_. Springer, 1978.
+
 {% endcomment %}
 
 
