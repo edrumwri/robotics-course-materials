@@ -367,6 +367,5 @@ TODO: talk about very, very small timespans
 * C. Bianco and O. Gerelli. Online Trajectory Scaling for Manipulators Subject to High-Order Kinematic and Dynamic Constraints. _IEEE Trans. on Robotics_, 27:6, 2011.
 * C. de Boor. _A Practical Guide to Splines_. Springer, 1978.
 
-{% endcomment %}
 
 
