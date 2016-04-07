@@ -22,3 +22,5 @@ layout: default
 
 #### [Trajectory formation](blog/traj)
 
+#### [Motion planning](blog/motion-planning)
+
