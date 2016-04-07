@@ -3,7 +3,6 @@ layout: post
 title:  "Motion planning"
 date:   2016-04-04
 ---
-<p class="intro">
 
 Robots that move within human and natural environments must navigate around
 obstacles. A particularly intricate such task is depicted below. 
