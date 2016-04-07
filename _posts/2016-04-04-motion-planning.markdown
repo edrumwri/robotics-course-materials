@@ -24,7 +24,9 @@ that does not correspond to a geometric intersection (either between two of the 
 configurations are said to be _in collision_ and algorithms for querying
 for geometric intersections are commonly called _collision detection algorithms_.
 
+{% comment %}
 TODO: need a picture of points in Cfree and Cobs
+{% endcomment %}
 
 ## The Piano Mover's Problem
 
@@ -58,7 +60,11 @@ approaches are usually either _probabilistically complete_ or _resolution comple
 exists) as the number of probabilistic samples goes to infinity. Resolution
 completeness means that a solution is found (again, assuming it exists), as
 the distance between any two samples goes to zero. Probabilistic sampling is
-often used because it scales well to higher dimensions (_ED: I'm having trouble locating a reference to back up this statement_), even though deterministic sampling has some advantages.
+often used because it scales well to higher dimensions, even though deterministic sampling has some advantages.
+
+{% comment %}
+TODO: locate a reference to back up this statement
+{% endcomment %}
 
 The implementation of sample-based algorithms is significantly easier than existing complete algorithms. All that is required is a mechanism for querying
 whether a robot configuration is in collision, a simple graph search algorithm
@@ -364,7 +370,7 @@ it, and the object must be added to the robot's geometric description to
 perform motion planning during further manipulation.
 * **A complete geometric description of the environment is usually not obtainable**: Parts of the environment will be obscured, sensory noise will indicate parts of the environment are obstructed (when they are not), and creating a geometric representation of the environment online requires communicating and processing prodigious amounts of sensory data. Humans frequently alter their environments in small ways- think moving a chair- so relying upon a description built offline may not be a good idea. 
 * **Nonstationary environments increase the challenges significantly**: The Piano Mover's Problem assumes the environment does not change during the planning process. Dropping this assumption naturally [makes the problem harder](http://ieeexplore.ieee.org/xpl/login.jsp?tp=&arnumber=4568138&url=http%3A%2F%2Fieeexplore.ieee.org%2Fxpls%2Fabs_all.jsp%3Farnumber%3D4568138). For robotics, we either have to solve this harder problem or solve the motion planning problems extraordinarily quickly.
-* **Accounting for differential constraints is challenging**: Collision-free samples between two arbitrarily chosen configurations cannot be connected using a straight line in configuration space for many robots (legged robots, for example). The RRT Algorithm, for example, has been applied to such (nonholonomically constrained)[https://en.wikipedia.org/wiki/Nonholonomic_system] robots, but approaches described in present literature do not seem to be able to generate plans frequently (_speaking strictly from my own experience, so take with a grain of salt_).
+* **Accounting for differential constraints is challenging**: Collision-free samples between two arbitrarily chosen configurations cannot be connected using a straight line in configuration space for many robots (legged robots, for example). The RRT Algorithm, for example, has been applied to such [nonholonomically constrained](https://en.wikipedia.org/wiki/Nonholonomic_system) robots, but approaches described in present literature do not seem to be able to generate plans frequently (_speaking strictly from my own experience, so take with a grain of salt_).
  
 ## Further reading
 
